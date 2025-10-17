@@ -31,16 +31,7 @@ const Purchasing = () => {
           overflow-x: hidden;
         }
 
-        .fade-in-section {
-          opacity: 0;
-          transform: translateY(50px);
-          transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-        }
 
-        .fade-in-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
 
         .luxury-hero {
           height: 100vh;

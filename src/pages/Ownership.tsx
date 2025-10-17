@@ -23,23 +23,7 @@ const Ownership = () => {
 
     window.addEventListener('hashchange', handleHashChange);
 
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-visible');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
-
     return () => {
-      observer.disconnect();
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
@@ -48,17 +32,6 @@ const Ownership = () => {
     <div style={{ width: '100%', overflow: 'hidden' }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
-
-        .fade-in-section {
-          opacity: 0;
-          transform: translateY(50px);
-          transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-        }
-
-        .fade-in-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
 
         .luxury-ownership-hero {
           height: 100vh;
@@ -910,7 +883,7 @@ const Ownership = () => {
       </div>
 
       {/* SERVICE & MAINTENANCE SECTION */}
-      <section id="service-maintenance" className="luxury-section service-section fade-in-section">
+      <section id="service-maintenance" className="luxury-section service-section">
         <div className="section-content">
           <div className="service-header">
             <h2>Service & Maintenance</h2>
@@ -978,7 +951,7 @@ const Ownership = () => {
       </section>
 
       {/* ROADSIDE ASSISTANCE SECTION */}
-      <section id="roadside-assistance" className="luxury-section roadside-section fade-in-section">
+      <section id="roadside-assistance" className="luxury-section roadside-section">
         <div className="roadside-container">
           <div className="roadside-header">
             <h2>Roadside Assistance</h2>
@@ -1024,7 +997,7 @@ const Ownership = () => {
       </section>
 
       {/* WARRANTY SECTION */}
-      <section id="warranty" className="warranty-section fade-in-section">
+      <section id="warranty" className="warranty-section">
         <div className="warranty-split">
           <div className="warranty-visual">
             <div className="warranty-visual-content">
@@ -1074,7 +1047,7 @@ const Ownership = () => {
       </section>
 
       {/* MEMBERSHIP SECTION */}
-      <section id="membership" className="luxury-section membership-section fade-in-section">
+      <section id="membership" className="luxury-section membership-section">
         <div className="membership-container">
           <div className="membership-header">
             <h2>Membership & Charge Cards</h2>
@@ -1139,7 +1112,7 @@ const Ownership = () => {
       </section>
 
       {/* CHARGING LOCATIONS SECTION */}
-      <section id="charging-locations" className="luxury-section charging-section fade-in-section">
+      <section id="charging-locations" className="luxury-section charging-section">
         <div className="charging-container">
           <div className="charging-header">
             <h2>Charging Locations</h2>

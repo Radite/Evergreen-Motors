@@ -5,20 +5,6 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Models from './pages/Models';
 import ModelDetail from './pages/ModelDetail';
-import TestDrive from './pages/TestDrive';
-import Locations from './pages/Locations';
-import CashPurchases from './pages/CashPurchases';
-import FinanceBank from './pages/FinanceBank';
-import Lease from './pages/Lease';
-import FinanceDealer from './pages/FinanceDealer';
-import Subscriptions from './pages/Subscriptions';
-import Rentals from './pages/Rentals';
-import FleetSolutions from './pages/FleetSolutions';
-import ServiceMaintenance from './pages/ServiceMaintenance';
-import RoadsideAssistance from './pages/RoadsideAssistance';
-import Warranty from './pages/Warranty';
-import Membership from './pages/Membership';
-import ChargingLocations from './pages/ChargingLocations';
 import Technology from './pages/Technology';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
@@ -57,20 +43,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/models" element={<Models />} />
           <Route path="/models/:modelId" element={<ModelDetail />} />
-          <Route path="/test-drive" element={<TestDrive />} />
-          <Route path="/locations" element={<Locations />} />
-          <Route path="/cash-purchases" element={<CashPurchases />} />
-          <Route path="/finance-bank" element={<FinanceBank />} />
-          <Route path="/lease" element={<Lease />} />
-          <Route path="/finance-dealer" element={<FinanceDealer />} />
-          <Route path="/subscriptions" element={<Subscriptions />} />
-          <Route path="/rentals" element={<Rentals />} />
-          <Route path="/fleet-solutions" element={<FleetSolutions />} />
-          <Route path="/service-maintenance" element={<ServiceMaintenance />} />
-          <Route path="/roadside-assistance" element={<RoadsideAssistance />} />
-          <Route path="/warranty" element={<Warranty />} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/charging-locations" element={<ChargingLocations />} />
+
           <Route path="/technology" element={<Technology />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />

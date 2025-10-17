@@ -21,11 +21,9 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
     console.log('Form submitted:', formData);
     setSubmitStatus('success');
     
-    // Reset form after 3 seconds
     setTimeout(() => {
       setFormData({
         name: '',
@@ -41,91 +39,100 @@ const Contact: React.FC = () => {
   return (
     <div>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+
         .luxury-contact-hero {
-          min-height: 60vh;
-          background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                      url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=2000') center/cover;
+          min-height: 95vh;
+          background: url('/contact.jpg') center/cover;
           display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
+          align-items: flex-start;
+          padding: 12rem 8%;
           color: white;
           background-attachment: fixed;
+          position: relative;
+        }
+
+        .hero-content {
+          max-width: 800px;
         }
 
         .hero-content h1 {
-          font-size: 4.5rem;
-          margin-bottom: 1.5rem;
+          font-size: 8rem;
+          margin-bottom: 0;
           font-weight: 300;
-          font-family: 'Montserrat', sans-serif;
-          letter-spacing: 3px;
-          text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
-        }
-
-        .hero-content p {
-          font-size: 1.5rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          letter-spacing: 3px;
-          text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+          font-family: 'Cormorant Garamond', serif;
+          letter-spacing: 15px;
+          text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+          line-height: 1;
         }
 
         .luxury-section {
-          min-height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
-          padding: 8rem 5%;
-          background-attachment: fixed;
-        }
-
-        .contact-info-section {
-          background: linear-gradient(rgba(255,255,255,0.97), rgba(255,255,255,0.97)),
-                      url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000') center/cover;
-        }
-
-        .reasons-section {
-          background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-                      url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000') center/cover;
-          color: white;
+          padding: 6rem 5%;
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
         }
 
         .section-content {
           max-width: 1400px;
           margin: 0 auto;
           width: 100%;
-          position: relative;
-          z-index: 1;
+        }
+
+        .section-header {
+          text-align: center;
+          margin-bottom: 4rem;
+        }
+
+        .section-label {
+          font-size: 1rem;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          color: #4a9eff;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+          font-size: 4rem;
+          margin-bottom: 2rem;
+          font-weight: 300;
+          letter-spacing: 8px;
+          font-family: 'Cormorant Garamond', serif;
+          color: white;
         }
 
         .contact-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 5rem;
+          gap: 3rem;
           align-items: start;
+          max-width: 1200px;
+          margin: 0 auto;
         }
 
         .contact-info-box {
-          background: rgba(255,255,255,0.6);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(0,0,0,0.05);
-          padding: 4rem;
+          background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+          backdrop-filter: blur(30px);
+          border: 1px solid rgba(255,255,255,0.1);
+          padding: 3rem;
         }
 
         .contact-info-box h2 {
-          font-size: 3rem;
-          margin-bottom: 3rem;
+          font-size: 2.5rem;
+          margin-bottom: 2.5rem;
           font-weight: 300;
-          letter-spacing: 4px;
+          letter-spacing: 5px;
           font-family: 'Cormorant Garamond', serif;
           color: #4a9eff;
         }
 
         .contact-item {
-          margin-bottom: 3rem;
+          margin-bottom: 2.5rem;
           padding-bottom: 2rem;
-          border-bottom: 1px solid rgba(0,0,0,0.1);
+          border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .contact-item:last-child {
@@ -133,9 +140,9 @@ const Contact: React.FC = () => {
         }
 
         .contact-item h3 {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
           margin-bottom: 1rem;
-          color: #333;
+          color: rgba(255,255,255,0.9);
           font-family: 'Montserrat', sans-serif;
           font-weight: 500;
           letter-spacing: 2px;
@@ -143,8 +150,8 @@ const Contact: React.FC = () => {
 
         .contact-item p,
         .contact-item a {
-          font-size: 1.1rem;
-          color: #666;
+          font-size: 1.05rem;
+          color: rgba(255,255,255,0.7);
           text-decoration: none;
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
@@ -157,41 +164,42 @@ const Contact: React.FC = () => {
         }
 
         .contact-form-box {
-          background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,250,255,0.95) 100%);
+          background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
           backdrop-filter: blur(30px);
-          border: 1px solid rgba(74, 158, 255, 0.15);
-          padding: 4rem;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+          border: 1px solid rgba(255,255,255,0.15);
+          padding: 2.5rem;
+          box-shadow: 0 25px 70px rgba(0,0,0,0.5);
         }
 
         .contact-form-box h2 {
-          font-size: 3rem;
-          margin-bottom: 1rem;
+          font-size: 2.2rem;
+          margin-bottom: 0.8rem;
           font-weight: 300;
-          letter-spacing: 4px;
+          letter-spacing: 6px;
           font-family: 'Cormorant Garamond', serif;
-          color: #4a9eff;
+          color: white;
         }
 
         .form-subtitle {
-          font-size: 1.1rem;
-          color: #666;
-          margin-bottom: 3rem;
+          font-size: 0.9rem;
+          color: rgba(255,255,255,0.7);
+          margin-bottom: 2rem;
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
           letter-spacing: 1px;
+          line-height: 1.8;
         }
 
         .form-group {
-          margin-bottom: 2.5rem;
+          margin-bottom: 1.5rem;
           position: relative;
         }
 
         .form-group label {
           display: block;
-          font-size: 0.95rem;
-          margin-bottom: 0.8rem;
-          color: #333;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+          color: rgba(255,255,255,0.9);
           font-family: 'Montserrat', sans-serif;
           font-weight: 500;
           letter-spacing: 2px;
@@ -202,15 +210,20 @@ const Contact: React.FC = () => {
         .form-group select,
         .form-group textarea {
           width: 100%;
-          padding: 1.2rem 1.8rem;
-          font-size: 1.05rem;
+          padding: 1rem 1.2rem;
+          font-size: 0.95rem;
           border: none;
-          border-bottom: 2px solid rgba(0,0,0,0.1);
-          background: transparent;
+          border-bottom: 2px solid rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.03);
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
           transition: all 0.4s ease;
-          color: #333;
+          color: white;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+          color: rgba(255,255,255,0.4);
         }
 
         .form-group input:focus,
@@ -218,20 +231,19 @@ const Contact: React.FC = () => {
         .form-group textarea:focus {
           outline: none;
           border-bottom-color: #4a9eff;
-          background: rgba(74, 158, 255, 0.03);
-          padding-left: 2rem;
+          background: rgba(74, 158, 255, 0.08);
+          box-shadow: 0 10px 30px rgba(74, 158, 255, 0.2);
         }
 
         .form-group textarea {
-          min-height: 180px;
+          min-height: 140px;
           resize: vertical;
-          border: 2px solid rgba(0,0,0,0.1);
-          padding: 1.5rem 1.8rem;
+          border: 2px solid rgba(255,255,255,0.2);
+          padding: 1.2rem 1.5rem;
         }
 
         .form-group textarea:focus {
           border-color: #4a9eff;
-          padding-left: 1.8rem;
         }
 
         .form-group select {
@@ -239,24 +251,29 @@ const Contact: React.FC = () => {
           appearance: none;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a9eff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
-          background-position: right 1.5rem center;
-          padding-right: 3rem;
+          background-position: right 2rem center;
+          padding-right: 4rem;
+        }
+
+        .form-group select option {
+          background: #1a1a1a;
+          color: white;
         }
 
         .submit-btn {
           width: 100%;
-          padding: 1.5rem;
+          padding: 1.8rem;
           background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
           color: white;
           border: none;
-          font-size: 1.1rem;
+          font-size: 1rem;
           font-family: 'Montserrat', sans-serif;
           font-weight: 600;
-          letter-spacing: 3px;
+          letter-spacing: 4px;
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.4s ease;
-          box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
+          box-shadow: 0 15px 40px rgba(74, 158, 255, 0.3);
           position: relative;
           overflow: hidden;
         }
@@ -278,137 +295,152 @@ const Contact: React.FC = () => {
 
         .submit-btn:hover {
           transform: translateY(-3px);
-          box-shadow: 0 15px 40px rgba(74, 158, 255, 0.5);
+          box-shadow: 0 20px 50px rgba(74, 158, 255, 0.5);
         }
 
         .submit-btn:active {
           transform: translateY(-1px);
         }
 
-        .submit-btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-          transform: none;
-        }
-
         .success-message {
-          background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
-          border: 1px solid rgba(76, 175, 80, 0.3);
-          color: #2e7d32;
+          background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.1) 100%);
+          border: 1px solid rgba(76, 175, 80, 0.5);
+          color: #4caf50;
           padding: 1.5rem;
           margin-bottom: 2.5rem;
           text-align: center;
           font-family: 'Montserrat', sans-serif;
           font-weight: 500;
-          letter-spacing: 1px;
-          transition: all 0.4s ease;
-          box-shadow: 0 5px 15px rgba(76, 175, 80, 0.1);
+          letter-spacing: 2px;
+          box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
         }
 
-        .map-box {
-          height: 100%;
-          min-height: 600px;
-          background: rgba(0,0,0,0.05);
+       .map-section {
+          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+          padding: 6rem 5%;
+        }
+
+        .map-container {
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+
+        .map-card {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
+          backdrop-filter: blur(30px);
+          border: 1px solid rgba(255,255,255,0.15);
           overflow: hidden;
-          border: 1px solid rgba(0,0,0,0.05);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+          aspect-ratio: 2 / 1;
         }
 
-        .section-title {
-          font-size: 4rem;
-          text-align: center;
-          margin-bottom: 4rem;
+        .map-info {
+          padding: 4rem 3.5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+        }
+
+        .map-title {
+          font-size: 3rem;
+          margin-bottom: 2.5rem;
           font-weight: 300;
           letter-spacing: 6px;
           font-family: 'Cormorant Garamond', serif;
+          color: white;
+          line-height: 1.2;
         }
 
-        .luxury-cards-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 3rem;
-        }
-
-        .luxury-card {
-          background: rgba(255,255,255,0.05);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.1);
-          padding: 3rem;
-          transition: all 0.5s ease;
-          cursor: pointer;
-        }
-
-        .luxury-card:hover {
-          transform: translateY(-15px);
-          background: rgba(255,255,255,0.1);
-          border-color: rgba(255,255,255,0.3);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-
-        .card-title {
-          font-size: 1.8rem;
-          margin-bottom: 1.5rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 500;
-          letter-spacing: 2px;
-        }
-
-        .card-description {
-          line-height: 1.8;
-          opacity: 0.85;
+        .map-address {
+          font-size: 1.1rem;
+          color: rgba(255,255,255,0.85);
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
+          letter-spacing: 0.5px;
+          line-height: 2;
         }
 
+        .map-wrapper {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          overflow: hidden;
+          border-left: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .map-wrapper iframe {
+          width: 100%;
+          height: 100%;
+          border: none;
+          filter: grayscale(40%) brightness(0.85) contrast(1.15);
+        }
         @media (max-width: 768px) {
           .hero-content h1 {
-            font-size: 3rem;
+            font-size: 4rem;
+            letter-spacing: 8px;
           }
-          
+
+          .luxury-contact-hero {
+            padding: 8rem 5%;
+          }
+
           .section-title {
-            font-size: 2.5rem;
+            font-size: 3rem;
           }
 
           .contact-grid {
             grid-template-columns: 1fr;
-          }
-
-          .luxury-cards-grid {
-            grid-template-columns: 1fr;
+            gap: 4rem;
           }
 
           .contact-info-box,
           .contact-form-box {
-            padding: 2rem;
+            padding: 3rem 2rem;
+          }
+
+          .map-header h2 {
+            font-size: 3rem;
+          }
+
+          .map-wrapper {
+            height: 400px;
           }
         }
       `}</style>
 
       <div className="luxury-contact-hero">
         <div className="hero-content">
-          <h1>Contact Us</h1>
-          <p>Get in touch with BYD</p>
+          <h1>CONTACT US</h1>
         </div>
       </div>
 
-      <section className="luxury-section contact-info-section">
+      <section className="luxury-section">
         <div className="section-content">
+          <div className="section-header">
+            <div className="section-label">Get In Touch</div>
+            <h2 className="section-title">Let's Connect</h2>
+          </div>
+
           <div className="contact-grid">
             <div className="contact-info-box">
-              <h2>Get In Touch</h2>
+              <h2>Information</h2>
               
               <div className="contact-item">
-                <h3>📞 Phone</h3>
+                <h3>Phone</h3>
                 <p><a href="tel:+1234567890">+1 (234) 567-890</a></p>
               </div>
 
               <div className="contact-item">
-                <h3>📧 Email</h3>
+                <h3>Email</h3>
                 <p><a href="mailto:info@byd.com">info@byd.com</a></p>
                 <p><a href="mailto:sales@byd.com">sales@byd.com</a></p>
               </div>
 
               <div className="contact-item">
-                <h3>📍 Address</h3>
+                <h3>Address</h3>
                 <p>BYD Headquarters</p>
                 <p>3009 BYD Road</p>
                 <p>Shenzhen, Guangdong</p>
@@ -416,7 +448,7 @@ const Contact: React.FC = () => {
               </div>
 
               <div className="contact-item">
-                <h3>🕒 Business Hours</h3>
+                <h3>Business Hours</h3>
                 <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
                 <p>Saturday: 10:00 AM - 4:00 PM</p>
                 <p>Sunday: Closed</p>
@@ -424,12 +456,12 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="contact-form-box">
-              <h2>Send a Message</h2>
+              <h2>Send Message</h2>
               <p className="form-subtitle">We'd love to hear from you. Fill out the form below and we'll be in touch shortly.</p>
               
               {submitStatus === 'success' && (
                 <div className="success-message">
-                  ✓ Thank you! Your message has been sent successfully.
+                  ✓ Message sent successfully
                 </div>
               )}
 
@@ -504,32 +536,6 @@ const Contact: React.FC = () => {
                   SEND MESSAGE
                 </button>
               </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="luxury-section reasons-section">
-        <div className="section-content">
-          <h2 className="section-title">Why Contact Us?</h2>
-          <div className="luxury-cards-grid">
-            <div className="luxury-card">
-              <h3 className="card-title">🚗 Vehicle Inquiries</h3>
-              <p className="card-description">
-                Learn more about our electric vehicle lineup and find the perfect model for your needs.
-              </p>
-            </div>
-            <div className="luxury-card">
-              <h3 className="card-title">💼 Business Partnerships</h3>
-              <p className="card-description">
-                Explore fleet solutions and business partnership opportunities with BYD.
-              </p>
-            </div>
-            <div className="luxury-card">
-              <h3 className="card-title">🔧 Service Support</h3>
-              <p className="card-description">
-                Get assistance with service, maintenance, and technical support for your BYD vehicle.
-              </p>
             </div>
           </div>
         </div>

@@ -89,16 +89,7 @@ const Models = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
 
-        .fade-in-section {
-          opacity: 0;
-          transform: translateY(50px);
-          transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-        }
 
-        .fade-in-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
 
         .models-hero {
           height: 100vh;
