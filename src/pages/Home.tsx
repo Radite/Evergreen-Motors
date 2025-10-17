@@ -13,27 +13,18 @@ const Home = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
 
-        /* HERO SECTION */
+/* HERO SECTION */
         .luxury-hero {
           height: 95vh;
+          background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+                      url('/HeroBackground.png') center/cover;
           display: flex;
           align-items: center;
           justify-content: center;
           text-align: center;
           color: white;
           position: relative;
-          will-change: transform;
-        }
-
-        .luxury-hero::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
-          z-index: 1;
+          background-attachment: fixed;
         }
 
         .luxury-hero::before {
@@ -44,11 +35,10 @@ const Home = () => {
           right: 0;
           height: 250px;
           background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.9));
-          z-index: 2;
         }
 
         .hero-content {
-          z-index: 3;
+          z-index: 1;
           max-width: 1200px;
           padding: 3rem;
           animation: heroFade 2s ease-out;
@@ -165,7 +155,7 @@ const Home = () => {
         /* STATS SECTION */
         .stats-section {
           min-height: 80vh;
-          will-change: transform;
+          background: url('/bottom-bannerPC.jpg') center/cover;
         }
 
         /* Performance optimization for mobile */
@@ -235,7 +225,7 @@ const Home = () => {
         className="stats-section"
         priority={false}
         style={{
-          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+          backgroundAttachment: window.innerWidth > 768 ? 'scroll' : 'scroll'
         }}
       />
     </div>
