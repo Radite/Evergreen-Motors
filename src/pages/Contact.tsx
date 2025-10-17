@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { OptimizedBackground, preloadImage } from './ImageOptimizer';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,11 @@ const Contact: React.FC = () => {
   });
 
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Preload hero image
+  useEffect(() => {
+    preloadImage('/contact.jpg');
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -43,17 +49,18 @@ const Contact: React.FC = () => {
 
         .luxury-contact-hero {
           min-height: 95vh;
-          background: url('/contact.jpg') center/cover;
           display: flex;
           align-items: flex-start;
           padding: 12rem 8%;
           color: white;
-          background-attachment: fixed;
           position: relative;
+          will-change: transform;
         }
 
         .hero-content {
           max-width: 800px;
+          z-index: 2;
+          position: relative;
         }
 
         .hero-content h1 {
@@ -377,6 +384,7 @@ const Contact: React.FC = () => {
           border: none;
           filter: grayscale(40%) brightness(0.85) contrast(1.15);
         }
+
         @media (max-width: 768px) {
           .hero-content h1 {
             font-size: 4rem;
@@ -385,6 +393,7 @@ const Contact: React.FC = () => {
 
           .luxury-contact-hero {
             padding: 8rem 5%;
+            background-attachment: scroll !important;
           }
 
           .section-title {
@@ -408,14 +417,37 @@ const Contact: React.FC = () => {
           .map-wrapper {
             height: 400px;
           }
+
+          .map-card {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+          .luxury-contact-hero {
+            background-attachment: scroll !important;
+          }
+          
+          .submit-btn,
+          .contact-item a {
+            transition: none !important;
+          }
         }
       `}</style>
 
-      <div className="luxury-contact-hero">
+      <OptimizedBackground
+        src="/contact.jpg"
+        className="luxury-contact-hero"
+        priority={true}
+        style={{
+          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+        }}
+      >
         <div className="hero-content">
           <h1>CONTACT US</h1>
         </div>
-      </div>
+      </OptimizedBackground>
 
       <section className="luxury-section">
         <div className="section-content">

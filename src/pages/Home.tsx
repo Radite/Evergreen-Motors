@@ -1,7 +1,13 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { OptimizedBackground, preloadImage } from './ImageOptimizer';
 
 const Home = () => {
+  // Preload critical hero image immediately
+  useEffect(() => {
+    preloadImage('/HeroBackground.png');
+  }, []);
+
   return (
     <div style={{ width: '100%', overflow: 'hidden' }}>
       <style>{`
@@ -10,15 +16,24 @@ const Home = () => {
         /* HERO SECTION */
         .luxury-hero {
           height: 95vh;
-          background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
-                      url('/HeroBackground.png') center/cover;
           display: flex;
           align-items: center;
           justify-content: center;
           text-align: center;
           color: white;
           position: relative;
-          background-attachment: fixed;
+          will-change: transform;
+        }
+
+        .luxury-hero::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+          z-index: 1;
         }
 
         .luxury-hero::before {
@@ -29,10 +44,11 @@ const Home = () => {
           right: 0;
           height: 250px;
           background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.9));
+          z-index: 2;
         }
 
         .hero-content {
-          z-index: 1;
+          z-index: 3;
           max-width: 1200px;
           padding: 3rem;
           animation: heroFade 2s ease-out;
@@ -149,9 +165,10 @@ const Home = () => {
         /* STATS SECTION */
         .stats-section {
           min-height: 80vh;
-          background: url('/bottom-bannerPC.jpg') center/cover;
+          will-change: transform;
         }
 
+        /* Performance optimization for mobile */
         @media (max-width: 768px) {
           .hero-content h1 {
             font-size: 2.5rem;
@@ -163,15 +180,37 @@ const Home = () => {
             align-items: center;
           }
 
+          /* Disable parallax effects on mobile for better performance */
           .luxury-hero,
           .stats-section {
-            background-attachment: scroll;
+            background-attachment: scroll !important;
+          }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+          .luxury-hero,
+          .stats-section {
+            background-attachment: scroll !important;
+          }
+          
+          .hero-content,
+          .cta-button {
+            animation: none !important;
+            transition: none !important;
           }
         }
       `}</style>
 
-      {/* HERO SECTION */}
-      <section className="luxury-hero">
+      {/* HERO SECTION with optimized background */}
+      <OptimizedBackground
+        src="/HeroBackground.png"
+        className="luxury-hero"
+        priority={true}
+        style={{
+          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+        }}
+      >
         <div className="hero-content">
           <div className="hero-logo">Evergreen Motors</div>
           <h1>Drive the Future</h1>
@@ -188,10 +227,17 @@ const Home = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </OptimizedBackground>
 
-      {/* STATS SECTION */}
-      <section className="stats-section"></section>
+      {/* STATS SECTION with lazy loading */}
+      <OptimizedBackground
+        src="/bottom-bannerPC.jpg"
+        className="stats-section"
+        priority={false}
+        style={{
+          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+        }}
+      />
     </div>
   );
 };

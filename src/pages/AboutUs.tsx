@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { OptimizedBackground } from './ImageOptimizer';
 
 const AboutUs = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -19,6 +23,27 @@ const AboutUs = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  // Lazy load video when hero is in view
+  useEffect(() => {
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && videoRef.current && !videoLoaded) {
+            setVideoLoaded(true);
+            videoObserver.disconnect();
+          }
+        });
+      },
+      { rootMargin: '50px' }
+    );
+
+    if (videoRef.current) {
+      videoObserver.observe(videoRef.current);
+    }
+
+    return () => videoObserver.disconnect();
+  }, [videoLoaded]);
 
   return (
     <div style={{ width: '100%', overflow: 'hidden' }}>
@@ -40,12 +65,37 @@ const AboutUs = () => {
           height: 100vh;
           position: relative;
           overflow: hidden;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .video-hero video {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          opacity: 0;
+          transition: opacity 0.8s ease;
+        }
+
+        .video-hero video.loaded {
+          opacity: 1;
+        }
+
+        .video-placeholder {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: opacity 0.8s ease;
+        }
+
+        .video-placeholder.hidden {
+          opacity: 0;
+          pointer-events: none;
         }
 
         .luxury-section {
@@ -123,6 +173,9 @@ const AboutUs = () => {
           background-position: center;
           box-shadow: 0 30px 80px rgba(0,0,0,0.2);
           transition: all 0.6s ease;
+          position: relative;
+          overflow: hidden;
+          background-color: #e0e0e0;
         }
 
         .story-image:hover {
@@ -133,14 +186,12 @@ const AboutUs = () => {
         /* Image Background Sections */
         .image-section {
           min-height: 120vh;
-          background-size: cover;
-          background-position: center;
-          background-attachment: fixed;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 8rem 5%;
           position: relative;
+          will-change: transform;
         }
 
         .image-section-content {
@@ -199,6 +250,9 @@ const AboutUs = () => {
           background-position: center;
           box-shadow: 0 20px 60px rgba(0,0,0,0.15);
           transition: transform 0.5s ease;
+          background-color: #e0e0e0;
+          position: relative;
+          overflow: hidden;
         }
 
         .platform-image:hover {
@@ -333,13 +387,53 @@ const AboutUs = () => {
             grid-column: 1;
             grid-row: 3;
           }
+
+          /* Disable parallax on mobile */
+          .image-section {
+            background-attachment: scroll !important;
+          }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+          .image-section {
+            background-attachment: scroll !important;
+          }
+          
+          .fade-in-section,
+          .story-image,
+          .platform-image {
+            transition: none !important;
+          }
         }
       `}</style>
 
-      <div className="video-hero">
-        <video autoPlay loop muted playsInline>
-          <source src="/About.mp4" type="video/mp4" />
-        </video>
+      <div className="video-hero" ref={videoRef}>
+        {!videoLoaded && (
+          <div className="video-placeholder">
+            <div style={{ 
+              color: 'white', 
+              fontSize: '1.2rem', 
+              fontFamily: 'Montserrat, sans-serif',
+              letterSpacing: '2px'
+            }}>
+              Loading...
+            </div>
+          </div>
+        )}
+        {videoLoaded && (
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="loaded"
+            preload="metadata"
+            poster="/About.mp4?poster=true"
+          >
+            <source src="/About.mp4" type="video/mp4" />
+          </video>
+        )}
       </div>
 
       <section className="luxury-section story-section fade-in-section">
@@ -355,10 +449,11 @@ const AboutUs = () => {
                 the gap between environmental responsibility and automotive excellence.
               </p>
             </div>
-            <div 
-              className="story-image" 
-              style={{background: "url('https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2000') center/cover"}}
-            ></div>
+            <OptimizedBackground
+              src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2000&auto=format&fit=crop"
+              className="story-image"
+              priority={false}
+            />
           </div>
 
           <div className="story-item">
@@ -370,10 +465,11 @@ const AboutUs = () => {
                 for a sustainable future.
               </p>
             </div>
-            <div 
-              className="story-image" 
-              style={{background: "url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000') center/cover"}}
-            ></div>
+            <OptimizedBackground
+              src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000&auto=format&fit=crop"
+              className="story-image"
+              priority={false}
+            />
           </div>
 
           <div className="story-item">
@@ -385,15 +481,23 @@ const AboutUs = () => {
                 every customer experiences the future of driving.
               </p>
             </div>
-            <div 
-              className="story-image" 
-              style={{background: "url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000') center/cover"}}
-            ></div>
+            <OptimizedBackground
+              src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop"
+              className="story-image"
+              priority={false}
+            />
           </div>
         </div>
       </section>
 
-      <section className="image-section fade-in-section" style={{backgroundImage: "url('/BYD-2000_0.jpg')"}}>
+      <OptimizedBackground
+        src="/BYD-2000_0.jpg"
+        className="image-section fade-in-section"
+        priority={false}
+        style={{
+          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+        }}
+      >
         <div className="image-section-content">
           <h2>Innovation in Motion</h2>
           <p>
@@ -402,9 +506,16 @@ const AboutUs = () => {
             to deliver exceptional performance while reducing environmental impact.
           </p>
         </div>
-      </section>
+      </OptimizedBackground>
 
-      <section className="image-section fade-in-section" style={{backgroundImage: "url('/b9f297e0-79c0-11ef-9dff-6e499e6c2dc7.png')"}}>
+      <OptimizedBackground
+        src="/b9f297e0-79c0-11ef-9dff-6e499e6c2dc7.png"
+        className="image-section fade-in-section"
+        priority={false}
+        style={{
+          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+        }}
+      >
         <div className="image-section-content">
           <h2>Sustainable Future</h2>
           <p>
@@ -413,14 +524,26 @@ const AboutUs = () => {
             making electric mobility accessible to everyone.
           </p>
         </div>
-      </section>
+      </OptimizedBackground>
 
       <section className="platform-section fade-in-section">
         <div className="platform-container">
           <div className="platform-images">
-            <div className="platform-image" style={{backgroundImage: "url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000')"}}></div>
-            <div className="platform-image" style={{backgroundImage: "url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000')"}}></div>
-            <div className="platform-image" style={{backgroundImage: "url('https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2000')"}}></div>
+            <OptimizedBackground
+              src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop"
+              className="platform-image"
+              priority={false}
+            />
+            <OptimizedBackground
+              src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000&auto=format&fit=crop"
+              className="platform-image"
+              priority={false}
+            />
+            <OptimizedBackground
+              src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2000&auto=format&fit=crop"
+              className="platform-image"
+              priority={false}
+            />
           </div>
           <div className="platform-text">
             <h2>Yisifang Platform</h2>
