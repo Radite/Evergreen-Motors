@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Models from './pages/Models';
+import ModelDetail from './pages/ModelDetail';
 import TestDrive from './pages/TestDrive';
 import Locations from './pages/Locations';
 import CashPurchases from './pages/CashPurchases';
@@ -21,9 +22,9 @@ import ChargingLocations from './pages/ChargingLocations';
 import Technology from './pages/Technology';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
-import './styles/main.css';
 import Ownership from './pages/Ownership';
 import Purchasing from './pages/Purchasing';
+import './styles/main.css';
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
@@ -55,6 +56,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/models" element={<Models />} />
+          <Route path="/models/:modelId" element={<ModelDetail />} />
           <Route path="/test-drive" element={<TestDrive />} />
           <Route path="/locations" element={<Locations />} />
           <Route path="/cash-purchases" element={<CashPurchases />} />
