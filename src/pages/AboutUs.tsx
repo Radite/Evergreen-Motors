@@ -3,7 +3,7 @@ import { OptimizedBackground } from './ImageOptimizer';
 
 const AboutUs = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observerOptions = {

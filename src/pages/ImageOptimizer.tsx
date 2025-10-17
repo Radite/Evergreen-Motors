@@ -100,13 +100,12 @@ export const OptimizedBackground = ({
   style?: React.CSSProperties;
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(priority);
+  const [_isInView, setIsInView] = useState(priority);
   const [shouldLoad, setShouldLoad] = useState(priority);
   const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (priority) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
