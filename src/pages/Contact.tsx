@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { OptimizedBackground, preloadImage } from './ImageOptimizer';
 
 const Contact: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,10 +14,19 @@ const Contact: React.FC = () => {
 
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Preload hero image
+  // Preload hero image and check for URL parameters
   useEffect(() => {
     preloadImage('/contact.jpg');
-  }, []);
+    
+    // Check if there's a subject parameter in the URL
+    const subjectParam = searchParams.get('subject');
+    if (subjectParam) {
+      setFormData(prev => ({
+        ...prev,
+        subject: subjectParam
+      }));
+    }
+  }, [searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -265,44 +276,29 @@ const Contact: React.FC = () => {
         .form-group select option {
           background: #1a1a1a;
           color: white;
+          padding: 1rem;
         }
 
         .submit-btn {
           width: 100%;
-          padding: 1.8rem;
+          padding: 1.5rem;
           background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
           color: white;
           border: none;
-          font-size: 1rem;
           font-family: 'Montserrat', sans-serif;
+          font-size: 1rem;
           font-weight: 600;
-          letter-spacing: 4px;
+          letter-spacing: 3px;
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.4s ease;
-          box-shadow: 0 15px 40px rgba(74, 158, 255, 0.3);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .submit-btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .submit-btn:hover::before {
-          left: 100%;
+          box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
         }
 
         .submit-btn:hover {
+          background: linear-gradient(135deg, #357abd 0%, #2a5f8f 100%);
           transform: translateY(-3px);
-          box-shadow: 0 20px 50px rgba(74, 158, 255, 0.5);
+          box-shadow: 0 15px 40px rgba(74, 158, 255, 0.5);
         }
 
         .submit-btn:active {
@@ -322,69 +318,50 @@ const Contact: React.FC = () => {
           box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
         }
 
-       .map-section {
+        .map-section {
           background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
           padding: 6rem 5%;
         }
 
-        .map-container {
-          max-width: 1100px;
-          margin: 0 auto;
+        .map-header {
+          text-align: center;
+          margin-bottom: 3rem;
         }
 
-        .map-card {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
-          backdrop-filter: blur(30px);
-          border: 1px solid rgba(255,255,255,0.15);
-          overflow: hidden;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-          aspect-ratio: 2 / 1;
-        }
-
-        .map-info {
-          padding: 4rem 3.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: flex-start;
-        }
-
-        .map-title {
-          font-size: 3rem;
-          margin-bottom: 2.5rem;
+        .map-header h2 {
+          font-size: 4rem;
+          margin-bottom: 1rem;
           font-weight: 300;
-          letter-spacing: 6px;
+          letter-spacing: 8px;
           font-family: 'Cormorant Garamond', serif;
           color: white;
-          line-height: 1.2;
         }
 
-        .map-address {
-          font-size: 1.1rem;
-          color: rgba(255,255,255,0.85);
+        .map-header p {
+          font-size: 1rem;
+          color: rgba(255,255,255,0.7);
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
-          letter-spacing: 0.5px;
-          line-height: 2;
+          letter-spacing: 1px;
         }
 
         .map-wrapper {
-          width: 100%;
-          height: 100%;
-          position: relative;
+          max-width: 1400px;
+          margin: 0 auto;
+          height: 500px;
+          border: 1px solid rgba(255,255,255,0.1);
+          box-shadow: 0 25px 70px rgba(0,0,0,0.5);
           overflow: hidden;
-          border-left: 1px solid rgba(255,255,255,0.1);
+          position: relative;
         }
 
         .map-wrapper iframe {
           width: 100%;
           height: 100%;
           border: none;
-          filter: grayscale(40%) brightness(0.85) contrast(1.15);
+          filter: grayscale(20%) brightness(0.9);
         }
-
+          
         @media (max-width: 768px) {
           .hero-content h1 {
             font-size: 4rem;
@@ -417,10 +394,6 @@ const Contact: React.FC = () => {
           .map-wrapper {
             height: 400px;
           }
-
-          .map-card {
-            grid-template-columns: 1fr;
-          }
         }
 
         /* Reduce motion for accessibility */
@@ -441,7 +414,10 @@ const Contact: React.FC = () => {
         className="luxury-contact-hero"
         priority={true}
         style={{
-          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'scroll',
         }}
       >
         <div className="hero-content">
@@ -462,21 +438,21 @@ const Contact: React.FC = () => {
               
               <div className="contact-item">
                 <h3>Phone</h3>
-                <p><a href="tel:+1234567890">+1 (234) 567-890</a></p>
+                <p><a href="tel:+16494329988">+1 (649) 432-9988</a></p>
               </div>
 
               <div className="contact-item">
                 <h3>Email</h3>
-                <p><a href="mailto:info@byd.com">info@byd.com</a></p>
-                <p><a href="mailto:sales@byd.com">sales@byd.com</a></p>
+                <p><a href="mailto:info@evergreenmotor.tc">info@evergreenmotor.tc</a></p>
+                <p><a href="mailto:sales@evergreenmotor.tc">sales@evergreenmotor.tc</a></p>
               </div>
 
               <div className="contact-item">
                 <h3>Address</h3>
-                <p>BYD Headquarters</p>
-                <p>3009 BYD Road</p>
-                <p>Shenzhen, Guangdong</p>
-                <p>China</p>
+                <p>Evergreen Motors Headquarters</p>
+                <p>Regent Village</p>
+                <p>Grace Bay, Providenciales</p>
+                <p>Turks & Caicos</p>
               </div>
 
               <div className="contact-item">
@@ -493,7 +469,7 @@ const Contact: React.FC = () => {
               
               {submitStatus === 'success' && (
                 <div className="success-message">
-                  ✓ Message sent successfully
+                  Message sent successfully
                 </div>
               )}
 
@@ -570,6 +546,21 @@ const Contact: React.FC = () => {
               </form>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="map-section">
+        <div className="map-header">
+          <h2>FIND US</h2>
+          <p>Visit us at our Providenciales location</p>
+        </div>
+        <div className="map-wrapper">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.8!2d-72.18076673136004!3d21.795217730892617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDQ3JzQyLjgiTiA3MsKwMTAnNTAuOCJX!5e0!3m2!1sen!2s!4v1234567890"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Evergreen Motors Location"
+          />
         </div>
       </section>
     </div>

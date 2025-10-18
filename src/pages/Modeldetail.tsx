@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
 interface ModelData {
@@ -7,7 +7,7 @@ interface ModelData {
   tagline: string;
   description: string;
   type: string;
-  image: string;
+  images: Array<{ url: string; caption: string; }>;
   price: string;
   specs: {
     range: string;
@@ -21,11 +21,12 @@ interface ModelData {
   };
   features: string[];
   colors: Array<{ name: string; hex: string }>;
-  highlights: Array<{ title: string; description: string; icon: string }>;
+  highlights: Array<{ title: string; description: string; image: string }>;
 }
 
 const ModelDetail = () => {
   const { modelId } = useParams<{ modelId: string }>();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,7 +39,13 @@ const ModelDetail = () => {
       tagline: 'Urban Sophistication Reimagined',
       description: 'The Dolphin Mini represents the perfect harmony of compact design and electric efficiency. Engineered for city driving yet capable of longer journeys, this sophisticated city car delivers premium comfort, advanced technology, and exceptional range in a beautifully compact package.',
       type: 'City Electric',
-      image: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=2000',
+      images: [
+        { url: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=2000', caption: 'Exterior View' },
+        { url: 'https://images.unsplash.com/photo-1  503376780353-7e6692767b70?q=80&w=2000', caption: 'Front Profile' },
+        { url: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2000', caption: 'Interior Cabin' },
+        { url: 'https://images.unsplash.com/photo-1 542362567-b07e54358753?q=80&w=2000', caption: 'Dashboard' },
+        { url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000', caption: 'Rear View' }
+      ],
       price: 'Starting at $28,990',
       specs: {
         range: '250 miles',
@@ -67,9 +74,21 @@ const ModelDetail = () => {
         { name: 'Silver Mist', hex: '#c0c0c0' }
       ],
       highlights: [
-        { title: 'Compact Excellence', description: 'Perfect dimensions for urban navigation without sacrificing interior space or comfort', icon: '🏙️' },
-        { title: 'Efficient Power', description: 'Optimized electric motor delivers responsive performance with exceptional efficiency', icon: '⚡' },
-        { title: 'Smart Technology', description: 'Intuitive infotainment and connectivity keep you seamlessly connected', icon: '📱' }
+        { 
+          title: 'Compact Excellence', 
+          description: 'Perfect dimensions for urban navigation without sacrificing interior space or comfort', 
+          image: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=1200'
+        },
+        { 
+          title: 'Efficient Power', 
+          description: 'Optimized electric motor delivers responsive performance with exceptional efficiency', 
+          image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=1200'
+        },
+        { 
+          title: 'Smart Technology', 
+          description: 'Intuitive infotainment and connectivity keep you seamlessly connected', 
+          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200'
+        }
       ]
     },
     'atto-3': {
@@ -78,7 +97,13 @@ const ModelDetail = () => {
       tagline: 'The Benchmark Electric SUV',
       description: 'The Atto 3 sets new standards for electric SUVs with its perfect blend of practicality, performance, and cutting-edge technology. Built on BYD\'s revolutionary e-Platform 3.0, this versatile SUV offers exceptional range, sophisticated design, and an interior that redefines comfort and innovation.',
       type: 'Electric SUV',
-      image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=2000',
+      images: [
+        { url: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=2000', caption: 'Exterior View' },
+        { url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000', caption: 'Side Profile' },
+        { url: 'https://images.unsplash.com/photo-1549927681-0b673b8243ab?q=80&w=2000', caption: 'Interior Cockpit' },
+        { url: 'https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=2000', caption: 'Technology Features' },
+        { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000', caption: 'Cargo Space' }
+      ],
       price: 'Starting at $38,990',
       specs: {
         range: '260 miles',
@@ -107,9 +132,21 @@ const ModelDetail = () => {
         { name: 'Parkour Red', hex: '#dc3545' }
       ],
       highlights: [
-        { title: 'Spacious Versatility', description: 'Generous cargo space and flexible seating configurations for every adventure', icon: '🎒' },
-        { title: 'Advanced Safety', description: 'Comprehensive suite of driver assistance systems for confident driving', icon: '🛡️' },
-        { title: 'Exceptional Range', description: 'Travel further with confidence thanks to efficient battery technology', icon: '🔋' }
+        { 
+          title: 'Spacious Versatility', 
+          description: 'Generous cargo space and flexible seating configurations for every adventure', 
+          image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200'
+        },
+        { 
+          title: 'Advanced Safety', 
+          description: 'Comprehensive suite of driver assistance systems for confident driving', 
+          image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1200'
+        },
+        { 
+          title: 'Exceptional Range', 
+          description: 'Travel further with confidence thanks to efficient battery technology', 
+          image: 'https://images.unsplash.com/photo-1609557927087-f9cf8e88de18?q=80&w=1200'
+        }
       ]
     },
     'seal-u': {
@@ -118,7 +155,13 @@ const ModelDetail = () => {
       tagline: 'Premium Electric Sophistication',
       description: 'The Seal U embodies the pinnacle of electric sedan luxury. With its stunning ocean-inspired design language, exhilarating performance, and advanced technology suite, this premium sedan delivers an uncompromising driving experience that seamlessly blends elegance with athletic capability.',
       type: 'Luxury Sedan',
-      image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2000',
+      images: [
+        { url: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2000', caption: 'Exterior View' },
+        { url: 'https://images.unsplash.com/photo-1617469767053-d3b523a0b982?q=80&w=2000', caption: 'Dynamic Profile' },
+        { url: 'https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=2000', caption: 'Luxury Interior' },
+        { url: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2000', caption: 'Premium Seats' },
+        { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000', caption: 'Rear Detail' }
+      ],
       price: 'Starting at $48,990',
       specs: {
         range: '354 miles',
@@ -147,9 +190,21 @@ const ModelDetail = () => {
         { name: 'Crystal White', hex: '#ffffff' }
       ],
       highlights: [
-        { title: 'Athletic Performance', description: 'Dual motors deliver exhilarating acceleration and dynamic handling', icon: '🏁' },
-        { title: 'Luxurious Comfort', description: 'Premium materials and meticulous craftsmanship throughout the cabin', icon: '✨' },
-        { title: 'Extended Range', description: 'Travel over 350 miles on a single charge for ultimate peace of mind', icon: '🌍' }
+        { 
+          title: 'Athletic Performance', 
+          description: 'Dual motors deliver exhilarating acceleration and dynamic handling', 
+          image: 'https://images.unsplash.com/photo-1617886322207-7cc22ce7a22a?q=80&w=1200'
+        },
+        { 
+          title: 'Luxurious Comfort', 
+          description: 'Premium materials and meticulous craftsmanship throughout the cabin', 
+          image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200'
+        },
+        { 
+          title: 'Extended Range', 
+          description: 'Travel over 350 miles on a single charge for ultimate peace of mind', 
+          image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=1200'
+        }
       ]
     },
     'tang-l': {
@@ -158,7 +213,13 @@ const ModelDetail = () => {
       tagline: 'Luxury Redefined for Seven',
       description: 'The Tang L represents the ultimate expression of family luxury. This spacious three-row SUV combines cutting-edge electric technology with opulent comfort, offering seven passengers premium accommodations and an array of advanced features that make every journey extraordinary.',
       type: '7-Seater SUV',
-      image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000',
+      images: [
+        { url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000', caption: 'Exterior View' },
+        { url: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=2000', caption: 'Bold Design' },
+        { url: 'https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=2000', caption: 'Spacious Interior' },
+        { url: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2000', caption: 'Third Row Seating' },
+        { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000', caption: 'Technology Suite' }
+      ],
       price: 'Starting at $58,990',
       specs: {
         range: '323 miles',
@@ -187,9 +248,21 @@ const ModelDetail = () => {
         { name: 'Celestial White', hex: '#fafafa' }
       ],
       highlights: [
-        { title: 'Seven-Seat Luxury', description: 'Premium comfort for every passenger across three spacious rows', icon: '👨‍👩‍👧‍👦' },
-        { title: 'Powerful Performance', description: 'Dual motors provide commanding power and confident handling', icon: '💪' },
-        { title: 'Advanced Technology', description: 'Cutting-edge features and connectivity throughout', icon: '🔬' }
+        { 
+          title: 'Seven-Seat Luxury', 
+          description: 'Premium comfort for every passenger across three spacious rows', 
+          image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200'
+        },
+        { 
+          title: 'Powerful Performance', 
+          description: 'Dual motors provide commanding power and confident handling', 
+          image: 'https://images.unsplash.com/photo-1617886322207-7cc22ce7a22a?q=80&w=1200'
+        },
+        { 
+          title: 'Advanced Technology', 
+          description: 'Cutting-edge features and connectivity throughout', 
+          image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200'
+        }
       ]
     },
     'han': {
@@ -198,7 +271,13 @@ const ModelDetail = () => {
       tagline: 'Executive Excellence',
       description: 'The Han flagship sedan represents the apex of BYD\'s engineering prowess and design philosophy. This executive-class vehicle combines breathtaking aesthetics with phenomenal performance, offering a driving experience that rivals the world\'s most prestigious luxury sedans while delivering zero emissions.',
       type: 'Executive Sedan',
-      image: 'https://images.unsplash.com/photo-1617469767053-d3b523a0b982?q=80&w=2000',
+      images: [
+        { url: 'https://images.unsplash.com/photo-1617469767053-d3b523a0b982?q=80&w=2000', caption: 'Exterior View' },
+        { url: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2000', caption: 'Elegant Profile' },
+        { url: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2000', caption: 'Executive Interior' },
+        { url: 'https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=2000', caption: 'Premium Craftsmanship' },
+        { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000', caption: 'Aerodynamic Design' }
+      ],
       price: 'Starting at $54,990',
       specs: {
         range: '379 miles',
@@ -212,33 +291,51 @@ const ModelDetail = () => {
       },
       features: [
         'Dragon Face Design Language',
+        'Dual Motor Performance',
         'Executive Rear Seating',
-        'Massage Function',
-        'Ambient Lighting (31 colors)',
-        'Premium Dynaudio System',
-        'Advanced DiPilot',
-        'Ventilated & Heated Seats',
-        'Electrochromic Panoramic Roof'
+        'Premium Leather Upholstery',
+        'Advanced Infotainment',
+        'Adaptive Cruise Control',
+        'Massage Function Seats',
+        'Ambient Lighting System'
       ],
       colors: [
-        { name: 'Dragon Scale Grey', hex: '#708090' },
-        { name: 'Phoenix Red', hex: '#c41e3a' },
-        { name: 'Jade Green', hex: '#00a86b' },
-        { name: 'Emperor Black', hex: '#000000' }
+        { name: 'Dynasty Black', hex: '#000000' },
+        { name: 'Sovereign Silver', hex: '#c0c0c0' },
+        { name: 'Royal Blue', hex: '#1e3a8a' },
+        { name: 'Prestige White', hex: '#ffffff' }
       ],
       highlights: [
-        { title: 'Flagship Design', description: 'Stunning Dragon Face aesthetic that commands attention', icon: '🐉' },
-        { title: 'Executive Comfort', description: 'First-class accommodations with massage and premium materials', icon: '🎩' },
-        { title: 'Record Range', description: 'Nearly 380 miles of range for effortless long-distance travel', icon: '🛣️' }
+        { 
+          title: 'Flagship Design', 
+          description: 'Breathtaking aesthetics that command attention and respect', 
+          image: 'https://images.unsplash.com/photo-1617469767053-d3b523a0b982?q=80&w=1200'
+        },
+        { 
+          title: 'Executive Comfort', 
+          description: 'First-class accommodations with premium materials throughout', 
+          image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=1200'
+        },
+        { 
+          title: 'Maximum Range', 
+          description: 'Nearly 380 miles of range for long-distance confidence', 
+          image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=1200'
+        }
       ]
     },
     'seal': {
       id: 'seal',
       name: 'Seal',
       tagline: 'Performance Unleashed',
-      description: 'The Seal performance sedan delivers pure driving excitement. Inspired by the ocean\'s most agile creatures, this athletic sedan combines razor-sharp handling, explosive acceleration, and striking design to create a driving experience that thrills enthusiasts while maintaining everyday practicality.',
+      description: 'The Seal performance sedan combines athletic design with exhilarating electric power. Inspired by the ocean\'s most agile creatures, this dynamic sedan delivers track-ready performance, stunning aesthetics, and advanced technology in a package that redefines what an electric sports sedan can be.',
       type: 'Performance Sedan',
-      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000',
+      images: [
+        { url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000', caption: 'Exterior View' },
+        { url: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2000', caption: 'Sport Profile' },
+        { url: 'https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=2000', caption: 'Driver-Focused Cockpit' },
+        { url: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2000', caption: 'Sport Seats' },
+        { url: 'https://images.unsplash.com/photo-1617469767053-d3b523a0b982?q=80&w=2000', caption: 'Dynamic Lines' }
+      ],
       price: 'Starting at $44,990',
       specs: {
         range: '310 miles',
@@ -251,25 +348,37 @@ const ModelDetail = () => {
         driveType: 'All-Wheel Drive'
       },
       features: [
+        'Ocean Aesthetic Design',
+        'Dual Motor AWD',
         'Sport-Tuned Suspension',
-        'Performance Dual Motors',
-        'Sport Seats with Bolstering',
-        'Track Mode',
         'Performance Braking System',
-        'Sport Steering Wheel',
+        'Track Mode',
+        'Sport Seats',
         'Digital Instrument Cluster',
         'Launch Control'
       ],
       colors: [
         { name: 'Racing Blue', hex: '#0066cc' },
-        { name: 'Shadow Black', hex: '#121212' },
-        { name: 'Silver Storm', hex: '#b8b8b8' },
-        { name: 'Carbon Grey', hex: '#3d3d3d' }
+        { name: 'Storm Grey', hex: '#6c757d' },
+        { name: 'Carbon Black', hex: '#1a1a1a' },
+        { name: 'Pearl White', hex: '#f8f9fa' }
       ],
       highlights: [
-        { title: 'Track-Ready Performance', description: 'Sub-4-second acceleration with sport-tuned dynamics', icon: '🏎️' },
-        { title: 'Agile Handling', description: 'Low center of gravity and AWD provide exceptional cornering', icon: '🌀' },
-        { title: 'Driver-Focused', description: 'Every element optimized for an engaging driving experience', icon: '🎯' }
+        { 
+          title: 'Thrilling Performance', 
+          description: '0-60mph in 3.6 seconds with dual motor all-wheel drive power', 
+          image: 'https://images.unsplash.com/photo-1617886322207-7cc22ce7a22a?q=80&w=1200'
+        },
+        { 
+          title: 'Dynamic Handling', 
+          description: 'Sport-tuned suspension delivers precise, responsive handling', 
+          image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1200'
+        },
+        { 
+          title: 'Track-Ready', 
+          description: 'Performance modes and launch control for ultimate driving excitement', 
+          image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200'
+        }
       ]
     }
   };
@@ -278,12 +387,20 @@ const ModelDetail = () => {
 
   if (!model) {
     return (
-      <div style={{padding: '10rem 5%', textAlign: 'center', color: 'white', background: '#0a0a0a', minHeight: '100vh'}}>
-        <h1 style={{fontSize: '3rem', marginBottom: '2rem'}}>Model Not Found</h1>
-        <Link to="/models" style={{color: '#4a9eff', fontSize: '1.2rem'}}>← Back to Models</Link>
+      <div style={{ padding: '10rem 5%', textAlign: 'center' }}>
+        <h1>Model not found</h1>
+        <Link to="/models">← Back to Models</Link>
       </div>
     );
   }
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % model.images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + model.images.length) % model.images.length);
+  };
 
   return (
     <div style={{ width: '100%', overflow: 'hidden' }}>
@@ -292,65 +409,131 @@ const ModelDetail = () => {
 
         .model-detail-hero {
           height: 100vh;
-          background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
-                      url('${model.image}') center/cover;
+          position: relative;
+          overflow: hidden;
+          background: #000;
+        }
+
+        .carousel-container {
+          position: absolute;
+          inset: 0;
+        }
+
+        .carousel-image {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          transition: opacity 0.8s ease;
+        }
+
+        .carousel-image.active {
+          opacity: 1;
+        }
+
+        .carousel-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .carousel-image::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+        }
+
+        .carousel-controls {
+          position: absolute;
+          bottom: 10%;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 10;
+          display: flex;
+          gap: 1rem;
+        }
+
+        .carousel-button {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.1);
+          backdrop-filter: blur(10px);
+          border: 2px solid rgba(255,255,255,0.3);
+          color: white;
+          font-size: 1.5rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
           display: flex;
           align-items: center;
           justify-content: center;
-          text-align: center;
+        }
+
+        .carousel-button:hover {
+          background: rgba(74, 158, 255, 0.5);
+          border-color: #4a9eff;
+          transform: scale(1.1);
+        }
+
+        .carousel-indicators {
+          position: absolute;
+          bottom: 5%;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 10;
+          display: flex;
+          gap: 0.8rem;
+        }
+
+        .indicator {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 2px solid transparent;
+        }
+
+        .indicator.active {
+          background: #4a9eff;
+          border-color: white;
+          transform: scale(1.3);
+        }
+
+        .image-caption {
+          position: absolute;
+          bottom: 20%;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 10;
           color: white;
-          position: relative;
-          background-attachment: fixed;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 1.2rem;
+          font-weight: 300;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          background: rgba(0,0,0,0.5);
+          padding: 1rem 2rem;
+          backdrop-filter: blur(10px);
         }
 
         .hero-detail-content {
-          z-index: 1;
-          max-width: 1200px;
-          padding: 3rem;
-          animation: heroFade 1.8s ease-out;
-        }
-
-        @keyframes heroFade {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .back-link {
           position: absolute;
-          top: 120px;
-          left: 5%;
-          z-index: 10;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
           color: white;
-          text-decoration: none;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 500;
-          letter-spacing: 1px;
-          padding: 0.8rem 1.5rem;
-          background: rgba(0,0,0,0.4);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255,255,255,0.2);
-          transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-          background: rgba(74, 158, 255, 0.3);
-          border-color: #4a9eff;
-          transform: translateX(-5px);
+          z-index: 5;
+          max-width: 1000px;
+          padding: 2rem;
         }
 
         .model-type-badge-hero {
           display: inline-block;
           background: rgba(74, 158, 255, 0.9);
-          padding: 0.6rem 2rem;
+          padding: 0.8rem 2rem;
           font-family: 'Montserrat', sans-serif;
           font-size: 0.9rem;
           font-weight: 600;
@@ -360,17 +543,17 @@ const ModelDetail = () => {
         }
 
         .hero-detail-content h1 {
-          font-size: 7rem;
+          font-size: 5.5rem;
           margin-bottom: 1.5rem;
           font-weight: 300;
-          letter-spacing: 15px;
+          letter-spacing: 10px;
           font-family: 'Cormorant Garamond', serif;
-          text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+          text-shadow: 2px 2px 20px rgba(0,0,0,0.7);
         }
 
         .hero-tagline {
-          font-size: 2rem;
-          margin-bottom: 2rem;
+          font-size: 1.8rem;
+          margin-bottom: 1rem;
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
           letter-spacing: 3px;
@@ -378,15 +561,42 @@ const ModelDetail = () => {
         }
 
         .hero-price {
-          font-size: 1.8rem;
+          font-size: 1.5rem;
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
           letter-spacing: 2px;
         }
 
+        .back-link {
+          position: fixed;
+          top: 120px;
+          left: 5%;
+          z-index: 100;
+          color: white;
+          text-decoration: none;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 1rem;
+          font-weight: 500;
+          letter-spacing: 1px;
+          padding: 1rem 2rem;
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.2);
+          transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+          background: rgba(74, 158, 255, 0.5);
+          border-color: #4a9eff;
+          transform: translateX(-5px);
+        }
+
         .detail-section {
           padding: 8rem 5%;
           min-height: 50vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .dark-section {
@@ -399,55 +609,57 @@ const ModelDetail = () => {
           color: #333;
         }
 
+        .cta-section {
+          background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+          padding: 8rem 5%;
+          text-align: center;
+        }
+
         .section-container {
           max-width: 1400px;
+          width: 100%;
           margin: 0 auto;
         }
 
         .section-title {
           font-size: 4rem;
+          text-align: center;
           margin-bottom: 3rem;
           font-weight: 300;
           letter-spacing: 6px;
           font-family: 'Cormorant Garamond', serif;
-          text-align: center;
         }
 
         .description-text {
           font-size: 1.3rem;
           line-height: 2;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
+          text-align: center;
           max-width: 1000px;
           margin: 0 auto 5rem;
-          text-align: center;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 300;
         }
 
         .specs-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 3rem;
-          margin-top: 5rem;
+          gap: 2.5rem;
+          margin: 4rem 0;
         }
 
         .spec-card {
           background: rgba(255,255,255,0.05);
-          backdrop-filter: blur(20px);
+          backdrop-filter: blur(30px);
           border: 1px solid rgba(255,255,255,0.1);
-          padding: 2.5rem 2rem;
+          padding: 2.5rem;
           text-align: center;
           transition: all 0.4s ease;
         }
 
-        .light-section .spec-card {
-          background: white;
-          border: 1px solid rgba(0,0,0,0.08);
-        }
-
         .spec-card:hover {
+          background: rgba(255,255,255,0.1);
+          border-color: rgba(74, 158, 255, 0.5);
           transform: translateY(-10px);
-          border-color: #4a9eff;
-          box-shadow: 0 20px 60px rgba(74, 158, 255, 0.2);
         }
 
         .spec-label {
@@ -460,32 +672,51 @@ const ModelDetail = () => {
           margin-bottom: 1rem;
         }
 
-        .light-section .spec-label {
-          color: #666;
-        }
-
         .spec-value {
-          font-size: 2rem;
+          font-size: 1.8rem;
           color: #4a9eff;
           font-family: 'Montserrat', sans-serif;
           font-weight: 600;
+          letter-spacing: 1px;
         }
 
         .highlights-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 4rem;
-          margin-top: 5rem;
+          gap: 3rem;
+          margin: 4rem 0;
         }
 
         .highlight-card {
-          text-align: center;
-          padding: 3rem 2rem;
+          background: white;
+          border: 1px solid rgba(0,0,0,0.08);
+          overflow: hidden;
+          transition: all 0.5s ease;
         }
 
-        .highlight-icon {
-          font-size: 5rem;
-          margin-bottom: 2rem;
+        .highlight-card:hover {
+          transform: translateY(-15px);
+          box-shadow: 0 30px 70px rgba(74, 158, 255, 0.2);
+          border-color: rgba(74, 158, 255, 0.3);
+        }
+
+        .highlight-image {
+          width: 100%;
+          height: 250px;
+          background-size: cover;
+          background-position: center;
+          position: relative;
+        }
+
+        .highlight-image::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .highlight-content {
+          padding: 2.5rem;
         }
 
         .highlight-title {
@@ -494,11 +725,13 @@ const ModelDetail = () => {
           font-family: 'Montserrat', sans-serif;
           font-weight: 600;
           letter-spacing: 2px;
+          color: #333;
         }
 
         .highlight-description {
           font-size: 1.1rem;
           line-height: 1.8;
+          color: #666;
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
         }
@@ -507,73 +740,67 @@ const ModelDetail = () => {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 2rem;
-          margin-top: 5rem;
+          margin: 4rem 0;
         }
 
         .feature-item {
-          padding: 1.8rem 2rem;
+          padding: 2rem;
           background: rgba(255,255,255,0.05);
-          backdrop-filter: blur(20px);
+          backdrop-filter: blur(30px);
+          border: 1px solid rgba(255,255,255,0.1);
           border-left: 4px solid #4a9eff;
+          font-size: 1.2rem;
           font-family: 'Montserrat', sans-serif;
-          font-size: 1.1rem;
-          font-weight: 300;
+          font-weight: 400;
+          letter-spacing: 1px;
           transition: all 0.3s ease;
         }
 
-        .light-section .feature-item {
-          background: white;
-          border: 1px solid rgba(0,0,0,0.05);
-          border-left: 4px solid #4a9eff;
-        }
-
         .feature-item:hover {
-          padding-left: 3rem;
-          background: rgba(74, 158, 255, 0.1);
+          background: rgba(255,255,255,0.1);
+          border-left-width: 8px;
+          transform: translateX(10px);
         }
 
         .colors-grid {
           display: flex;
           justify-content: center;
           gap: 3rem;
-          margin-top: 5rem;
+          margin: 4rem 0;
+          flex-wrap: wrap;
         }
 
         .color-option {
           text-align: center;
           cursor: pointer;
-          transition: transform 0.3s ease;
+          transition: all 0.3s ease;
         }
 
         .color-option:hover {
-          transform: scale(1.1);
+          transform: translateY(-10px);
         }
 
         .color-swatch {
-          width: 80px;
-          height: 80px;
+          width: 100px;
+          height: 100px;
           border-radius: 50%;
-          margin: 0 auto 1rem;
-          border: 3px solid rgba(255,255,255,0.3);
+          border: 3px solid rgba(0,0,0,0.1);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
           transition: all 0.3s ease;
+          margin-bottom: 1rem;
         }
 
         .color-option:hover .color-swatch {
           border-color: #4a9eff;
-          box-shadow: 0 0 30px rgba(74, 158, 255, 0.5);
+          box-shadow: 0 15px 40px rgba(74, 158, 255, 0.4);
+          transform: scale(1.1);
         }
 
         .color-name {
+          font-size: 1.1rem;
           font-family: 'Montserrat', sans-serif;
-          font-size: 0.95rem;
           font-weight: 500;
           letter-spacing: 1px;
-        }
-
-        .cta-section {
-          background: linear-gradient(135deg, rgba(74, 158, 255, 0.1) 0%, rgba(53, 122, 189, 0.1) 100%);
-          padding: 6rem 5%;
-          text-align: center;
         }
 
         .cta-buttons {
@@ -662,6 +889,36 @@ const ModelDetail = () => {
       </Link>
 
       <div className="model-detail-hero">
+        <div className="carousel-container">
+          {model.images.map((image, index) => (
+            <div 
+              key={index} 
+              className={`carousel-image ${index === currentImageIndex ? 'active' : ''}`}
+            >
+              <img src={image.url} alt={`${model.name} - ${image.caption}`} />
+            </div>
+          ))}
+        </div>
+
+        <div className="image-caption">
+          {model.images[currentImageIndex].caption}
+        </div>
+
+        <div className="carousel-controls">
+          <button className="carousel-button" onClick={prevImage}>‹</button>
+          <button className="carousel-button" onClick={nextImage}>›</button>
+        </div>
+
+        <div className="carousel-indicators">
+          {model.images.map((_, index) => (
+            <div
+              key={index}
+              className={`indicator ${index === currentImageIndex ? 'active' : ''}`}
+              onClick={() => setCurrentImageIndex(index)}
+            />
+          ))}
+        </div>
+
         <div className="hero-detail-content">
           <div className="model-type-badge-hero">{model.type}</div>
           <h1>{model.name}</h1>
@@ -721,9 +978,14 @@ const ModelDetail = () => {
           <div className="highlights-grid">
             {model.highlights.map((highlight, index) => (
               <div key={index} className="highlight-card">
-                <div className="highlight-icon">{highlight.icon}</div>
-                <h3 className="highlight-title">{highlight.title}</h3>
-                <p className="highlight-description">{highlight.description}</p>
+                <div 
+                  className="highlight-image"
+                  style={{backgroundImage: `url(${highlight.image})`}}
+                ></div>
+                <div className="highlight-content">
+                  <h3 className="highlight-title">{highlight.title}</h3>
+                  <p className="highlight-description">{highlight.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -770,7 +1032,7 @@ const ModelDetail = () => {
           </p>
           
           <div className="cta-buttons">
-            <Link to="/test-drive" className="cta-button cta-button-primary">
+            <Link to="/contact?subject=test-drive" className="cta-button cta-button-primary">
               Schedule Test Drive
             </Link>
             <Link to="/contact" className="cta-button cta-button-secondary">

@@ -183,43 +183,55 @@ const AboutUs = () => {
           box-shadow: 0 40px 100px rgba(0,0,0,0.3);
         }
 
-        /* Image Background Sections */
+        /* Image Background Sections - Text Overlay Style */
         .image-section {
-          min-height: 120vh;
+          min-height: 140vh;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 8rem 5%;
+          padding: 10rem 5%;
           position: relative;
           will-change: transform;
         }
 
         .image-section-content {
-          max-width: 900px;
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(10px);
-          padding: 4rem;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+          max-width: 1000px;
+          padding: 0;
+          text-align: center;
+          background: none;
+          backdrop-filter: none;
+          box-shadow: none;
         }
 
         .image-section-content h2 {
-          font-size: 3.5rem;
-          margin-bottom: 2rem;
-          font-weight: 300;
-          letter-spacing: 6px;
+          font-size: 4.5rem;
+          margin-bottom: 2.5rem;
+          font-weight: 400;
+          letter-spacing: 8px;
           font-family: 'Cormorant Garamond', serif;
-          color: #1a1a1a;
+          color: #ffffff;
+          text-shadow: 
+            3px 3px 6px rgba(0, 0, 0, 0.8),
+            -1px -1px 2px rgba(0, 0, 0, 0.6),
+            0 0 20px rgba(0, 0, 0, 0.5);
+          line-height: 1.2;
         }
 
         .image-section-content p {
-          font-size: 1.2rem;
-          line-height: 2;
-          color: #555;
+          font-size: 1.4rem;
+          line-height: 2.2;
+          color: #ffffff;
           font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
+          font-weight: 400;
+          text-shadow: 
+            2px 2px 5px rgba(0, 0, 0, 0.9),
+            -1px -1px 2px rgba(0, 0, 0, 0.7),
+            0 0 15px rgba(0, 0, 0, 0.6);
+          max-width: 900px;
+          margin: 0 auto;
         }
 
-        /* Platform Section with 3 Images */
+        /* Platform Section with 3 Images - IMPROVED */
         .platform-section {
           background: white;
           padding: 8rem 5%;
@@ -243,20 +255,26 @@ const AboutUs = () => {
           grid-template-rows: repeat(2, 1fr);
           gap: 1.5rem;
           height: 600px;
+          width: 100%;
         }
 
         .platform-image {
           background-size: cover;
           background-position: center;
           box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-          transition: transform 0.5s ease;
+          transition: transform 0.5s ease, box-shadow 0.5s ease;
           background-color: #e0e0e0;
           position: relative;
           overflow: hidden;
+          width: 100%;
+          height: 100%;
+          min-height: 0;
+          min-width: 0;
         }
 
         .platform-image:hover {
           transform: scale(1.05);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.25);
         }
 
         .platform-image:first-child {
@@ -276,7 +294,7 @@ const AboutUs = () => {
 
         .platform-text h2 {
           font-size: 3.5rem;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1rem;
           font-weight: 300;
           letter-spacing: 6px;
           font-family: 'Cormorant Garamond', serif;
@@ -284,21 +302,20 @@ const AboutUs = () => {
         }
 
         .platform-subtitle {
-          font-size: 1.3rem;
+          font-size: 1.1rem;
+          color: #666;
           margin-bottom: 2.5rem;
-          color: #4a9eff;
+          font-style: italic;
           font-family: 'Montserrat', sans-serif;
-          font-weight: 500;
-          letter-spacing: 2px;
         }
 
         .platform-text p {
           font-size: 1.15rem;
           line-height: 2;
           color: #555;
+          margin-bottom: 2.5rem;
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
-          margin-bottom: 2rem;
         }
 
         .platform-text ul {
@@ -306,70 +323,120 @@ const AboutUs = () => {
           padding: 0;
         }
 
-        .platform-text li {
-          font-size: 1.05rem;
-          line-height: 2;
+        .platform-text ul li {
+          font-size: 1.1rem;
+          line-height: 1.9;
           color: #555;
+          margin-bottom: 2rem;
           font-family: 'Montserrat', sans-serif;
           font-weight: 300;
-          margin-bottom: 1rem;
-          padding-left: 2rem;
-          position: relative;
+          padding-left: 0;
         }
 
-        .platform-text li::before {
-          content: '→';
-          position: absolute;
-          left: 0;
-          color: #4a9eff;
+        .platform-text ul li strong {
           font-weight: 600;
+          color: #333;
+          display: block;
+          margin-bottom: 0.5rem;
         }
 
-        .platform-text strong {
-          color: #1a1a1a;
-          font-weight: 500;
-        }
-
+        /* Responsive Styles */
         @media (max-width: 1024px) {
           .section-title {
-            font-size: 3rem;
+            font-size: 3.5rem;
+            letter-spacing: 6px;
           }
 
-          .story-item, .platform-container {
+          .story-item {
+            gap: 4rem;
+          }
+
+          .story-content h3 {
+            font-size: 2.5rem;
+          }
+
+          .platform-container {
+            gap: 4rem;
+          }
+
+          .platform-text h2 {
+            font-size: 3rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .section-title {
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 3rem;
+          }
+
+          .story-item {
             grid-template-columns: 1fr;
             gap: 3rem;
+            margin-bottom: 5rem;
           }
 
           .story-item:nth-child(even) {
             direction: ltr;
           }
 
-          .platform-images {
-            height: 500px;
+          .story-content h3 {
+            font-size: 2rem;
           }
-        }
 
-        @media (max-width: 768px) {
+          .story-content p {
+            font-size: 1.1rem;
+          }
+
+          .story-image {
+            height: 300px;
+          }
+
           .luxury-section {
             padding: 5rem 5%;
           }
 
-          .section-title {
-            font-size: 2.5rem;
-            letter-spacing: 4px;
+          .platform-section {
+            padding: 5rem 5%;
+          }
+
+          .platform-container {
+            grid-template-columns: 1fr;
+            gap: 4rem;
+          }
+
+          .image-section {
+            min-height: 100vh;
+            padding: 6rem 5%;
           }
 
           .image-section-content {
-            padding: 3rem 2rem;
+            padding: 0;
           }
 
           .image-section-content h2 {
             font-size: 2.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+            text-shadow: 
+              2px 2px 4px rgba(0, 0, 0, 0.9),
+              -1px -1px 2px rgba(0, 0, 0, 0.7),
+              0 0 10px rgba(0, 0, 0, 0.6);
+          }
+
+          .image-section-content p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            text-shadow: 
+              1px 1px 3px rgba(0, 0, 0, 0.9),
+              -1px -1px 1px rgba(0, 0, 0, 0.7),
+              0 0 10px rgba(0, 0, 0, 0.6);
           }
 
           .platform-images {
             grid-template-columns: 1fr;
-            grid-template-rows: repeat(3, 200px);
+            grid-template-rows: repeat(3, 250px);
             height: auto;
           }
 
@@ -388,9 +455,52 @@ const AboutUs = () => {
             grid-row: 3;
           }
 
+          .platform-text h2 {
+            font-size: 2.5rem;
+          }
+
+          .platform-text p,
+          .platform-text ul li {
+            font-size: 1rem;
+          }
+
           /* Disable parallax on mobile */
           .image-section {
             background-attachment: scroll !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .image-section {
+            min-height: 80vh;
+            padding: 4rem 5%;
+          }
+
+          .image-section-content h2 {
+            font-size: 2rem;
+            letter-spacing: 3px;
+          }
+
+          .image-section-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+          }
+
+          .platform-images {
+            grid-template-rows: repeat(3, 200px);
+          }
+
+          .section-title {
+            font-size: 2rem;
+            letter-spacing: 3px;
+          }
+
+          .story-content h3 {
+            font-size: 1.8rem;
+          }
+
+          .platform-text h2 {
+            font-size: 2rem;
           }
         }
 
@@ -406,6 +516,17 @@ const AboutUs = () => {
             transition: none !important;
           }
         }
+
+        @media (max-width: 768px) {
+          .video-hero,
+          .video-hero video,
+          .video-placeholder {
+            display: none !important;
+            height: 0;
+            overflow: hidden;
+          }
+        }
+
       `}</style>
 
       <div className="video-hero" ref={videoRef}>

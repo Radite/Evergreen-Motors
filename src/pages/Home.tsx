@@ -212,7 +212,7 @@ const Home = () => {
             <Link to="/models" className="cta-button cta-primary">
               Explore Collection
             </Link>
-            <Link to="/test-drive" className="cta-button cta-secondary">
+            <Link to="/contact?subject=test-drive" className="cta-button cta-secondary">
               Schedule Test Drive
             </Link>
           </div>

@@ -34,6 +34,42 @@ const Navigation: React.FC = () => {
           color: #4a9eff;
         }
 
+        /* Desktop hover functionality */
+        @media (min-width: 1024px) {
+          .dropdown {
+            position: relative;
+          }
+
+          .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #2a2c2e;
+            min-width: 200px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            z-index: 1000;
+            margin-top: 0;
+          }
+
+          .dropdown:hover .dropdown-content {
+            display: block;
+          }
+
+          .dropdown-content a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            white-space: nowrap;
+          }
+
+          .dropdown-content a:hover {
+            background-color: #3a3c3e;
+          }
+        }
+
         @media (max-width: 1023px) {
           .mobile-menu-toggle {
             display: block;
@@ -46,7 +82,7 @@ const Navigation: React.FC = () => {
 
           .nav-container {
             position: relative;
-            min-height: 60px;
+            min-height: 80px;
           }
 
           .nav-menu {
@@ -108,12 +144,20 @@ const Navigation: React.FC = () => {
             padding: 1.3rem 5%;
           }
         }
+
+        /* Logo text styling */
+        .logo-text {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #fff;
+          text-decoration: none;
+        }
       `}</style>
 
       <nav>
         <div className="nav-container">
-          <Link to="/" className="logo">
-            <img src="/text-1760673746758.png" alt="BYD Logo" className="logo-image" />
+          <Link to="/" className="logo-text">
+            Evergreen Motors
           </Link>
 
           <button 
@@ -126,10 +170,50 @@ const Navigation: React.FC = () => {
           </button>
 
           <ul className="nav-menu">
-<li>
-  <Link to="/models" onClick={() => setMobileMenuOpen(false)}>Models</Link>
-</li>
-
+            <li className="dropdown">
+              <Link to="/models">Models</Link>
+              <div className="dropdown-content">
+                <Link to="/models/dolphin-mini" onClick={() => setMobileMenuOpen(false)}>Dolphin Mini</Link>
+                <Link to="/models/atto-3" onClick={() => setMobileMenuOpen(false)}>Atto 3</Link>
+                <Link to="/models/seal-u" onClick={() => setMobileMenuOpen(false)}>Seal U</Link>
+                <Link to="/models/tang-l" onClick={() => setMobileMenuOpen(false)}>Tang L</Link>
+                <Link to="/models/han" onClick={() => setMobileMenuOpen(false)}>Han</Link>
+                <Link to="/models/seal" onClick={() => setMobileMenuOpen(false)}>Seal</Link>
+              </div>
+            </li>
+            <li 
+              className={`dropdown ${activeDropdown === 'purchasing' ? 'active' : ''}`}
+              onClick={() => toggleDropdown('purchasing')}
+            >
+              <Link to="/purchasing">Purchasing</Link>
+              <div className="dropdown-content">
+                <Link to="/test-drive" onClick={() => setMobileMenuOpen(false)}>Test Drive</Link>
+                <Link to="/locations" onClick={() => setMobileMenuOpen(false)}>Locations</Link>
+                <Link to="/cash-purchases" onClick={() => setMobileMenuOpen(false)}>Cash Purchases</Link>
+                <Link to="/finance-bank" onClick={() => setMobileMenuOpen(false)}>Finance (Bank)</Link>
+                <Link to="/lease" onClick={() => setMobileMenuOpen(false)}>Lease</Link>
+                <Link to="/finance-dealer" onClick={() => setMobileMenuOpen(false)}>Finance (Dealer)</Link>
+                <Link to="/subscriptions" onClick={() => setMobileMenuOpen(false)}>Subscriptions</Link>
+                <Link to="/rentals" onClick={() => setMobileMenuOpen(false)}>Rentals</Link>
+                <Link to="/fleet-solutions" onClick={() => setMobileMenuOpen(false)}>Fleet & Business Solutions</Link>
+              </div>
+            </li>
+            <li 
+              className={`dropdown ${activeDropdown === 'ownership' ? 'active' : ''}`}
+              onClick={() => toggleDropdown('ownership')}
+            >
+              <Link to="/ownership">Ownership</Link>
+              <div className="dropdown-content">
+                <a href="/ownership#service-maintenance" onClick={() => setMobileMenuOpen(false)}>Service & Maintenance</a>
+                <a href="/ownership#roadside-assistance" onClick={() => setMobileMenuOpen(false)}>EM Roadside Assistance</a>
+                <a href="/ownership#warranty" onClick={() => setMobileMenuOpen(false)}>Warranty</a>
+                <a href="/ownership#membership" onClick={() => setMobileMenuOpen(false)}>EM Membership & Charge Cards</a>
+                <a href="/ownership#charging-locations" onClick={() => setMobileMenuOpen(false)}>Charging Locations</a>
+              </div>
+            </li>
+            <li>
+              <Link to="/technology" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
+            </li>
             <li>
               <Link to="/about" onClick={() => setMobileMenuOpen(false)}>About</Link>
             </li>

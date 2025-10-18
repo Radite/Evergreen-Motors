@@ -5,11 +5,11 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Models from './pages/Models';
 import ModelDetail from './pages/ModelDetail';
-// import Technology from './pages/Technology';
+import Technology from './pages/Technology';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
-// import Ownership from './pages/Ownership';
-// import Purchasing from './pages/Purchasing';
+import Ownership from './pages/Ownership';
+import Purchasing from './pages/Purchasing';
 import './styles/main.css';
 
 const ScrollToTop = () => {
@@ -44,9 +44,11 @@ const App: React.FC = () => {
           <Route path="/models" element={<Models />} />
           <Route path="/models/:modelId" element={<ModelDetail />} />
 
+          <Route path="/technology" element={<Technology />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
-
+          <Route path="/ownership" element={<Ownership />} />
+          <Route path="/purchasing" element={<Purchasing />} />
         </Routes>
         <Footer />
       </div>

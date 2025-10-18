@@ -356,7 +356,7 @@ const Footer: React.FC = () => {
 
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p>© BYD Company Ltd. All rights reserved.</p>
+            <p>© Evergreen Motors Ltd. All rights reserved.</p>
           </div>
         </div>
       </footer>

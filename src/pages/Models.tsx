@@ -89,8 +89,6 @@ const Models = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
 
-
-
         .models-hero {
           height: 100vh;
           background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
@@ -148,12 +146,25 @@ const Models = () => {
           font-weight: 300;
           letter-spacing: 1px;
           text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+          max-width: 900px;
+          margin: 0 auto;
         }
 
         .models-section {
           padding: 8rem 5%;
           background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
           min-height: 100vh;
+        }
+
+        .fade-in-section {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .fade-in-visible {
+          opacity: 1;
+          transform: translateY(0);
         }
 
         .models-intro {
