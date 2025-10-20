@@ -1,693 +1,504 @@
-import { useEffect, useState, useRef } from 'react';
-import { OptimizedBackground } from './ImageOptimizer';
+import React, { useState, useRef } from 'react';
 
-const AboutUs = () => {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const videoRef = useRef<HTMLDivElement>(null);
+// Type Definitions
+interface DiversificationItem {
+  icon: string;
+  title: string;
+  image: string;
+}
 
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
+interface FeatureItem {
+  title: string;
+  description: string;
+}
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-visible');
-        }
-      });
-    }, observerOptions);
 
-    document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Lazy load video when hero is in view
-  useEffect(() => {
-    const videoObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && videoRef.current && !videoLoaded) {
-            setVideoLoaded(true);
-            videoObserver.disconnect();
-          }
-        });
-      },
-      { rootMargin: '50px' }
-    );
-
-    if (videoRef.current) {
-      videoObserver.observe(videoRef.current);
-    }
-
-    return () => videoObserver.disconnect();
-  }, [videoLoaded]);
+// Hero Video Banner Component
+const HeroBanner: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <div style={{ width: '100%', overflow: 'hidden' }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
-
-        .fade-in-section {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .fade-in-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .video-hero {
-          height: 100vh;
-          position: relative;
-          overflow: hidden;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .video-hero video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          opacity: 0;
-          transition: opacity 0.8s ease;
-        }
-
-        .video-hero video.loaded {
-          opacity: 1;
-        }
-
-        .video-placeholder {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: opacity 0.8s ease;
-        }
-
-        .video-placeholder.hidden {
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        .luxury-section {
-          min-height: 80vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          padding: 8rem 5%;
-        }
-
-        /* Story Section */
-        .story-section {
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-
-        .section-content {
-          max-width: 1400px;
-          margin: 0 auto;
-          width: 100%;
-          position: relative;
-          z-index: 1;
-        }
-
-        .section-title {
-          font-size: 4.5rem;
-          text-align: center;
-          margin-bottom: 5rem;
-          font-weight: 300;
-          letter-spacing: 8px;
-          font-family: 'Cormorant Garamond', serif;
-          color: #1a1a1a;
-        }
-
-        .story-item {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 6rem;
-          align-items: center;
-          margin-bottom: 8rem;
-        }
-
-        .story-item:last-child {
-          margin-bottom: 0;
-        }
-
-        .story-item:nth-child(even) {
-          direction: rtl;
-        }
-
-        .story-item:nth-child(even) > * {
-          direction: ltr;
-        }
-
-        .story-content h3 {
-          font-size: 3rem;
-          margin-bottom: 2rem;
-          font-weight: 300;
-          letter-spacing: 4px;
-          font-family: 'Cormorant Garamond', serif;
-          color: #1a1a1a;
-        }
-
-        .story-content p {
-          font-size: 1.2rem;
-          line-height: 2;
-          color: #555;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-        }
-
-        .story-image {
-          height: 450px;
-          background-size: cover;
-          background-position: center;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.2);
-          transition: all 0.6s ease;
-          position: relative;
-          overflow: hidden;
-          background-color: #e0e0e0;
-        }
-
-        .story-image:hover {
-          transform: scale(1.03);
-          box-shadow: 0 40px 100px rgba(0,0,0,0.3);
-        }
-
-        /* Image Background Sections - Text Overlay Style */
-        .image-section {
-          min-height: 140vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 10rem 5%;
-          position: relative;
-          will-change: transform;
-        }
-
-        .image-section-content {
-          max-width: 1000px;
-          padding: 0;
-          text-align: center;
-          background: none;
-          backdrop-filter: none;
-          box-shadow: none;
-        }
-
-        .image-section-content h2 {
-          font-size: 4.5rem;
-          margin-bottom: 2.5rem;
-          font-weight: 400;
-          letter-spacing: 8px;
-          font-family: 'Cormorant Garamond', serif;
-          color: #ffffff;
-          text-shadow: 
-            3px 3px 6px rgba(0, 0, 0, 0.8),
-            -1px -1px 2px rgba(0, 0, 0, 0.6),
-            0 0 20px rgba(0, 0, 0, 0.5);
-          line-height: 1.2;
-        }
-
-        .image-section-content p {
-          font-size: 1.4rem;
-          line-height: 2.2;
-          color: #ffffff;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 400;
-          text-shadow: 
-            2px 2px 5px rgba(0, 0, 0, 0.9),
-            -1px -1px 2px rgba(0, 0, 0, 0.7),
-            0 0 15px rgba(0, 0, 0, 0.6);
-          max-width: 900px;
-          margin: 0 auto;
-        }
-
-        /* Platform Section with 3 Images - IMPROVED */
-        .platform-section {
-          background: white;
-          padding: 8rem 5%;
-          min-height: 80vh;
-          display: flex;
-          align-items: center;
-        }
-
-        .platform-container {
-          max-width: 1400px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 6rem;
-          align-items: center;
-        }
-
-        .platform-images {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: repeat(2, 1fr);
-          gap: 1.5rem;
-          height: 600px;
-          width: 100%;
-        }
-
-        .platform-image {
-          background-size: cover;
-          background-position: center;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-          transition: transform 0.5s ease, box-shadow 0.5s ease;
-          background-color: #e0e0e0;
-          position: relative;
-          overflow: hidden;
-          width: 100%;
-          height: 100%;
-          min-height: 0;
-          min-width: 0;
-        }
-
-        .platform-image:hover {
-          transform: scale(1.05);
-          box-shadow: 0 30px 80px rgba(0,0,0,0.25);
-        }
-
-        .platform-image:first-child {
-          grid-column: 1 / 2;
-          grid-row: 1 / 3;
-        }
-
-        .platform-image:nth-child(2) {
-          grid-column: 2 / 3;
-          grid-row: 1 / 2;
-        }
-
-        .platform-image:nth-child(3) {
-          grid-column: 2 / 3;
-          grid-row: 2 / 3;
-        }
-
-        .platform-text h2 {
-          font-size: 3.5rem;
-          margin-bottom: 1rem;
-          font-weight: 300;
-          letter-spacing: 6px;
-          font-family: 'Cormorant Garamond', serif;
-          color: #1a1a1a;
-        }
-
-        .platform-subtitle {
-          font-size: 1.1rem;
-          color: #666;
-          margin-bottom: 2.5rem;
-          font-style: italic;
-          font-family: 'Montserrat', sans-serif;
-        }
-
-        .platform-text p {
-          font-size: 1.15rem;
-          line-height: 2;
-          color: #555;
-          margin-bottom: 2.5rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-        }
-
-        .platform-text ul {
-          list-style: none;
-          padding: 0;
-        }
-
-        .platform-text ul li {
-          font-size: 1.1rem;
-          line-height: 1.9;
-          color: #555;
-          margin-bottom: 2rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          padding-left: 0;
-        }
-
-        .platform-text ul li strong {
-          font-weight: 600;
-          color: #333;
-          display: block;
-          margin-bottom: 0.5rem;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 1024px) {
-          .section-title {
-            font-size: 3.5rem;
-            letter-spacing: 6px;
-          }
-
-          .story-item {
-            gap: 4rem;
-          }
-
-          .story-content h3 {
-            font-size: 2.5rem;
-          }
-
-          .platform-container {
-            gap: 4rem;
-          }
-
-          .platform-text h2 {
-            font-size: 3rem;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .section-title {
-            font-size: 2.5rem;
-            letter-spacing: 4px;
-            margin-bottom: 3rem;
-          }
-
-          .story-item {
-            grid-template-columns: 1fr;
-            gap: 3rem;
-            margin-bottom: 5rem;
-          }
-
-          .story-item:nth-child(even) {
-            direction: ltr;
-          }
-
-          .story-content h3 {
-            font-size: 2rem;
-          }
-
-          .story-content p {
-            font-size: 1.1rem;
-          }
-
-          .story-image {
-            height: 300px;
-          }
-
-          .luxury-section {
-            padding: 5rem 5%;
-          }
-
-          .platform-section {
-            padding: 5rem 5%;
-          }
-
-          .platform-container {
-            grid-template-columns: 1fr;
-            gap: 4rem;
-          }
-
-          .image-section {
-            min-height: 100vh;
-            padding: 6rem 5%;
-          }
-
-          .image-section-content {
-            padding: 0;
-          }
-
-          .image-section-content h2 {
-            font-size: 2.5rem;
-            letter-spacing: 4px;
-            margin-bottom: 1.5rem;
-            text-shadow: 
-              2px 2px 4px rgba(0, 0, 0, 0.9),
-              -1px -1px 2px rgba(0, 0, 0, 0.7),
-              0 0 10px rgba(0, 0, 0, 0.6);
-          }
-
-          .image-section-content p {
-            font-size: 1.1rem;
-            line-height: 1.9;
-            text-shadow: 
-              1px 1px 3px rgba(0, 0, 0, 0.9),
-              -1px -1px 1px rgba(0, 0, 0, 0.7),
-              0 0 10px rgba(0, 0, 0, 0.6);
-          }
-
-          .platform-images {
-            grid-template-columns: 1fr;
-            grid-template-rows: repeat(3, 250px);
-            height: auto;
-          }
-
-          .platform-image:first-child {
-            grid-column: 1;
-            grid-row: 1;
-          }
-
-          .platform-image:nth-child(2) {
-            grid-column: 1;
-            grid-row: 2;
-          }
-
-          .platform-image:nth-child(3) {
-            grid-column: 1;
-            grid-row: 3;
-          }
-
-          .platform-text h2 {
-            font-size: 2.5rem;
-          }
-
-          .platform-text p,
-          .platform-text ul li {
-            font-size: 1rem;
-          }
-
-          /* Disable parallax on mobile */
-          .image-section {
-            background-attachment: scroll !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .image-section {
-            min-height: 80vh;
-            padding: 4rem 5%;
-          }
-
-          .image-section-content h2 {
-            font-size: 2rem;
-            letter-spacing: 3px;
-          }
-
-          .image-section-content p {
-            font-size: 1rem;
-            line-height: 1.8;
-          }
-
-          .platform-images {
-            grid-template-rows: repeat(3, 200px);
-          }
-
-          .section-title {
-            font-size: 2rem;
-            letter-spacing: 3px;
-          }
-
-          .story-content h3 {
-            font-size: 1.8rem;
-          }
-
-          .platform-text h2 {
-            font-size: 2rem;
-          }
-        }
-
-        /* Reduce motion for accessibility */
-        @media (prefers-reduced-motion: reduce) {
-          .image-section {
-            background-attachment: scroll !important;
-          }
-          
-          .fade-in-section,
-          .story-image,
-          .platform-image {
-            transition: none !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .video-hero,
-          .video-hero video,
-          .video-placeholder {
-            display: none !important;
-            height: 0;
-            overflow: hidden;
-          }
-        }
-
-      `}</style>
-
-      <div className="video-hero" ref={videoRef}>
-        {!videoLoaded && (
-          <div className="video-placeholder">
-            <div style={{ 
-              color: 'white', 
-              fontSize: '1.2rem', 
-              fontFamily: 'Montserrat, sans-serif',
-              letterSpacing: '2px'
-            }}>
-              Loading...
-            </div>
-          </div>
-        )}
-        {videoLoaded && (
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            className="loaded"
-            preload="metadata"
-            poster="/About.mp4?poster=true"
-          >
-            <source src="/About.mp4" type="video/mp4" />
-          </video>
-        )}
+    <section style={{
+      position: 'relative',
+      height: '140vh',
+      width: '100%',
+      overflow: 'hidden'
+    }}>
+      <video
+        ref={videoRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        }}
+        autoPlay
+        loop
+        muted
+        playsInline
+      >
+        <source src="/About/Hero.mp4" type="video/mp4" />
+      </video>
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.3)'
+      }}></div>
+    </section>
+  );
+};
+
+// About Section Component
+const AboutSection: React.FC = () => {
+  return (
+<section style={{
+  position: 'relative',
+  width: '100%',
+  height: '140vh',
+  overflow: 'hidden'
+}}>
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      }}>
+        <img
+          src="/About/AboutBYD.jpg"
+          alt="About BYD"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '1600px',
+        margin: '0 auto',
+        padding: '6rem 4rem 4rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ 
+          maxWidth: '80rem',
+          margin: '0 auto'
+        }}>
+          <h2 style={{
+            fontSize: '3.5rem',
+            fontWeight: '700',
+            color: '#000',
+            marginBottom: '2rem',
+            lineHeight: '1.2'
+          }}>
+            About BYD
+          </h2>
+          <p style={{
+            fontSize: '1.125rem',
+            color: '#000',
+            lineHeight: '1.8',
+            fontWeight: '300'
+          }}>
+            Founded in 1994, BYD is a high-tech company devoted to leveraging
+            technological innovations for a better life. After more than 31 years
+            of rapid growth, BYD has played a significant role in industries
+            related to electronics, auto, renewable energy and rail transit. With
+            a focus on energy acquisition, storage, and application, BYD offers
+            comprehensive zero-emission new energy solutions.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+};
+// Diversification Section Component
+const DiversificationSection: React.FC = () => {
+  const businesses: DiversificationItem[] = [
+    { icon: '/About/icon1pc.png', title: 'Auto', image: '/About/diversification-auto.jpg' },
+    { icon: '/About/icon2pc.png', title: 'Rail Transit', image: '/About/diversification-rail-transit.jpg' },
+    { icon: '/About/icon3pc.png', title: 'Renewable Energy', image: '/About/diversification-renewable-energy.jpg' },
+    { icon: '/About/icon4pc.png', title: 'Electronics', image: '/About/diversification-electronics.jpg' },
+  ];
+
+  return (
+<section style={{
+      position: 'relative',
+      width: '100%',
+      padding: '8rem 0'
+    }}>
+
+      {/* Background Image Container */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 0
+      }}>
+        <img
+          src="/About/Diversification.jpg"
+          alt="Diversification Background"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+        {/* Dark overlay for better text readability */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        }}></div>
       </div>
 
-      <section className="luxury-section story-section fade-in-section">
-        <div className="section-content">
-          <h2 className="section-title">Our Story</h2>
-          
-          <div className="story-item">
-            <div className="story-content">
-              <h3>The Beginning</h3>
-              <p>
-                Evergreen Motors was founded on a simple belief: that the future of transportation should 
-                be sustainable without sacrificing the driving experience. We saw an opportunity to bridge 
-                the gap between environmental responsibility and automotive excellence.
-              </p>
+      {/* Content */}
+      <div style={{
+        position: 'relative',
+        zIndex: 1,
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 2rem'
+      }}>
+        <h2 style={{
+          fontSize: '3rem',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          marginBottom: '4rem',
+          color: 'white'
+        }}>
+          Diversification
+        </h2>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '2.5rem'
+        }}>
+          {businesses.map((business, index) => (
+            <div
+              key={index}
+              style={{
+                backgroundColor: 'transparent',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: '2px solid white',
+                transition: 'transform 0.3s',
+                padding: '0.5rem'
+              }}
+            >
+              <div style={{ padding: '1.5rem 1rem 1rem', textAlign: 'center' }}>
+                <div style={{ 
+                  width: '60px', 
+                  height: '60px', 
+                  margin: '0 auto 0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src={business.icon} 
+                    alt={business.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain'
+                    }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'white', marginBottom: '1rem' }}>{business.title}</h3>
+              </div>
+              <div style={{
+                aspectRatio: '4/3',
+                overflow: 'hidden',
+                borderRadius: '4px'
+              }}>
+                <img
+                  src={business.image}
+                  alt={business.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.5s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                />
+              </div>
             </div>
-            <OptimizedBackground
-              src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2000&auto=format&fit=crop"
-              className="story-image"
-              priority={false}
-            />
-          </div>
-
-          <div className="story-item">
-            <div className="story-content">
-              <h3>Growth & Innovation</h3>
-              <p>
-                As we expanded, we remained committed to our core values. Each new location, each partnership, 
-                and each customer relationship has been built on trust, transparency, and a shared vision 
-                for a sustainable future.
-              </p>
-            </div>
-            <OptimizedBackground
-              src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000&auto=format&fit=crop"
-              className="story-image"
-              priority={false}
-            />
-          </div>
-
-          <div className="story-item">
-            <div className="story-content">
-              <h3>Looking Forward</h3>
-              <p>
-                Today, we're proud to be at the forefront of the electric vehicle revolution. But we're 
-                not done yet. We continue to innovate, expand, and refine our offerings to ensure that 
-                every customer experiences the future of driving.
-              </p>
-            </div>
-            <OptimizedBackground
-              src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop"
-              className="story-image"
-              priority={false}
-            />
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
 
-      <OptimizedBackground
-        src="/BYD-2000_0.jpg"
-        className="image-section fade-in-section"
-        priority={false}
-        style={{
-          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
-        }}
-      >
-        <div className="image-section-content">
-          <h2>Innovation in Motion</h2>
-          <p>
-            BYD's cutting-edge technology represents the pinnacle of electric vehicle engineering. 
-            From advanced battery systems to intelligent drive platforms, every innovation is designed 
-            to deliver exceptional performance while reducing environmental impact.
+// Image Text Section Component
+// Image Text Section Component
+const ImageTextSection: React.FC<{
+  title: string;
+  description: string;
+  image: string;
+  reverse?: boolean;
+  darkText?: boolean;
+}> = ({ title, description, image, reverse, darkText }) => {
+  return (
+<section style={{
+  position: 'relative',
+  width: '100%',
+  minHeight: '140vh',
+  overflow: 'hidden'
+}}>
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      }}>
+        <img
+          src={image}
+          alt={title}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '1600px',
+        margin: '0 auto',
+        padding: '6rem 4rem 4rem',
+        textAlign: 'center'
+      }}>
+        <div style={{
+          maxWidth: '56rem',
+          margin: '0 auto'
+        }}>
+          <h2 style={{
+            fontSize: '3.5rem',
+            fontWeight: '700',
+            marginBottom: '2rem',
+            color: darkText ? '#252728' : 'white',
+            lineHeight: '1.2'
+          }}>
+            {title}
+          </h2>
+          <p style={{
+            fontSize: '1.125rem',
+            lineHeight: '1.8',
+            color: darkText ? '#4b5563' : 'white',
+            fontWeight: '300'
+          }}>
+            {description}
           </p>
         </div>
-      </OptimizedBackground>
-
-      <OptimizedBackground
-        src="/b9f297e0-79c0-11ef-9dff-6e499e6c2dc7.png"
-        className="image-section fade-in-section"
-        priority={false}
-        style={{
-          backgroundAttachment: window.innerWidth > 768 ? 'fixed' : 'scroll'
-        }}
-      >
-        <div className="image-section-content">
-          <h2>Sustainable Future</h2>
-          <p>
-            We're committed to building a transportation ecosystem that prioritizes sustainability 
-            without compromise. Through strategic partnerships and technological advancement, we're 
-            making electric mobility accessible to everyone.
-          </p>
+      </div>
+    </section>
+  );
+};
+// Features Section Component
+const FeaturesSection: React.FC<{
+  title: string;
+  subtitle?: string;
+  features: FeatureItem[];
+  image: string;
+}> = ({ title, subtitle, features, image }) => {
+  return (
+<section style={{
+  position: 'relative',
+  width: '100%',
+  height: '140vh',        // ← Add (same as hero)
+  display: 'flex',        // ← Add (for centering)
+  alignItems: 'center',   // ← Add (vertical center)
+  overflow: 'hidden'      // ← Add (clean edges)
+}}>
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      }}>
+        <img
+          src={image}
+          alt={title}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+      </div>
+      <div style={{
+        position: 'relative',
+        maxWidth: '1600px',
+        margin: '0 auto',
+        padding: '0 1rem'
+      }}>
+        <div style={{ marginBottom: '3rem' }}>
+          <h2 style={{
+            fontSize: '3rem',
+            fontWeight: 'bold',
+            color: 'white',
+            marginBottom: '1rem'
+          }}>
+            {title}
+          </h2>
+          {subtitle && (
+            <p style={{
+              fontSize: '1.125rem',
+              color: 'white',
+              opacity: 0.9
+            }}>{subtitle}</p>
+          )}
         </div>
-      </OptimizedBackground>
-
-      <section className="platform-section fade-in-section">
-        <div className="platform-container">
-          <div className="platform-images">
-            <OptimizedBackground
-              src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2000&auto=format&fit=crop"
-              className="platform-image"
-              priority={false}
-            />
-            <OptimizedBackground
-              src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2000&auto=format&fit=crop"
-              className="platform-image"
-              priority={false}
-            />
-            <OptimizedBackground
-              src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2000&auto=format&fit=crop"
-              className="platform-image"
-              priority={false}
-            />
-          </div>
-          <div className="platform-text">
-            <h2>Yisifang Platform</h2>
-            <p className="platform-subtitle">(also known as the e⁴ platform)</p>
-            <p>
-              The innovative distributed drive structure in the new energy vehicle industry reforms the 
-              traditional automotive power system from three dimensions: perception, decision-making, and execution.
-            </p>
-            <ul>
-              <li>
-                <strong>Full integration of vehicle perception:</strong> Integrating vehicle sensors and 
-                intelligent driving sensors to achieve comprehensive perception of the vehicle environment.
-              </li>
-              <li>
-                <strong>Four-motor independent drive structure:</strong> Self-developed, with four motors 
-                enabling independent control of each wheel, applicable to pure electric and hybrid platforms.
-              </li>
-            </ul>
-          </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2rem'
+        }}>
+          {features.map((feature, index) => (
+            <div key={index} style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '8px',
+              padding: '1.5rem'
+            }}>
+              <h3 style={{
+                fontSize: '1.5rem',
+                fontWeight: 600,
+                color: 'white',
+                marginBottom: '0.75rem'
+              }}>
+                {feature.title}
+              </h3>
+              <p style={{
+                color: 'white',
+                opacity: 0.9,
+                lineHeight: '1.75'
+              }}>
+                {feature.description}
+              </p>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
+
+
+// Main App Component
+const BYDAboutPage: React.FC = () => {
+  const bladeFeatures: FeatureItem[] = [
+    {
+      title: 'Enhanced safety',
+      description: 'The unique flat rectangle shape improves cooling efficiency and preheating performance. Blade Battery has safely passed the nail penetration test without emitting fire or smoke.',
+    },
+    {
+      title: 'Optimised strength',
+      description: 'Arranged in an array in one pack, each cell serves as a structural beam to help withstand the force.',
+    },
+    {
+      title: 'Longer range',
+      description: 'The space utilisation of the Blade Battery has been increased by over 50% compared with traditional battery packs.',
+    },
+    {
+      title: 'Longer lifecycle',
+      description: 'Blade Battery has a long battery life with over 5000 charge and discharge cycles.',
+    },
+  ];
+
+  const ePlatformFeatures: FeatureItem[] = [
+    {
+      title: 'Safety',
+      description: 'The e-Platform 3.0 doubles the rigidity of the entire vehicle after integrating the Blade Battery into the car body.',
+    },
+    {
+      title: 'High efficiency',
+      description: "Equipped with the world's first mass-produced 8-in-1 electric powertrain as standard, the overall system efficiency is up to 89%.",
+    },
+    {
+      title: 'Intelligence',
+      description: 'Evolving from distributed electronic and electrical architecture into an integrated domain-controlled architecture.',
+    },
+    {
+      title: 'Aesthetics',
+      description: 'The vehicle features shorter overhangs and a longer wheel base, significantly expanding the passenger space.',
+    },
+  ];
+
+  return (
+    <div style={{ minHeight: '140vh', backgroundColor: 'white' }}>
+      <main >
+        <HeroBanner />
+        <AboutSection />
+        <DiversificationSection />
+        <ImageTextSection
+          title="Globalisation"
+          description="BYD's new energy vehicles have established a presence in 112 countries and regions worldwide, while its passenger vehicles have reached 102 countries and regions."
+          image="/About/Globalization.jpg"
+        />
+        <ImageTextSection
+          title="Auto"
+          description="BYD has developed the Blade Battery and dual-mode hybrid power technology, accelerating the once-in-a-century transition from fossil fuel powered vehicles to electric vehicles."
+          image="/About/Auto.jpg"
+        />
+        <FeaturesSection
+          title="Blade Battery"
+          features={bladeFeatures}
+          image="/About/Blade.jpg"
+        />
+        <FeaturesSection
+          title="e-Platform 3.0"
+          subtitle="Give full play to the advantages of intelligence, efficiency, safety, and aesthetics that electrification brings."
+          features={ePlatformFeatures}
+          image="/About/E-Platform.jpg"
+        />
+        <ImageTextSection
+          title="Semiconductor Chip"
+          description="Semiconductor chip, the 'CPU' of new energy vehicles, is the core technology of the whole industry."
+          image="/About/SemiCondutorChip.jpg"
+        />
+        <ImageTextSection
+          title="BYD Intelligent Cockpit System"
+          description="The smartphone functions are integrated into the in-vehicle platform."
+          image="/About/DiLink.jpg"
+        />
+        <ImageTextSection
+          title="Vehicle Safety"
+          description="Numerous challenging tests for top quality"
+          image="/About/VehicleSafety.jpg"
+        />
+        <ImageTextSection
+          title="Market Performance"
+          description="As of the end of April 2025, BYD's cumulative new energy vehicle (NEV) sales exceeded 11.9 million units. On November 18, 2024, BYD became the world's first automaker to produce 10 million NEVs."
+          image="/About/MarketPerformance.jpg"
+        />
+        <ImageTextSection
+          title="Social Responsibility"
+          description="At the beginning of 2020, in the midst of Covid-19, BYD responded quickly and announced that it would produce face masks to help alleviate mask shortages around the world."
+          image="/About/SocialResponsibility.jpg"
+          darkText
+        />
+      </main>
     </div>
   );
 };
 
-export default AboutUs;
+export default BYDAboutPage;

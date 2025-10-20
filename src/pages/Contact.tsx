@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { OptimizedBackground, preloadImage } from './ImageOptimizer';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -12,11 +13,15 @@ const Contact: React.FC = () => {
     message: ''
   });
 
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Preload hero image and check for URL parameters
   useEffect(() => {
     preloadImage('/contact.jpg');
+    
+    // Initialize EmailJS with your public key
+    emailjs.init('qDixnNBz5aFVI9l49'); // Replace with your EmailJS public key
     
     // Check if there's a subject parameter in the URL
     const subjectParam = searchParams.get('subject');
@@ -36,21 +41,56 @@ const Contact: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setSubmitStatus('success');
-    
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
-      setSubmitStatus('idle');
-    }, 3000);
+    setSubmitStatus('loading');
+    setErrorMessage('');
+
+    try {
+      // EmailJS service parameters
+      const templateParams = {
+        to_email: 'joshuameghoo@gmail.com',
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || 'Not provided',
+        subject: formData.subject,
+        message: formData.message,
+        reply_to: formData.email
+      };
+
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        'service_gre9op6',    // Replace with your EmailJS service ID
+        'template_bji7553',   // Replace with your EmailJS template ID
+        templateParams
+      );
+
+      console.log('Email sent successfully:', response);
+      setSubmitStatus('success');
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+        setSubmitStatus('idle');
+      }, 3000);
+
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setSubmitStatus('error');
+      setErrorMessage('Failed to send message. Please try again or contact us directly at joshuameghoo@gmail.com');
+      
+      // Reset error status after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+        setErrorMessage('');
+      }, 5000);
+    }
   };
 
   return (
@@ -267,42 +307,50 @@ const Contact: React.FC = () => {
         .form-group select {
           cursor: pointer;
           appearance: none;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a9eff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,0.7)' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
-          background-position: right 2rem center;
-          padding-right: 4rem;
+          background-position: right 1.2rem center;
+          padding-right: 3rem;
+          border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .form-group select:focus {
+          border-color: #4a9eff;
+          background-color: rgba(74, 158, 255, 0.08);
         }
 
         .form-group select option {
           background: #1a1a1a;
           color: white;
-          padding: 1rem;
         }
 
         .submit-btn {
           width: 100%;
-          padding: 1.5rem;
+          padding: 1.3rem 3rem;
+          font-size: 1rem;
+          letter-spacing: 3px;
+          text-transform: uppercase;
           background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
           color: white;
           border: none;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 1rem;
-          font-weight: 600;
-          letter-spacing: 3px;
-          text-transform: uppercase;
           cursor: pointer;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
           transition: all 0.4s ease;
-          box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
+          box-shadow: 0 15px 40px rgba(74, 158, 255, 0.3);
+          margin-top: 1.5rem;
+          position: relative;
+          overflow: hidden;
         }
 
-        .submit-btn:hover {
-          background: linear-gradient(135deg, #357abd 0%, #2a5f8f 100%);
-          transform: translateY(-3px);
-          box-shadow: 0 15px 40px rgba(74, 158, 255, 0.5);
-        }
-
-        .submit-btn:active {
+        .submit-btn:hover:not(:disabled) {
+          box-shadow: 0 20px 60px rgba(74, 158, 255, 0.5);
           transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
         }
 
         .success-message {
@@ -316,6 +364,20 @@ const Contact: React.FC = () => {
           font-weight: 500;
           letter-spacing: 2px;
           box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+        }
+
+        .error-message {
+          background: linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(244, 67, 54, 0.1) 100%);
+          border: 1px solid rgba(244, 67, 54, 0.5);
+          color: #f44336;
+          padding: 1.5rem;
+          margin-bottom: 2.5rem;
+          text-align: center;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 500;
+          letter-spacing: 1px;
+          box-shadow: 0 10px 30px rgba(244, 67, 54, 0.2);
+          font-size: 0.9rem;
         }
 
         .map-section {
@@ -469,7 +531,13 @@ const Contact: React.FC = () => {
               
               {submitStatus === 'success' && (
                 <div className="success-message">
-                  Message sent successfully
+                  Message sent successfully! We'll get back to you soon.
+                </div>
+              )}
+
+              {submitStatus === 'error' && errorMessage && (
+                <div className="error-message">
+                  {errorMessage}
                 </div>
               )}
 
@@ -483,6 +551,7 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
+                    disabled={submitStatus === 'loading'}
                   />
                 </div>
 
@@ -495,6 +564,7 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    disabled={submitStatus === 'loading'}
                   />
                 </div>
 
@@ -506,6 +576,7 @@ const Contact: React.FC = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    disabled={submitStatus === 'loading'}
                   />
                 </div>
 
@@ -517,6 +588,7 @@ const Contact: React.FC = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
+                    disabled={submitStatus === 'loading'}
                   >
                     <option value="">Select a subject</option>
                     <option value="general">General Inquiry</option>
@@ -537,11 +609,16 @@ const Contact: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    disabled={submitStatus === 'loading'}
                   />
                 </div>
 
-                <button type="submit" className="submit-btn">
-                  SEND MESSAGE
+                <button 
+                  type="submit" 
+                  className="submit-btn"
+                  disabled={submitStatus === 'loading'}
+                >
+                  {submitStatus === 'loading' ? 'SENDING...' : 'SEND MESSAGE'}
                 </button>
               </form>
             </div>

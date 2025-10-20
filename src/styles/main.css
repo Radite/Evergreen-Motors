@@ -30,7 +30,7 @@ body {
 /* Navigation */
 nav {
     background-color: #252728;
-    padding: 0.2rem 5%;
+    padding: 1rem 5%;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -40,12 +40,12 @@ nav {
 }
 
 .nav-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    display: flex;
     align-items: center;
-    max-width: 2400px;
-    margin: 0 auto;
+    justify-content: flex-start; /* shift left */
+    gap: 4rem; /* distance between logo and menu */
 }
+
 
 .logo {
     font-size: 2.2rem;

@@ -1,625 +1,440 @@
-import { useEffect } from 'react';
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const Technology = () => {
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
+  const [activeTab, setActiveTab] = useState(0);
+  const [expandedFold, setExpandedFold] = useState<number | null>(null);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    email: '',
+    consent: false
+  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-visible');
-        }
-      });
-    }, observerOptions);
+  const nevTypes = [
+    {
+      title: 'Battery Electric Vehicle (BEV)',
+      image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop',
+      points: [
+        'Battery-electric vehicles are all-electric. They are powered solely by a battery that powers an electric motor to make the car move. This battery is charged externally by plugging the vehicle into a charger installed at your home or in public. Because it doesn\'t have an engine, it doesn\'t release exhaust emissions into the atmosphere.'
+      ]
+    },
+    {
+      title: 'Plug-in Hybrid Electric Vehicles (PHEV)',
+      image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&h=400&fit=crop',
+      points: [
+        'A PHEV is another type of NEV. Plug-in electric vehicles combine an internal combustion engine with an electric motor. This type of NEV will primarily run on electricity until it runs out of charge. This is when the internal combustion engine will kick in. PHEVs can be charged externally with a home charger or at a public charging station.',
+        'BYD has developed a hybrid technology unlike any other. Super DM Technology is the driving force behind our PHEVs. It boasts a range of benefits including enhanced driving performance and low fuel consumption.'
+      ]
+    }
+  ];
 
-    document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+  const benefits = [
+    {
+      title: 'Environmental impact:',
+      image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&h=400&fit=crop',
+      description: 'NEVs can be used to reduce emissions on the road. NEVs including battery-electric and plug-in hybrid vehicles all produce less greenhouse gas emissions and less air pollution than fuel-powered vehicles.'
+    },
+    {
+      title: 'Energy Efficiency:',
+      image: 'https://images.unsplash.com/photo-1593941707874-ef25b8b4a92b?w=600&h=400&fit=crop',
+      description: 'NEVs are incredibly energy-efficient, especially BEVs. They are approximately 85-90% efficient compared to an internal combustion engine\'s 17-21% efficiency.'
+    },
+    {
+      title: 'Economic benefits:',
+      image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop',
+      description: 'NEVs offer drivers a range of economic benefits including costing less to charge your car than to fill up with fuel. Fewer parts in NEVs mean less to spend on upkeep.'
+    },
+    {
+      title: 'Advanced technology:',
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop',
+      description: 'Many NEVs including BYD electric cars feature some of the most advanced technology to make driving safer and more comfortable.'
+    }
+  ];
 
-    return () => observer.disconnect();
-  }, []);
+  const differences = [
+    {
+      title: 'Extra energy efficiency',
+      content: 'NEVs are more energy efficient than fuel-powered vehicles. New energy vehicles get you further by using less energy.'
+    },
+    {
+      title: 'Quiet driving experience',
+      content: 'NEVs are quieter when on the road. They make less noise for a smooth drive compared to cars with internal combustion engines.'
+    },
+    {
+      title: 'Exhilarating, Responsive and Dynamic',
+      content: 'NEVs offer instant torque, making them fun to drive!'
+    },
+    {
+      title: 'Lower running costs',
+      content: 'One of the main advantages of NEVs is being able to top-up at home. Not only do you not need to visit a petrol station, but you can save money too.'
+    }
+  ];
+
+  const handleSubmit = () => {
+    if (formData.firstName && formData.email && formData.consent) {
+      setFormSubmitted(true);
+    }
+  };
 
   return (
-    <div style={{ width: '100%', overflow: 'hidden' }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+    <div style={{ minHeight: '100vh', backgroundColor: '#ffffff', fontFamily: 'Montserrat, Arial, sans-serif' }}>
+      {/* Hero Section */}
+      <section style={{ position: 'relative', height: '414px', overflow: 'hidden' }}>
+        <img
+          src="/Technology/Banner.png"
+          alt="BYD NEV Hero"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+        <div style={{ 
+          position: 'absolute', 
+          inset: 0, 
+          display: 'flex', 
+          alignItems: 'center', 
+          padding: '0 2rem',
+        }}>
+          <h1 style={{ 
+            color: 'white', 
+            fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
+            fontWeight: '700',
+            lineHeight: '1.2'
+          }}>
+          </h1>
+        </div>
+      </section>
 
-        .luxury-tech-hero {
-          height: 100vh;
-          background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
-                      url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2400') center/cover;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          color: white;
-          position: relative;
-          background-attachment: fixed;
-        }
-
-        .hero-content {
-          z-index: 1;
-          animation: heroFade 1.8s ease-out;
-          max-width: 1200px;
-          padding: 0 3rem;
-        }
-
-        @keyframes heroFade {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .hero-content h1 {
-          font-size: 6rem;
-          margin-bottom: 2rem;
-          font-weight: 300;
-          letter-spacing: 15px;
-          font-family: 'Cormorant Garamond', serif;
-          text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
-        }
-
-        .hero-content .subtitle {
-          font-size: 1.8rem;
-          margin-bottom: 1.5rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 400;
-          letter-spacing: 4px;
-          text-transform: uppercase;
-          color: #4a9eff;
-        }
-
-        .hero-content p {
-          font-size: 1.3rem;
-          line-height: 1.8;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          letter-spacing: 1px;
-          text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
-          max-width: 900px;
-          margin: 0 auto;
-        }
-
-        .luxury-section {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          padding: 8rem 5%;
-          background-attachment: fixed;
-        }
-
-        .platform-section {
-          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-          color: white;
-        }
-
-        .platform-header {
-          text-align: center;
-          margin-bottom: 8rem;
-        }
-
-        .platform-header h2 {
-          font-size: 5rem;
-          margin-bottom: 2rem;
-          font-weight: 300;
-          letter-spacing: 8px;
-          font-family: 'Cormorant Garamond', serif;
-          background: linear-gradient(135deg, #4a9eff 0%, #00d4ff 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .platform-subtitle {
-          font-size: 1.4rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          letter-spacing: 2px;
-          opacity: 0.8;
-        }
-
-        .tech-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 6rem;
-          align-items: center;
-          margin-bottom: 8rem;
-        }
-
-        .tech-grid:last-child {
-          margin-bottom: 0;
-        }
-
-        .tech-content {
-          background: linear-gradient(135deg, rgba(74, 158, 255, 0.05) 0%, rgba(53, 122, 189, 0.05) 100%);
-          backdrop-filter: blur(30px);
-          border: 1px solid rgba(74, 158, 255, 0.2);
-          padding: 4rem;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.5s ease;
-        }
-
-        .tech-content::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.1), transparent);
-          transition: left 0.6s ease;
-        }
-
-        .tech-content:hover::before {
-          left: 100%;
-        }
-
-        .tech-content:hover {
-          border-color: rgba(74, 158, 255, 0.5);
-          box-shadow: 0 20px 60px rgba(74, 158, 255, 0.2);
-          transform: translateX(10px);
-        }
-
-        .tech-number {
-          position: absolute;
-          top: 1rem;
-          right: 1.5rem;
-          font-size: 1rem;
-          color: #4a9eff;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 600;
-          letter-spacing: 2px;
-        }
-
-        .tech-content h3 {
-          font-size: 3rem;
-          margin-bottom: 2rem;
-          font-weight: 300;
-          letter-spacing: 4px;
-          font-family: 'Cormorant Garamond', serif;
-          color: #4a9eff;
-        }
-
-        .tech-content p {
-          font-size: 1.2rem;
-          line-height: 2;
-          color: rgba(255,255,255,0.85);
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-        }
-
-        .tech-visual {
-          width: 100%;
-          height: 500px;
-          background: linear-gradient(135deg, rgba(74, 158, 255, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
-          border: 2px solid rgba(74, 158, 255, 0.3);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.5s ease;
-          background-size: cover;
-          background-position: center;
-        }
-
-        .tech-visual::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
-        }
-
-        .tech-visual:hover {
-          border-color: rgba(74, 158, 255, 0.6);
-          box-shadow: 0 0 60px rgba(74, 158, 255, 0.4);
-        }
-
-        .blade-section {
-          background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-          color: white;
-          padding: 8rem 5%;
-        }
-
-        .blade-split {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          gap: 6rem;
-          align-items: center;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
-
-        .blade-content h2 {
-          font-size: 5rem;
-          margin-bottom: 3rem;
-          font-weight: 300;
-          letter-spacing: 6px;
-          font-family: 'Cormorant Garamond', serif;
-          line-height: 1.2;
-        }
-
-        .highlight {
-          background: linear-gradient(135deg, #4a9eff 0%, #00d4ff 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .blade-content > p {
-          font-size: 1.3rem;
-          line-height: 2;
-          color: rgba(255,255,255,0.8);
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          margin-bottom: 4rem;
-        }
-
-        .blade-features {
-          display: grid;
-          gap: 3rem;
-        }
-
-        .blade-feature {
-          display: flex;
-          align-items: flex-start;
-          gap: 2rem;
-        }
-
-        .blade-feature-icon {
-          font-size: 3rem;
-          min-width: 60px;
-        }
-
-        .blade-feature-text h4 {
-          font-size: 1.8rem;
-          margin-bottom: 1rem;
-          font-weight: 500;
-          font-family: 'Cormorant Garamond', serif;
-          letter-spacing: 2px;
-        }
-
-        .blade-feature-text p {
-          font-size: 1.1rem;
-          line-height: 1.8;
-          color: rgba(255,255,255,0.7);
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-        }
-
-        .blade-visual {
-          width: 100%;
-          height: 600px;
-          background: url('https://images.unsplash.com/photo-1609557927087-f9cf8e88de18?q=80&w=1200') center/cover;
-          border: 2px solid rgba(74, 158, 255, 0.3);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .blade-visual::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.5) 100%);
-        }
-
-        .nev-section {
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-          color: white;
-          text-align: center;
-        }
-
-        .nev-container {
-          max-width: 1200px;
-        }
-
-        .nev-container h2 {
-          font-size: 5rem;
-          margin-bottom: 3rem;
-          font-weight: 300;
-          letter-spacing: 8px;
-          font-family: 'Cormorant Garamond', serif;
-          background: linear-gradient(135deg, #4a9eff 0%, #00d4ff 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .nev-subtitle {
-          font-size: 1.4rem;
-          line-height: 2;
-          color: rgba(255,255,255,0.8);
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          margin-bottom: 5rem;
-        }
-
-        .nev-stats {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 4rem;
-          margin-top: 5rem;
-        }
-
-        .nev-stat {
-          padding: 3rem 2rem;
-          background: rgba(74, 158, 255, 0.05);
-          border: 1px solid rgba(74, 158, 255, 0.2);
-          transition: all 0.4s;
-        }
-
-        .nev-stat:hover {
-          transform: translateY(-10px);
-          background: rgba(74, 158, 255, 0.1);
-          border-color: rgba(74, 158, 255, 0.4);
-          box-shadow: 0 20px 60px rgba(74, 158, 255, 0.3);
-        }
-
-        .nev-stat-number {
-          font-size: 4.5rem;
-          font-weight: 300;
-          color: #4a9eff;
-          margin-bottom: 1rem;
-          font-family: 'Cormorant Garamond', serif;
-          letter-spacing: 3px;
-        }
-
-        .nev-stat-label {
-          font-size: 1.1rem;
-          color: rgba(255,255,255,0.8);
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 400;
-        }
-
-        .fade-in-section {
-          opacity: 0;
-          transform: translateY(40px);
-          transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .fade-in-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        @media (max-width: 1024px) {
-          .tech-grid,
-          .blade-split {
-            grid-template-columns: 1fr;
-            gap: 4rem;
-          }
-
-          .nev-stats {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-          }
-
-          .hero-content h1 {
-            font-size: 4rem;
-            letter-spacing: 8px;
-          }
-
-          .platform-header h2,
-          .nev-container h2 {
-            font-size: 3.5rem;
-          }
-
-          .tech-content h3,
-          .blade-content h2 {
-            font-size: 2.5rem;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-content h1 {
-            font-size: 3rem;
-            letter-spacing: 5px;
-          }
-
-          .luxury-section {
-            padding: 4rem 5%;
-          }
-        }
-      `}</style>
-
-      <div className="luxury-tech-hero">
-        <div className="hero-content">
-          <h1>TECHNOLOGY</h1>
-          <p className="subtitle">Pioneering the Future of Clean Mobility</p>
+      {/* Introduction */}
+      <section style={{ maxWidth: '56rem', margin: '0 auto', padding: '3rem 1.5rem' }}>
+        <div style={{ fontSize: '1rem', lineHeight: '1.75', color: '#1f2937' }}>
+          <p style={{ marginBottom: '1rem' }}>
+            Over the last few years, electric cars have become more popular with more of them appearing on our roads. Typically, these are referred to as EVs. But there is another term that you may not be familiar with — NEV.
+          </p>
+          <p style={{ marginBottom: '1rem' }}>
+            Not to be confused with 'neighbourhood electric vehicle', NEV stands for 'New Energy Vehicle' and is a term used to describe all types of electric vehicles, from battery-powered fully electric vehicles to plug-in hybrid cars.
+          </p>
           <p>
-            Advanced electric vehicle technology that redefines performance, safety, and environmental responsibility. 
-            Experience the most reliable and sophisticated zero-emission vehicles on the planet.
+            BYD is the No.1 NEV Maker, so we're well placed to explain everything you need to know about NEVs. Below, we'll take a closer look at different types of NEVs and the benefits of these vehicles.
           </p>
         </div>
-      </div>
+      </section>
 
-      <section className="luxury-section platform-section fade-in-section">
-        <div style={{ maxWidth: '1400px', width: '100%' }}>
-          <div className="platform-header">
-            <h2>e-Platform 3.0</h2>
-            <p className="platform-subtitle">
-              The world's most advanced electric vehicle architecture
-            </p>
-          </div>
+      {/* Types of NEVs */}
+      <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '3rem 1.5rem' }}>
+        <h2 style={{ 
+          fontSize: 'clamp(1.875rem, 4vw, 2.5rem)', 
+          fontWeight: '700', 
+          color: '#111827', 
+          textAlign: 'center', 
+          marginBottom: '1rem' 
+        }}>
+          Types of NEVs
+        </h2>
+        <p style={{ 
+          fontSize: '1rem', 
+          color: '#374151', 
+          textAlign: 'center', 
+          marginBottom: '2rem', 
+          maxWidth: '48rem', 
+          marginLeft: 'auto', 
+          marginRight: 'auto' 
+        }}>
+          NEV is an all-encompassing term used to describe vehicles that are powered by alternatives to fossil fuels — like electricity. Some of the most common types of NEVs include:
+        </p>
 
-          <div className="tech-grid">
-            <div className="tech-content">
-              <span className="tech-number">01</span>
-              <h3>Revolutionary Safety</h3>
-              <p>
-                The proprietary Blade Battery technology sets new industry standards for battery safety. 
-                Utilizing advanced lithium iron phosphate chemistry, our batteries pass the industry's 
-                most rigorous nail penetration test without fire or thermal runaway, providing absolute 
-                peace of mind for every journey.
-              </p>
-            </div>
-            <div 
-              className="tech-visual" 
-              style={{backgroundImage: 'url(https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200)'}}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', marginBottom: '3rem' }}>
+          {nevTypes.map((type, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveTab(index)}
+              style={{
+                padding: '0.75rem 2rem',
+                fontWeight: '600',
+                transition: 'all 0.3s',
+                backgroundColor: activeTab === index ? '#111827' : '#ffffff',
+                color: activeTab === index ? '#ffffff' : '#111827',
+                border: '1px solid #111827',
+                cursor: 'pointer',
+                fontSize: '0.875rem'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== index) {
+                  e.currentTarget.style.backgroundColor = '#111827';
+                  e.currentTarget.style.color = '#ffffff';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== index) {
+                  e.currentTarget.style.backgroundColor = '#ffffff';
+                  e.currentTarget.style.color = '#111827';
+                }
+              }}
             >
-            </div>
-          </div>
+              {type.title}
+            </button>
+          ))}
+        </div>
 
-          <div className="tech-grid">
-            <div 
-              className="tech-visual" 
-              style={{backgroundImage: 'url(https://images.unsplash.com/photo-1617886322207-7cc22ce7a22a?q=80&w=1200)'}}
-            >
-            </div>
-            <div className="tech-content">
-              <span className="tech-number">02</span>
-              <h3>Exceptional Efficiency</h3>
-              <p>
-                The world's first mass-produced 8-in-1 electric powertrain integrates motor, controller, 
-                reducer, on-board charger, DC converter, power distribution, battery management, and vehicle 
-                control into one seamless system. This revolutionary integration achieves ranges exceeding 
-                600 kilometers on a single charge while optimizing space and energy efficiency.
-              </p>
-            </div>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
+          gap: '2rem', 
+          alignItems: 'center' 
+        }}>
+          <div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
+              {nevTypes[activeTab].title}
+            </h3>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {nevTypes[activeTab].points.map((point, idx) => (
+                <li key={idx} style={{ display: 'flex', gap: '0.5rem', color: '#374151', fontSize: '0.875rem', lineHeight: '1.75', marginBottom: '1rem' }}>
+                  <span style={{ fontSize: '1.5rem', lineHeight: '1' }}>•</span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-
-          <div className="tech-grid">
-            <div className="tech-content">
-              <span className="tech-number">03</span>
-              <h3>Intelligent Performance</h3>
-              <p>
-                Advanced iTAC technology intelligently allocates drive torque in real-time, utilizing 
-                precise torque distribution and negative torque output to eliminate wheel slip. The 
-                sophisticated vehicle control system continuously monitors driving conditions, optimizing 
-                performance, comfort, and safety for your unique journey.
-              </p>
-            </div>
-            <div 
-              className="tech-visual" 
-              style={{backgroundImage: 'url(https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=1200)'}}
-            >
-            </div>
-          </div>
-
-          <div className="tech-grid">
-            <div 
-              className="tech-visual" 
-              style={{backgroundImage: 'url(https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1200)'}}
-            >
-            </div>
-            <div className="tech-content">
-              <span className="tech-number">04</span>
-              <h3>Refined Design</h3>
-              <p>
-                Aerodynamic excellence meets intelligent packaging. The extended wheelbase and optimized 
-                proportions significantly expand interior space while achieving drag coefficients as low 
-                as 0.21 Cd. This perfect balance of form and function delivers exceptional range, 
-                whisper-quiet operation, and uncompromised passenger comfort.
-              </p>
-            </div>
+          <div>
+            <img
+              src={nevTypes[activeTab].image}
+              alt={nevTypes[activeTab].title}
+              style={{ width: '100%', height: 'auto', borderRadius: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
+            />
           </div>
         </div>
       </section>
 
-      <section className="blade-section fade-in-section">
-        <div className="blade-split">
-          <div className="blade-content">
-            <h2>
-              <span className="highlight">Blade Battery</span><br />
-              Technology
-            </h2>
-            <p>
-              The revolutionary Blade Battery represents a quantum leap in energy storage safety, 
-              performance, and longevity. This groundbreaking technology redefines what is possible 
-              in electric vehicle power systems.
-            </p>
-
-            <div className="blade-features">
-              <div className="blade-feature">
-                <span className="blade-feature-icon">🛡️</span>
-                <div className="blade-feature-text">
-                  <h4>Unmatched Safety</h4>
-                  <p>
-                    Successfully passes the nail penetration test without fire or smoke, a feat 
-                    unmatched by conventional lithium batteries. Advanced thermal management ensures 
-                    optimal performance in all conditions.
-                  </p>
-                </div>
-              </div>
-
-              <div className="blade-feature">
-                <span className="blade-feature-icon">⚡</span>
-                <div className="blade-feature-text">
-                  <h4>Space Optimization</h4>
-                  <p>
-                    The unique blade-shaped cell design increases volumetric efficiency by 50% compared 
-                    to traditional battery packs, delivering more energy in a smaller footprint.
-                  </p>
-                </div>
-              </div>
-
-              <div className="blade-feature">
-                <span className="blade-feature-icon">♻️</span>
-                <div className="blade-feature-text">
-                  <h4>Extended Lifespan</h4>
-                  <p>
-                    Advanced lithium iron phosphate chemistry delivers over 3,000 charge cycles with 
-                    minimal degradation, ensuring your vehicle maintains exceptional performance for years.
-                  </p>
-                </div>
-              </div>
-
-              <div className="blade-feature">
-                <span className="blade-feature-icon">🌿</span>
-                <div className="blade-feature-text">
-                  <h4>Environmental Responsibility</h4>
-                  <p>
-                    Cobalt-free construction reduces environmental impact while maintaining exceptional 
-                    performance, aligning with our commitment to sustainable mobility.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="blade-visual"></div>
-        </div>
-      </section>
-
-      <section className="luxury-section nev-section fade-in-section">
-        <div className="nev-container">
-          <h2>New Energy Vehicles</h2>
-          <p className="nev-subtitle">
-            As the leading clean energy automotive dealer in the Turks and Caicos Islands, we are proud 
-            to represent BYD's world-class electric vehicles. BYD leads the global New Energy Vehicle 
-            revolution with groundbreaking innovations in battery technology, electric powertrains, and 
-            sustainable manufacturing. These are the most reliable, most advanced, and most environmentally 
-            responsible vehicles available today, reshaping transportation and creating a cleaner future 
-            for generations to come.
+      {/* NEV Benefits */}
+      <section style={{ backgroundColor: '#f9fafb', padding: '4rem 0' }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem' }}>
+          <h2 style={{ 
+            fontSize: 'clamp(1.875rem, 4vw, 2.5rem)', 
+            fontWeight: '700', 
+            color: '#111827', 
+            textAlign: 'center', 
+            marginBottom: '1rem' 
+          }}>
+            NEV Benefits
+          </h2>
+          <p style={{ 
+            fontSize: '1rem', 
+            color: '#374151', 
+            textAlign: 'center', 
+            marginBottom: '3rem', 
+            maxWidth: '48rem', 
+            marginLeft: 'auto', 
+            marginRight: 'auto' 
+          }}>
+            There's a range of benefits that come with NEVs, resulting in these cars becoming more popular on our roads.
           </p>
 
-          <div className="nev-stats">
-            <div className="nev-stat">
-              <div className="nev-stat-number">3M+</div>
-              <div className="nev-stat-label">Annual Global Sales</div>
-            </div>
-            <div className="nev-stat">
-              <div className="nev-stat-number">70+</div>
-              <div className="nev-stat-label">Countries & Regions</div>
-            </div>
-            <div className="nev-stat">
-              <div className="nev-stat-number">#1</div>
-              <div className="nev-stat-label">NEV Manufacturer Worldwide</div>
-            </div>
+          <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
+            {benefits.map((benefit, index) => (
+              <div
+                key={index}
+                style={{
+                  display: 'flex',
+                  flexDirection: window.innerWidth >= 768 ? (index % 2 === 1 ? 'row-reverse' : 'row') : 'column',
+                  gap: '2rem',
+                  alignItems: 'center',
+                  marginBottom: '3rem'
+                }}
+              >
+                <div style={{ flex: 1 }}>
+                  <img
+                    src={benefit.image}
+                    alt={benefit.title}
+                    style={{ width: '100%', height: 'auto', borderRadius: '0rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                  />
+                </div>
+                <div style={{ flex: 1, padding: window.innerWidth >= 768 ? '0 2rem' : '0' }}>
+                  <h3 style={{ fontSize: 'clamp(1.25rem, 3vw, 1.5rem)', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
+                    {benefit.title}
+                  </h3>
+                  <p style={{ fontSize: '0.875rem', color: '#374151', lineHeight: '1.75' }}>
+                    {benefit.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Differences - Accordion */}
+      <section style={{ maxWidth: '56rem', margin: '0 auto', padding: '4rem 1.5rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.875rem, 4vw, 2.5rem)', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
+          What's the difference between NEV and fuel-powered cars?
+        </h2>
+        <p style={{ fontSize: '1rem', color: '#374151', marginBottom: '2rem' }}>
+          The primary difference between New Energy Vehicles and fuel-powered cars with internal combustion engines is the way they are fuelled — NEVs on electricity and ICE cars on petrol or diesel.
+        </p>
+
+        <div style={{ borderTop: '1px solid #e5e7eb' }}>
+          {differences.map((item, index) => (
+            <div key={index}>
+              <button
+                onClick={() => setExpandedFold(expandedFold === index ? null : index)}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '1rem',
+                  textAlign: 'left',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#111827' }}>
+                  {item.title}
+                </h3>
+                <ChevronDown
+                  style={{
+                    width: '1.25rem',
+                    height: '1.25rem',
+                    color: '#4b5563',
+                    transition: 'transform 0.3s',
+                    transform: expandedFold === index ? 'rotate(180deg)' : 'rotate(0deg)'
+                  }}
+                />
+              </button>
+              {expandedFold === index && (
+                <div style={{ padding: '0 1rem 1rem 1rem' }}>
+                  <p style={{ fontSize: '0.875rem', color: '#374151', lineHeight: '1.75' }}>
+                    {item.content}
+                  </p>
+                </div>
+              )}
+              <div style={{ borderTop: '1px solid #e5e7eb' }}></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section style={{ backgroundColor: '#f3f4f6', padding: '4rem 0' }}>
+        <div style={{ maxWidth: '56rem', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
+          <p style={{ fontSize: '1rem', color: '#374151', marginBottom: '1.5rem', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto' }}>
+            With a range of NEVs to choose from, whether that's fully electric or plug-in hybrid, new energy vehicles give drivers the option to reduce their carbon footprint in a way that suits their lifestyle.
+          </p>
+          <a 
+            href="/models"
+            style={{
+              display: 'inline-block',
+              backgroundColor: '#111827',
+              color: '#ffffff',
+              padding: '0.75rem 2rem',
+              fontWeight: '600',
+              border: '1px solid #111827',
+              cursor: 'pointer',
+              transition: 'all 0.3s',
+              fontSize: '0.875rem',
+              textDecoration: 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#ffffff';
+              e.currentTarget.style.color = '#111827';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#111827';
+              e.currentTarget.style.color = '#ffffff';
+            }}
+          >
+            Discover BYD's NEV models
+          </a>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ backgroundColor: '#111827', color: '#ffffff', padding: '3rem 0' }}>
+        <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth >= 768 ? 'repeat(4, 1fr)' : '1fr',
+            gap: '2rem',
+            marginBottom: '2rem'
+          }}>
+            <div>
+              <h4 style={{ fontWeight: '600', marginBottom: '1rem' }}>Models</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {['BYD DOLPHIN SURF', 'BYD DOLPHIN', 'BYD ATTO 2', 'BYD ATTO 3', 'BYD SEAL', 'BYD SEAL U DM-i', 'BYD SEALION 7'].map((model, i) => (
+                  <li key={i} style={{ marginBottom: '0.5rem' }}>
+                    <a href="#" style={{ fontSize: '0.875rem', color: '#d1d5db', textDecoration: 'none' }}
+                       onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                       onMouseLeave={(e) => e.currentTarget.style.color = '#d1d5db'}
+                    >{model}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 style={{ fontWeight: '600', marginBottom: '1rem' }}>About BYD</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {['About BYD', 'News'].map((item, i) => (
+                  <li key={i} style={{ marginBottom: '0.5rem' }}>
+                    <a href="#" style={{ fontSize: '0.875rem', color: '#d1d5db', textDecoration: 'none' }}
+                       onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                       onMouseLeave={(e) => e.currentTarget.style.color = '#d1d5db'}
+                    >{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 style={{ fontWeight: '600', marginBottom: '1rem' }}>Purchasing</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {['Test Drive', 'Find a BYD Store', 'PCP Offers', 'Fleet Solutions'].map((item, i) => (
+                  <li key={i} style={{ marginBottom: '0.5rem' }}>
+                    <a href="#" style={{ fontSize: '0.875rem', color: '#d1d5db', textDecoration: 'none' }}
+                       onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                       onMouseLeave={(e) => e.currentTarget.style.color = '#d1d5db'}
+                    >{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 style={{ fontWeight: '600', marginBottom: '1rem' }}>Ownership</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {['Service Maintenance', 'BYD Assistance', 'Privacy & Data'].map((item, i) => (
+                  <li key={i} style={{ marginBottom: '0.5rem' }}>
+                    <a href="#" style={{ fontSize: '0.875rem', color: '#d1d5db', textDecoration: 'none' }}
+                       onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                       onMouseLeave={(e) => e.currentTarget.style.color = '#d1d5db'}
+                    >{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          
+          <div style={{ borderTop: '1px solid #374151', paddingTop: '2rem' }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: window.innerWidth >= 768 ? 'row' : 'column',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '1rem'
+            }}>
+              <div style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
+                © BYD Europe B.V. All rights reserved.
+              </div>
+              <div style={{ display: 'flex', gap: '1rem', fontSize: '0.875rem', color: '#9ca3af' }}>
+                {['Privacy Policy', 'Terms of Use', 'Cookies', 'Contact'].map((item, i) => (
+                  <a key={i} href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}
+                     onMouseEnter={(e) => e.currentTarget.style.color = '#ffffff'}
+                     onMouseLeave={(e) => e.currentTarget.style.color = '#9ca3af'}
+                  >{item}</a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
