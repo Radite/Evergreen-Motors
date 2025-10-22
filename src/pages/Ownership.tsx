@@ -16,7 +16,7 @@ const OwnershipPage: React.FC = () => {
       {/* Hero Banner */}
       <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
         <img 
-          src="/Service-Maintenance/Banner.png" 
+          src="/Assistance/Banner.jpg" 
           alt="BYD Ownership"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -42,7 +42,7 @@ const OwnershipPage: React.FC = () => {
       </div>
 
       {/* Warranty Section */}
-      <div style={{ padding: '120px 20px', backgroundColor: '#fff' }}>
+<div id="warranty" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
             <img 
@@ -107,7 +107,7 @@ const OwnershipPage: React.FC = () => {
       </div>
 
       {/* Service & Maintenance Section */}
-      <div style={{ padding: '120px 20px', backgroundColor: '#f8f9fa' }}>
+<div id="service-maintenance" style={{ padding: '120px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
           <div style={{ flex: 1 }}>
             <img 
@@ -195,7 +195,7 @@ const OwnershipPage: React.FC = () => {
       </div>
 
       {/* BYD Assistance Section */}
-      <div style={{ padding: '120px 20px', backgroundColor: '#fff' }}>
+<div id="assistance" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
             <img 
@@ -267,7 +267,7 @@ const OwnershipPage: React.FC = () => {
       </div>
 
       {/* Charging Locations Section */}
-      <div style={{ padding: '120px 20px', backgroundColor: '#f8f9fa' }}>
+<div id="charging-locations" style={{ padding: '120px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '70px' }}>
             <h2 style={{ fontSize: '44px', fontWeight: 700, marginBottom: '20px', letterSpacing: '-0.5px' }}>Charging Locations</h2>
@@ -377,7 +377,7 @@ const OwnershipPage: React.FC = () => {
       </div>
 
       {/* Shell Charging Cards Section */}
-      <div style={{ padding: '120px 20px', backgroundColor: '#fff' }}>
+<div id="shell-charging" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
           <div style={{ flex: 1 }}>
             <img 

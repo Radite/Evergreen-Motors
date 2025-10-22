@@ -18,14 +18,8 @@ import BYDShellPage from './pages/ChargeCards';
 import WarrantyPolicyPage from './pages/Warranty';
 import ChargingLocationsPage from './pages/ChargingLocations';
 
-// Import BYD Model Pages
-import ATTO2Page from './pages/Models/ATTO2Page';
-import ATTO3Page from './pages/Models/ATTO3Page';
-import DolphinMiniPage from './pages/Models/DolphinMiniPage';
-import SEALUPage from './pages/Models/SEALUPage';
-import TANGPage from './pages/Models/TANGPage';
-import Shark6Page from './pages/Models/Shark6Page';
-import SONGPROPage from './pages/Models/SONGPROPage';
+// Import Model Page Template
+import ModelPage from './pages/ModelPage';
 
 // Import Purchasing Pages
 import Locations from './pages/Purchasing/Locations';
@@ -69,16 +63,25 @@ const App: React.FC = () => {
             {/* Home & General Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/models" element={<Models />} />
-            <Route path="/models/:id" element={<ModelDetail />} />
 
-            {/* Individual Car Model Routes */}
-            <Route path="/models/atto-2" element={<ATTO2Page />} />
-            <Route path="/models/atto-3" element={<ATTO3Page />} />
-            <Route path="/models/dolphin-mini" element={<DolphinMiniPage />} />
-            <Route path="/models/seal-u" element={<SEALUPage />} />
-            <Route path="/models/tang" element={<TANGPage />} />
-            <Route path="/models/shark-6" element={<Shark6Page />} />
-            <Route path="/models/song-pro" element={<SONGPROPage />} />
+            {/* Individual Model Routes - Electric Cars */}
+            <Route path="/models/dolphin-mini" element={<ModelPage />} />
+            <Route path="/models/atto-2" element={<ModelPage />} />
+            <Route path="/models/atto-3" element={<ModelPage />} />
+            <Route path="/models/icar-03" element={<ModelPage />} />
+            <Route path="/models/seal-u" element={<ModelPage />} />
+            <Route path="/models/sealion-07" element={<ModelPage />} />
+            <Route path="/models/tang" element={<ModelPage />} />
+            <Route path="/models/radar-king-kong" element={<ModelPage />} />
+
+            {/* Individual Model Routes - Hybrid Cars */}
+            <Route path="/models/song-pro" element={<ModelPage />} />
+            <Route path="/models/leopard-ti7" element={<ModelPage />} />
+            <Route path="/models/yu8" element={<ModelPage />} />
+            <Route path="/models/shark" element={<ModelPage />} />
+
+            {/* Fallback for dynamic model routes (if you prefer) */}
+            <Route path="/models/:id" element={<ModelDetail />} />
 
             {/* Other Routes */}
             <Route path="/technology" element={<Technology />} />
@@ -104,7 +107,7 @@ const App: React.FC = () => {
             <Route path="/purchasing/rentals" element={<Rentals />} />
             <Route path="/purchasing/fleet-solutions" element={<FleetBusinessSolutions />} />
             
-            {/* Legacy test drive route (if you want to keep the original) */}
+            {/* Test Drive Route */}
             <Route path="/test-drive" element={<TestDrivePage />} />
           </Routes>
         </main>

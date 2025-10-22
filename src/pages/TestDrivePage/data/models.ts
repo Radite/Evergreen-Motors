@@ -1,112 +1,260 @@
-export interface Model {
-  id: number;
-  name: string;
-  type: 'electric' | 'hybrid';
-  images: string[]; // array of images
-  videos: string[]; // array of video URLs
-}
-
 export const models: Model[] = [
-  { 
-    id: 1, 
-    name: 'ATTO 2', 
-    type: 'electric', 
+  {
+    id: 1,
+    name: 'BYD Dolphin Mini',
+    type: 'electric',
+    category: 'Small Compact',
+    class: 'Compact hatchback',
+    size: "12.4' (L) x 5.63' (W) x 5.05' (H)",
+    seats: '2+3',
+    range: '305km or 405km (CLTC)',
+    colors: {
+      exterior: ['White', 'Black', 'Blue', 'Green'],
+      interior: ['Dark Blue', 'Light Blue (Green exterior only)'],
+    },
     images: [
-      '/models/BYD-ATTO-2/BYD_ATTO_2.jpg',
+      '/models/BYD-DOLPHIN-MINI/BYD-DOLPHIN-MINI.png',
+      '/models/BYD-DOLPHIN-MINI/BYD-DOLPHIN-MINI_side.webp',
+      '/models/BYD-DOLPHIN-MINI/BYD-DOLPHIN-MINI_interior.webp',
+      '/models/BYD-DOLPHIN-MINI/Banner.jpg',
+    ],
+    videos: ['/videos/BYD-DOLPHIN-MINI/Overview.mp4'],
+  },
+  {
+    id: 2,
+    name: 'BYD Atto 2',
+    type: 'electric',
+    category: 'Compact SUV',
+    class: 'Compact SUV',
+    size: "14.14' (L) x 6' (W) x 5.5' (H)",
+    seats: '2+3',
+    range: '301km or 401km (CLTC)',
+    colors: {
+      exterior: ['White', 'Gray', 'Green'],
+      interior: ['Beige'],
+    },
+    images: [
+      '/models/BYD-ATTO-2/BYD_ATTO_2.png',
       '/models/BYD-ATTO-2/BYD_ATTO_2_side.jpg',
       '/models/BYD-ATTO-2/BYD_ATTO_2_interior.jpg',
-      '/models/BYD-ATTO-2/Banner.avif'
+      '/models/BYD-ATTO-2/Banner.avif',
     ],
-    videos: [
-      '/videos/BYD-ATTO-2/Overview.mp4',
-      '/videos/BYD-ATTO-2/Drive.mp4'
-    ]
+    videos: ['/videos/BYD-ATTO-2/Overview.mp4', '/videos/BYD-ATTO-2/Drive.mp4'],
   },
-  { 
-    id: 2, 
-    name: 'DOLPHIN SURF', 
-    type: 'electric', 
+  {
+    id: 3,
+    name: 'BYD Atto 3',
+    type: 'electric',
+    category: 'Compact SUV',
+    class: 'Compact SUV',
+    size: "14.62' (L) x 6.15' (W) x 5.3' (H)",
+    seats: '2+3',
+    range: '430km or 510km (CLTC)',
+    colors: {
+      exterior: ['White', 'Gray', 'Beige'],
+      interior: ['Beige', 'Gray'],
+    },
     images: [
-      '/models/BYD-DOLPHIN-SURF/BYD-DOLPHIN-SURF.webp',
-      '/models/BYD-DOLPHIN-SURF/BYD-DOLPHIN-SURF_side.webp',
-      '/models/BYD-DOLPHIN-SURF/BYD-DOLPHIN-SURF_interior.webp',
-      '/models/BYD-DOLPHIN-SURF/Banner.webp'
-    ],
-    videos: [
-      '/videos/BYD-DOLPHIN-SURF/Overview.mp4',
-      '/videos/BYD-DOLPHIN-SURF/TestDrive.mp4'
-    ]
-  },
-  { 
-    id: 3, 
-    name: 'SEALION 7', 
-    type: 'electric', 
-    images: [
-      '/models/BYD-SEALION-7/BYD-SEALION-7.webp',
-      '/models/BYD-SEALION-7/BYD-SEALION-7_side.webp',
-      '/models/BYD-SEALION-7/BYD-SEALION-7_interior.webp',
-      '/models/BYD-SEALION-7/Banner.jpg'
-    ],
-    videos: [
-      '/videos/BYD-SEALION-7/Overview.mp4',
-      '/videos/BYD-SEALION-7/Drive.mp4'
-    ]
-  },
-  { 
-    id: 4, 
-    name: 'SEAL U DM-i', 
-    type: 'hybrid', 
-    images: [
-      '/models/BYD-SEAL-U-DM-i/BYD-SEAL-U-DM-i.webp',
-      '/models/BYD-SEAL-U-DM-i/BYD-SEAL-U-DM-i_side.webp',
-      '/models/BYD-SEAL-U-DM-i/BYD-SEAL-U-DM-i_interior.webp',
-      '/models/BYD-SEAL-U-DM-i/Banner.jpg'
-    ],
-    videos: [
-      '/videos/BYD-SEAL-U-DM-i/Overview.mp4',
-      '/videos/BYD-SEAL-U-DM-i/TestDrive.mp4'
-    ]
-  },
-  { 
-    id: 5, 
-    name: 'SEAL', 
-    type: 'electric', 
-    images: [
-      '/models/BYD-SEAL/BYD-SEAL.webp',
-      '/models/BYD-SEAL/BYD-SEAL_side.webp',
-      '/models/BYD-SEAL/BYD-SEAL_interior.webp',
-      '/models/BYD-SEAL/Banner.webp'
-    ],
-    videos: [
-      '/videos/BYD-SEAL/Overview.mp4'
-    ]
-  },
-  { 
-    id: 6, 
-    name: 'ATTO 3', 
-    type: 'electric', 
-    images: [
-      '/models/BYD-ATTO3/BYD-ATTO3.webp',
+      '/models/BYD-ATTO3/BYD-ATTO3.png',
       '/models/BYD-ATTO3/BYD-ATTO3_side.webp',
       '/models/BYD-ATTO3/BYD-ATTO3_interior.webp',
-      '/models/BYD-ATTO3/Banner.jpg'
+      '/models/BYD-ATTO3/Banner.jpg',
     ],
-    videos: [
-      '/videos/BYD-ATTO3/Overview.mp4'
-    ]
+    videos: ['/videos/BYD-ATTO3/Overview.mp4'],
   },
-  { 
-    id: 7, 
-    name: 'DOLPHIN', 
-    type: 'electric', 
+  {
+    id: 4,
+    name: 'iCAR 03 Adventure Ed.',
+    type: 'electric',
+    category: 'Off-Road',
+    class: 'Compact Off-Road',
+    size: "14.46' (L) x 6.27' (W) x 5.6' (H)",
+    seats: '2+3',
+    range: '401km (CLTC)',
+    colors: {
+      exterior: ['White'],
+      interior: ['Green'],
+    },
     images: [
-      '/models/BYD-DOLPHIN/BYD-DOLPHIN.webp',
-      '/models/BYD-DOLPHIN/BYD-DOLPHIN_side.webp',
-      '/models/BYD-DOLPHIN/BYD-DOLPHIN_interior.webp',
-      '/models/BYD-DOLPHIN/Banner.jpg',
+      '/models/ICAR-03/ICAR-03.png',
+      '/models/ICAR-03/ICAR-03_side.webp',
+      '/models/ICAR-03/ICAR-03_interior.webp',
+      '/models/ICAR-03/Banner.webp',
     ],
-    videos: [
-      '/videos/BYD-DOLPHIN/Overview.mp4'
-    ]
+    videos: ['/videos/ICAR-03/Overview.mp4'],
+  },
+  {
+    id: 5,
+    name: 'BYD Seal U',
+    type: 'electric',
+    category: 'Mid-Size SUV',
+    class: 'Medium SUV',
+    size: "15.7' (L) x 6.2' (W) x 5.45' (H)",
+    seats: '2+3',
+    range: '520km or 605km (CLTC)',
+    colors: {
+      exterior: ['White', 'Gray', 'Black', 'Beige'],
+      interior: ['Beige'],
+    },
+    images: [
+      '/models/BYD-SEAL-U/BYD-SEAL-U.png',
+      '/models/BYD-SEAL-U/BYD-SEAL-U_side.webp',
+      '/models/BYD-SEAL-U/BYD-SEAL-U_interior.webp',
+      '/models/BYD-SEAL-U/Banner.jpg',
+    ],
+    videos: ['/videos/BYD-SEAL-U/Overview.mp4'],
+  },
+  {
+    id: 6,
+    name: 'BYD Song Pro',
+    type: 'hybrid',
+    category: 'Mid-Size SUV',
+    class: 'Medium SUV',
+    size: "15.54' (L) x 6.1' (W) x 5.6' (H)",
+    seats: '2+3',
+    range: '71km or 110km electric (CLTC)',
+    colors: {
+      exterior: ['White', 'Gray', 'Black', 'Blue'],
+      interior: ['Beige'],
+    },
+    images: [
+      '/models/BYD-SONG-PRO/BYD-SONG-PRO.png',
+      '/models/BYD-SONG-PRO/BYD-SONG-PRO_side.webp',
+      '/models/BYD-SONG-PRO/BYD-SONG-PRO_interior.webp',
+      '/models/BYD-SONG-PRO/Banner.jpg',
+    ],
+    videos: ['/videos/BYD-SONG-PRO/Overview.mp4'],
+  },
+  {
+    id: 7,
+    name: 'BYD Leopard Ti7',
+    type: 'hybrid',
+    category: 'Luxury Off-Road',
+    class: 'Med-Large SUV',
+    size: "16.40' (L) x 6.55' (W) x 6.12' (H)",
+    seats: '2+3',
+    range: '200km or 190km AWD (electric) / 1,300km combined',
+    colors: {
+      exterior: ['Silver', 'Black', 'Green', 'Blue'],
+      interior: ['Orange', 'Gray', 'Blue'],
+    },
+    notes: 'No inventory in stock; 3-month delivery after deposit',
+    images: [
+      '/models/BYD-LEOPARD-TI7/BYD-LEOPARD-TI7.png',
+      '/models/BYD-LEOPARD-TI7/BYD-LEOPARD-TI7_side.webp',
+      '/models/BYD-LEOPARD-TI7/BYD-LEOPARD-TI7_interior.webp',
+      '/models/BYD-LEOPARD-TI7/Banner.webp',
+    ],
+    videos: ['/videos/BYD-LEOPARD-TI7/Overview.mp4'],
+  },
+  {
+    id: 8,
+    name: 'BYD Sealion 07',
+    type: 'electric',
+    category: 'Luxury SUV',
+    class: 'Med-Large SUV',
+    size: "15.85' (L) x 6.32' (W) x 5.3' (H)",
+    seats: '2+3',
+    range: '550km (CLTC)',
+    colors: {
+      exterior: ['White', 'Bluish Gray', 'Black'],
+      interior: ['Black'],
+    },
+    notes: 'No inventory in stock; 3-month delivery after deposit',
+    images: [
+      '/models/BYD-SEALION-07/BYD-SEALION-07.png',
+      '/models/BYD-SEALION-07/BYD-SEALION-07_side.webp',
+      '/models/BYD-SEALION-07/BYD-SEALION-07_interior.webp',
+      '/models/BYD-SEALION-07/Banner.jpg',
+    ],
+    videos: ['/videos/BYD-SEALION-07/Overview.mp4'],
+  },
+  {
+    id: 9,
+    name: 'BYD Tang',
+    type: 'electric',
+    category: 'Luxury SUV',
+    class: 'Large SUV',
+    size: "16.54' (L) x 6.55' (W) x 5.77' (H)",
+    seats: '2+3+2',
+    range: '670km or 600km AWD (CLTC)',
+    colors: {
+      exterior: ['Black', 'Gray', 'Dark Green'],
+      interior: ['Sunset Orange', 'Cloud Gray'],
+    },
+    notes: 'No inventory in stock; 3-month delivery after deposit',
+    images: [
+      '/models/BYD-TANG/BYD-TANG.png',
+      '/models/BYD-TANG/BYD-TANG_side.webp',
+      '/models/BYD-TANG/BYD-TANG_interior.webp',
+      '/models/BYD-TANG/Banner.jpg',
+    ],
+    videos: ['/videos/BYD-TANG/Overview.mp4'],
+  },
+  {
+    id: 10,
+    name: 'BYD YU8',
+    type: 'hybrid',
+    category: 'Ultra Luxury Off-Road',
+    class: 'Large SUV',
+    size: "17.45' (L) x 6.72' (W) x 6.33' (H)",
+    seats: '2+3', // assumed 5-seat layout (needs verification)
+    range: '180km electric / 1,000km combined (CLTC)',
+    colors: {
+      exterior: ['Green', 'Black', 'White'],
+      interior: ['Orange', 'Black', 'Gray'],
+    },
+    notes: 'No inventory in stock; 3-month delivery after deposit',
+    images: [
+      '/models/BYD-YU8/BYD-YU8.png',
+      '/models/BYD-YU8/BYD-YU8_side.webp',
+      '/models/BYD-YU8/BYD-YU8_interior.webp',
+      '/models/BYD-YU8/Banner.jpg',
+    ],
+    videos: ['/videos/BYD-YU8/Overview.mp4'],
+  },
+  {
+    id: 11,
+    name: 'Radar King Kong',
+    type: 'electric',
+    category: 'Pick-up Truck',
+    class: 'Crew Cab Pickup Truck',
+    size: "18' (L) x 6.23' (W) x 6' (H)",
+    seats: '2+3',
+    range: '430km or 460km AWD (CLTC)',
+    colors: {
+      exterior: ['White', 'Gray', 'Black', 'Light Blue', 'Dark Blue'],
+      interior: ['Black'],
+    },
+    notes: 'No inventory in stock; 3-month delivery after deposit',
+    images: [
+      '/models/RADAR-KING-KONG/RADAR-KING-KONG.png',
+      '/models/RADAR-KING-KONG/RADAR-KING-KONG_side.webp',
+      '/models/RADAR-KING-KONG/RADAR-KING-KONG_interior.webp',
+      '/models/RADAR-KING-KONG/Banner.jpg',
+    ],
+    videos: ['/videos/RADAR-KING-KONG/Overview.mp4'],
+  },
+  {
+    id: 12,
+    name: 'BYD Shark',
+    type: 'hybrid',
+    category: 'Pick-up Truck',
+    class: 'Crew Cab Pickup Truck',
+    size: "17.9' (L) x 6.47' (W) x 6.3' (H)",
+    seats: '2+3',
+    range: '100km electric AWD',
+    colors: {
+      exterior: ['White', 'Gray', 'Black'],
+      interior: ['Black'],
+    },
+    notes: 'Anticipated availability from January 2026',
+    images: [
+      '/models/BYD-SHARK/BYD-SHARK.png',
+      '/models/BYD-SHARK/BYD-SHARK_side.webp',
+      '/models/BYD-SHARK/BYD-SHARK_interior.webp',
+      '/models/BYD-SHARK/Banner.jpg',
+    ],
+    videos: ['/videos/BYD-SHARK/Overview.mp4'],
   },
 ];

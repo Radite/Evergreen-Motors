@@ -1,24 +1,56 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
 
-const Navigation: React.FC = () => {
+const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [navHeight, setNavHeight] = useState(0);
+  const [activeFilter, setActiveFilter] = useState('electric');
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    const updateNavHeight = () => {
+      if (navRef.current) {
+        const rect = navRef.current.getBoundingClientRect();
+        setNavHeight(rect.bottom);
+      }
+    };
+
+    updateNavHeight();
+    window.addEventListener('resize', updateNavHeight);
+    window.addEventListener('scroll', updateNavHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateNavHeight);
+      window.removeEventListener('scroll', updateNavHeight);
+    };
+  }, []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
-    setActiveDropdown(null);
+    setDropdownOpen(false);
   };
 
-  const toggleDropdown = (dropdown: string) => {
+  const toggleDropdown = (e) => {
     if (window.innerWidth <= 1023) {
-      setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+      e.preventDefault();
+      setDropdownOpen(!dropdownOpen);
     }
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setDropdownOpen(false);
+    setActiveFilter('electric');
+  };
+
+  const handleDropdownEnter = () => {
+    setActiveFilter('electric');
   };
 
   return (
     <>
       <style>{`
+        /* Mobile Menu Toggle Button */
         .mobile-menu-toggle {
           display: none;
           background: none;
@@ -28,48 +60,202 @@ const Navigation: React.FC = () => {
           cursor: pointer;
           padding: 0.5rem;
           transition: color 0.3s ease;
+          z-index: 1001;
         }
 
         .mobile-menu-toggle:hover {
           color: #4a9eff;
         }
 
-        /* Desktop hover functionality */
+        /* Mega Menu Positioning */
+        .dropdown-content {
+          top: calc(${navHeight}px - 1px) !important;
+        }
+
+        /* Desktop Styles */
         @media (min-width: 1024px) {
-          .dropdown {
-            position: relative;
+          .dropdown::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: transparent;
           }
 
           .dropdown-content {
             display: none;
-            position: absolute;
-            top: 100%;
+            position: fixed;
             left: 0;
-            background: #2a2c2e;
-            min-width: 200px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            z-index: 1000;
-            margin-top: 0;
+            right: 0;
+            width: 100%;
+            background: #f5f5f5;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 999;
+            padding: 2rem 3% 3rem 3%;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            min-height: 500px;
           }
 
           .dropdown:hover .dropdown-content {
-            display: block;
+            display: flex;
+            gap: 3rem;
+            animation: megaMenuFadeIn 0.3s ease;
           }
 
-          .dropdown-content a {
+          @keyframes megaMenuFadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .mega-menu-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            min-width: 200px;
+          }
+
+          .mega-menu-section {
+            margin-bottom: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+          }
+
+          .mega-menu-section:hover {
+            background: rgba(0, 0, 0, 0.05);
+          }
+
+          .mega-menu-section.active .mega-menu-section-title {
+            color: #4a9eff;
+          }
+
+          .mega-menu-section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+          }
+
+          .mega-menu-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            overflow: visible;
+            min-height: 440px;
+          }
+
+          .mega-menu-content-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+          }
+
+          .mega-menu-content-wrapper.hidden {
+            opacity: 0;
+            transform: translateX(-20px);
+            pointer-events: none;
+          }
+
+          .mega-menu-content-wrapper.visible {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+          }
+
+          .mega-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            max-width: 100%;
+          }
+
+          .mega-menu-item {
+            background: transparent;
+            border-radius: 0;
+            overflow: visible;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .mega-menu-item:hover {
+            transform: translateY(-3px);
+          }
+
+          .mega-menu-title {
+            font-size: 0.85rem;
+            color: #1a1a1a;
+            margin-bottom: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-align: center;
+          }
+
+          .mega-menu-image {
+            width: 100%;
+            height: 150px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+          }
+
+          .mega-menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 0.5rem;
+          }
+
+          .mega-menu-content {
+            padding: 0;
+            text-align: center;
+            background: transparent;
+          }
+
+          .mega-menu-link {
             display: block;
-            padding: 0.8rem 1.5rem;
-            color: #fff;
+            color: #666;
             text-decoration: none;
-            transition: background-color 0.2s ease;
-            white-space: nowrap;
+            font-size: 0.75rem;
+            font-weight: 1000;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-top: 0.7rem;
+            padding-bottom: 1rem;
+            text-align: center;
           }
 
-          .dropdown-content a:hover {
-            background-color: #3a3c3e;
+          .mega-menu-link:hover {
+            color: #000;
           }
         }
 
+        /* Tablet & Mobile Styles */
         @media (max-width: 1023px) {
           .mobile-menu-toggle {
             display: block;
@@ -77,12 +263,11 @@ const Navigation: React.FC = () => {
             right: 5%;
             top: 50%;
             transform: translateY(-50%);
-            z-index: 1001;
           }
 
           .nav-container {
             position: relative;
-            min-height: 80px;
+            min-height: 60px;
           }
 
           .nav-menu {
@@ -100,21 +285,109 @@ const Navigation: React.FC = () => {
             overflow-y: auto;
           }
 
-          .dropdown.active .dropdown-content {
-            display: block;
-            max-height: 1000px;
+          .nav-menu > li {
+            width: 100%;
           }
 
           .nav-menu > li > a {
             padding: 1rem 5%;
+            width: 100%;
+            text-align: center;
           }
 
           .dropdown-content {
-            animation: none;
+            position: static !important;
+            width: 100% !important;
+            max-height: ${dropdownOpen ? '3000px' : '0'};
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: ${dropdownOpen ? '1.5rem 3%' : '0'} !important;
+            background: #1a1a1a;
+            box-shadow: none;
+            border: none;
+            display: block !important;
           }
 
-          .dropdown-content a {
-            padding: 0.8rem 8%;
+          .mega-menu-section {
+            margin-bottom: 2rem;
+          }
+
+          .mega-menu-section:last-child {
+            margin-bottom: 0;
+          }
+
+          .mega-menu-section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+          }
+
+          .mega-menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+          }
+
+          .mega-menu-item {
+            background: rgba(42, 42, 42, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+          }
+
+          .mega-menu-image {
+            width: 100%;
+            height: 160px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .mega-menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 1rem;
+          }
+
+          .mega-menu-content {
+            padding: 1.2rem;
+            text-align: center;
+          }
+
+          .mega-menu-title {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+          }
+
+          .mega-menu-link {
+            display: inline-block;
+            color: #4a9eff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+          }
+
+          .dropdown > a::after {
+            content: ' ▼';
+            font-size: 0.7rem;
+            margin-left: 0.3rem;
+            transition: transform 0.3s ease;
+            display: inline-block;
+          }
+
+          .dropdown.active > a::after {
+            transform: rotate(180deg);
           }
         }
 
@@ -123,14 +396,20 @@ const Navigation: React.FC = () => {
             font-size: 2rem;
           }
 
-          .nav-menu > li > a {
-            font-size: 1rem;
-            padding: 1.2rem 6%;
+          .mega-menu-image {
+            height: 140px;
           }
 
-          .dropdown-content a {
-            padding: 1rem 10%;
-            font-size: 0.9rem;
+          .mega-menu-content {
+            padding: 1rem;
+          }
+
+          .mega-menu-title {
+            font-size: 1rem;
+          }
+
+          .mega-menu-link {
+            font-size: 0.8rem;
           }
         }
 
@@ -140,31 +419,61 @@ const Navigation: React.FC = () => {
             right: 4%;
           }
 
-          .nav-menu > li > a {
-            padding: 1.3rem 5%;
+          .mega-menu-image {
+            height: 130px;
+            font-size: 2.5rem;
+          }
+
+          .mega-menu-content {
+            padding: 0.8rem;
+          }
+
+          .mega-menu-title {
+            font-size: 0.95rem;
+          }
+
+          .mega-menu-link {
+            font-size: 0.75rem;
           }
         }
-          
 
-        /* Logo text styling */
+        /* Logo Styles */
         .logo-text {
-          font-size: 2rem;
-          font-weight: bold;
+          font-size: 1.5rem;
+          font-weight: 300;
           color: #fff;
           text-decoration: none;
+          letter-spacing: 8px;
+          font-family: 'Cormorant Garamond', serif;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
         }
-          /* Navigation menu items */
-          .nav-menu li a {
-            font-size: 1rem; /* adjust as needed */
-            font-weight: 500;
-          } 
+
+        .logo-text:hover {
+t          color: #4a9eff;
+          text-shadow: 0 0 20px rgba(74, 158, 255, 0.5);
+        }
+
+        @media (max-width: 1023px) {
+          .logo-text {
+            font-size: 1.8rem;
+            letter-spacing: 6px;
+          }
+        }
+
+        @media (max-width: 479px) {
+          .logo-text {
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+          }
+        }
       `}</style>
 
-      <nav>
+      <nav ref={navRef}>
         <div className="nav-container">
-          <Link to="/" className="logo-text">
+          <a href="/" className="logo-text" onClick={closeMobileMenu}>
             Evergreen Motors
-          </Link>
+          </a>
 
           <button 
             className="mobile-menu-toggle" 
@@ -175,69 +484,186 @@ const Navigation: React.FC = () => {
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
 
-<ul className="nav-menu">
-  <li className="dropdown">
-    <Link to="/models">Models</Link>
-    <div className="dropdown-content">
-      <Link to="/models/dolphin-mini" onClick={() => setMobileMenuOpen(false)}>Dolphin Mini</Link>
-      <Link to="/models/atto-3" onClick={() => setMobileMenuOpen(false)}>Atto 3</Link>
-      <Link to="/models/seal-u" onClick={() => setMobileMenuOpen(false)}>Seal U</Link>
-      <Link to="/models/tang-l" onClick={() => setMobileMenuOpen(false)}>Tang L</Link>
-      <Link to="/models/han" onClick={() => setMobileMenuOpen(false)}>Han</Link>
-      <Link to="/models/seal" onClick={() => setMobileMenuOpen(false)}>Seal</Link>
-    </div>
-  </li>
-  
-  <li>
-    <Link to="/about" onClick={() => setMobileMenuOpen(false)}>About</Link>
-  </li>
+          <ul className="nav-menu">
+            <li className={`dropdown ${dropdownOpen ? 'active' : ''}`} onMouseEnter={handleDropdownEnter}>
+              <a 
+                href="/models" 
+                onClick={toggleDropdown}
+              >
+                Models
+              </a>
+              <div className="dropdown-content">
+                <div className="mega-menu-sidebar">
+                  <div 
+                    className={`mega-menu-section ${activeFilter === 'electric' ? 'active' : ''}`}
+                    onMouseEnter={() => setActiveFilter('electric')}
+                  >
+                    <h2 className="mega-menu-section-title">Electric Cars</h2>
+                  </div>
+                  <div 
+                    className={`mega-menu-section ${activeFilter === 'hybrid' ? 'active' : ''}`}
+                    onMouseEnter={() => setActiveFilter('hybrid')}
+                  >
+                    <h2 className="mega-menu-section-title">Hybrid Cars</h2>
+                  </div>
+                </div>
 
-  <li>
-    <Link to="/technology" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
-  </li>
+                <div className="mega-menu-main">
+                  {/* Electric Cars Content */}
+                  <div className={`mega-menu-content-wrapper ${activeFilter === 'electric' ? 'visible' : 'hidden'}`}>
+                    <div className="mega-menu-grid">
+                      <a href="/models/dolphin-mini" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD DOLPHIN MINI</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-DOLPHIN-MINI/BYD-DOLPHIN-MINI.png" alt="BYD Dolphin Mini" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
 
-  <li 
-    className={`dropdown ${activeDropdown === 'purchasing' ? 'active' : ''}`}
-    onClick={() => toggleDropdown('purchasing')}
-  >
-    <Link to="/purchasing">Purchasing</Link>
-    <div className="dropdown-content">
-      <Link to="/test-drive" onClick={() => setMobileMenuOpen(false)}>Test Drive</Link>
-      <Link to="/purchasing/locations" onClick={() => setMobileMenuOpen(false)}>Locations</Link>
-      <Link to="/purchasing/cash-purchases" onClick={() => setMobileMenuOpen(false)}>Cash Purchases</Link>
-      <Link to="/purchasing/finance-bank" onClick={() => setMobileMenuOpen(false)}>Finance (Bank)</Link>
-      <Link to="/purchasing/lease" onClick={() => setMobileMenuOpen(false)}>Lease</Link>
-      <Link to="/purchasing/finance-dealer" onClick={() => setMobileMenuOpen(false)}>Finance (Dealer)</Link>
-      <Link to="/purchasing/subscriptions" onClick={() => setMobileMenuOpen(false)}>Subscriptions</Link>
-      <Link to="/purchasing/rentals" onClick={() => setMobileMenuOpen(false)}>Rentals</Link>
-      <Link to="/purchasing/fleet-solutions" onClick={() => setMobileMenuOpen(false)}>Fleet & Business Solutions</Link>
-    </div>
-  </li>
+                      <a href="/models/atto-2" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD ATTO 2</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-ATTO-2/BYD_ATTO_2.png" alt="BYD Atto 2" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
 
-  <li 
-    className={`dropdown ${activeDropdown === 'ownership' ? 'active' : ''}`}
-    onClick={() => toggleDropdown('ownership')}
-  >
-    <Link to="/service-maintenance">Ownership</Link>
-    <div className="dropdown-content">
-      <a href="/ownership/service-maintenance" onClick={() => setMobileMenuOpen(false)}>Service & Maintenance</a>
-      <a href="/ownership/assistance" onClick={() => setMobileMenuOpen(false)}>EM Roadside Assistance</a>
-      <a href="/ownership/warranty" onClick={() => setMobileMenuOpen(false)}>Warranty</a>
-      <a href="/ownership/charge-cards" onClick={() => setMobileMenuOpen(false)}>EM Membership & Charge Cards</a>
-      <a href="/ownership/charging-locations" onClick={() => setMobileMenuOpen(false)}>Charging Locations</a>
-    </div>
-  </li>
+                      <a href="/models/atto-3" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD ATTO 3</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-ATTO3/BYD-ATTO3.png" alt="BYD Atto 3" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
 
-  <li>
-    <Link to="/test-drive" onClick={() => setMobileMenuOpen(false)}>Test Drive</Link>
-  </li>
-</ul>
+                      <a href="/models/icar-03" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">iCAR 03</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/ICAR-03/ICAR-03.png" alt="iCAR 03" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
 
-          
-          <div className="nav-container">
+                      <a href="/models/seal-u" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD SEAL U</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-SEAL-U/BYD-SEAL-U.png" alt="BYD Seal U" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
+                    </div>
 
-</div>
+                    <div className="mega-menu-grid">
+                      <a href="/models/sealion-07" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD SEALION 07</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-SEALION-07/BYD-SEALION-07.png" alt="BYD Sealion 07" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
 
+                      <a href="/models/tang" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD TANG</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-TANG/BYD-TANG.png" alt="BYD Tang" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
+
+                      <a href="/models/radar-king-kong" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">RADAR KING KONG</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/RADAR-KING-KONG/RADAR-KING-KONG.png" alt="Radar King Kong" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Hybrid Cars Content */}
+                  <div className={`mega-menu-content-wrapper ${activeFilter === 'hybrid' ? 'visible' : 'hidden'}`}>
+                    <div className="mega-menu-grid">
+                      <a href="/models/song-pro" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD SONG PRO</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-SONG-PRO/BYD-SONG-PRO.png" alt="BYD Song Pro" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
+
+                      <a href="/models/leopard-ti7" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD LEOPARD TI7</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-LEOPARD-TI7/BYD-LEOPARD-TI7.png" alt="BYD Leopard Ti7" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
+
+                      <a href="/models/yu8" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD YU8</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-YU8/BYD-YU8.png" alt="BYD YU8" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
+
+                      <a href="/models/shark" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
+                        <div className="mega-menu-item">
+                          <h3 className="mega-menu-title">BYD SHARK</h3>
+                          <div className="mega-menu-image">
+                            <img src="/models/BYD-SHARK/BYD-SHARK.png" alt="BYD Shark" />
+                          </div>
+                          <span className="mega-menu-link">Learn More</span>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            
+            <li>
+              <a href="/about" onClick={closeMobileMenu}>About</a>
+            </li>
+
+            <li>
+              <a href="/technology" onClick={closeMobileMenu}>Technology</a>
+            </li>
+
+            <li>
+              <a href="/purchasing" onClick={closeMobileMenu}>Purchasing</a>
+            </li>
+
+            <li>
+              <a href="/ownership" onClick={closeMobileMenu}>Ownership</a>
+            </li>
+
+            <li>
+              <a href="/test-drive" onClick={closeMobileMenu}>Test Drive</a>
+            </li>
+          </ul>
         </div>
       </nav>
     </>

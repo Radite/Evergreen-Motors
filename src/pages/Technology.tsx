@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 const Technology = () => {
@@ -10,6 +10,26 @@ const Technology = () => {
     consent: false
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  
+  // State to track viewport size for responsive styles
+  // This is better than using window.innerWidth directly in the style prop,
+  // as that won't update on window resize.
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    // Set initial value
+    setIsDesktop(window.innerWidth >= 768);
+
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   const nevTypes = [
     {
@@ -104,7 +124,8 @@ const Technology = () => {
       </section>
 
       {/* Introduction */}
-      <section style={{ maxWidth: '56rem', margin: '0 auto', padding: '3rem 1.5rem' }}>
+      {/* Increased maxWidth from 56rem to 80rem */}
+      <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '3rem 1.5rem' }}>
         <div style={{ fontSize: '1rem', lineHeight: '1.75', color: '#1f2937' }}>
           <p style={{ marginBottom: '1rem' }}>
             Over the last few years, electric cars have become more popular with more of them appearing on our roads. Typically, these are referred to as EVs. But there is another term that you may not be familiar with — NEV.
@@ -134,7 +155,8 @@ const Technology = () => {
           color: '#374151', 
           textAlign: 'center', 
           marginBottom: '2rem', 
-          maxWidth: '48rem', 
+          // Increased maxWidth from 48rem to 64rem to look better in the wide layout
+          maxWidth: '64rem', 
           marginLeft: 'auto', 
           marginRight: 'auto' 
         }}>
@@ -176,7 +198,8 @@ const Technology = () => {
 
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
+          // Using isDesktop state for responsive styling
+          gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr',
           gap: '2rem', 
           alignItems: 'center' 
         }}>
@@ -220,20 +243,23 @@ const Technology = () => {
             color: '#374151', 
             textAlign: 'center', 
             marginBottom: '3rem', 
-            maxWidth: '48rem', 
+            // Increased maxWidth from 48rem to 64rem
+            maxWidth: '64rem', 
             marginLeft: 'auto', 
             marginRight: 'auto' 
           }}>
             There's a range of benefits that come with NEVs, resulting in these cars becoming more popular on our roads.
           </p>
 
-          <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
+          {/* Increased maxWidth from 56rem to 80rem */}
+          <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
             {benefits.map((benefit, index) => (
               <div
                 key={index}
                 style={{
                   display: 'flex',
-                  flexDirection: window.innerWidth >= 768 ? (index % 2 === 1 ? 'row-reverse' : 'row') : 'column',
+                  // Using isDesktop state for responsive styling
+                  flexDirection: isDesktop ? (index % 2 === 1 ? 'row-reverse' : 'row') : 'column',
                   gap: '2rem',
                   alignItems: 'center',
                   marginBottom: '3rem'
@@ -246,7 +272,7 @@ const Technology = () => {
                     style={{ width: '100%', height: 'auto', borderRadius: '0rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                   />
                 </div>
-                <div style={{ flex: 1, padding: window.innerWidth >= 768 ? '0 2rem' : '0' }}>
+                <div style={{ flex: 1, padding: isDesktop ? '0 2rem' : '0' }}>
                   <h3 style={{ fontSize: 'clamp(1.25rem, 3vw, 1.5rem)', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
                     {benefit.title}
                   </h3>
@@ -261,7 +287,8 @@ const Technology = () => {
       </section>
 
       {/* Differences - Accordion */}
-      <section style={{ maxWidth: '56rem', margin: '0 auto', padding: '4rem 1.5rem' }}>
+      {/* Increased maxWidth from 56rem to 80rem */}
+      <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1.5rem' }}>
         <h2 style={{ fontSize: 'clamp(1.875rem, 4vw, 2.5rem)', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
           What's the difference between NEV and fuel-powered cars?
         </h2>
@@ -315,46 +342,13 @@ const Technology = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section style={{ backgroundColor: '#f3f4f6', padding: '4rem 0' }}>
-        <div style={{ maxWidth: '56rem', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
-          <p style={{ fontSize: '1rem', color: '#374151', marginBottom: '1.5rem', maxWidth: '42rem', marginLeft: 'auto', marginRight: 'auto' }}>
-            With a range of NEVs to choose from, whether that's fully electric or plug-in hybrid, new energy vehicles give drivers the option to reduce their carbon footprint in a way that suits their lifestyle.
-          </p>
-          <a 
-            href="/models"
-            style={{
-              display: 'inline-block',
-              backgroundColor: '#111827',
-              color: '#ffffff',
-              padding: '0.75rem 2rem',
-              fontWeight: '600',
-              border: '1px solid #111827',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              fontSize: '0.875rem',
-              textDecoration: 'none'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#ffffff';
-              e.currentTarget.style.color = '#111827';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#111827';
-              e.currentTarget.style.color = '#ffffff';
-            }}
-          >
-            Discover BYD's NEV models
-          </a>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer style={{ backgroundColor: '#111827', color: '#ffffff', padding: '3rem 0' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: window.innerWidth >= 768 ? 'repeat(4, 1fr)' : '1fr',
+            // Using isDesktop state for responsive styling
+            gridTemplateColumns: isDesktop ? 'repeat(4, 1fr)' : '1fr',
             gap: '2rem',
             marginBottom: '2rem'
           }}>
@@ -415,7 +409,8 @@ const Technology = () => {
           <div style={{ borderTop: '1px solid #374151', paddingTop: '2rem' }}>
             <div style={{
               display: 'flex',
-              flexDirection: window.innerWidth >= 768 ? 'row' : 'column',
+              // Using isDesktop state for responsive styling
+              flexDirection: isDesktop ? 'row' : 'column',
               justifyContent: 'space-between',
               alignItems: 'center',
               gap: '1rem'

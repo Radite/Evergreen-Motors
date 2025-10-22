@@ -1,708 +1,740 @@
-import { useEffect } from 'react';
-
-const Purchasing = () => {
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('fade-in-visible');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
+export default function Purchasing() {
   return (
-    <div style={{ width: '100%', overflow: 'hidden' }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+    <div style={{ fontFamily: 'Arial, sans-serif', color: '#252728', backgroundColor: '#ffffff' }}>
+      <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
+        <img 
+          src="/Purchasing/Banner.jpg" 
+          alt="BYD Ownership"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column'
+        }}>
+          <h1 style={{ fontSize: '64px', fontWeight: 700, color: '#fff', margin: 0, textAlign: 'center', letterSpacing: '-1px' }}>
+            Find Your Perfect Way to Own a BYD
 
-        body {
-          margin: 0;
-          padding: 0;
-          overflow-x: hidden;
-        }
-
-        .luxury-hero {
-          height: 100vh;
-          background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
-                      url('https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=2000') center/cover;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          color: white;
-          position: relative;
-          background-attachment: fixed;
-        }
-
-        .hero-content {
-          z-index: 1;
-          max-width: 1000px;
-          padding: 2rem;
-          animation: heroFade 1.8s ease-out;
-        }
-
-        @keyframes heroFade {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .hero-content h1 {
-          font-size: 6rem;
-          margin-bottom: 2rem;
-          font-weight: 300;
-          letter-spacing: 12px;
-          font-family: 'Cormorant Garamond', serif;
-          text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
-        }
-
-        .hero-content .subtitle {
-          font-size: 1.8rem;
-          margin-bottom: 1.5rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 400;
-          letter-spacing: 4px;
-          text-transform: uppercase;
-          color: #4a9eff;
-        }
-
-        .hero-content p {
-          font-size: 1.4rem;
-          line-height: 2;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          letter-spacing: 1px;
-          text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
-          max-width: 900px;
-          margin: 0 auto;
-        }
-
-        .luxury-section {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          padding: 8rem 5%;
-          background-attachment: fixed;
-        }
-
-        .fade-in-section {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 1s ease, transform 1s ease;
-        }
-
-        .fade-in-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .cash-section {
-          background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
-                      url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=2000') center/cover;
-          color: white;
-        }
-
-        .finance-section {
-          background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-        }
-
-        .lease-section {
-          background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-                      url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=2000') center/cover;
-          color: white;
-        }
-
-        .fleet-section {
-          background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        }
-
-        .section-content {
-          max-width: 1400px;
-          margin: 0 auto;
-          width: 100%;
-          position: relative;
-          z-index: 1;
-        }
-
-        .section-title {
-          font-size: 4.5rem;
-          text-align: center;
-          margin-bottom: 2rem;
-          font-weight: 300;
-          letter-spacing: 8px;
-          font-family: 'Cormorant Garamond', serif;
-        }
-
-        .section-subtitle {
-          text-align: center;
-          max-width: 900px;
-          margin: 0 auto 5rem;
-          font-size: 1.4rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          letter-spacing: 1px;
-          opacity: 0.95;
-          line-height: 2;
-        }
-
-        .luxury-cards-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 3rem;
-          margin: 4rem 0;
-        }
-
-        .luxury-card {
-          background: rgba(255,255,255,0.05);
-          backdrop-filter: blur(30px);
-          border: 1px solid rgba(255,255,255,0.15);
-          overflow: hidden;
-          transition: all 0.5s ease;
-          cursor: pointer;
-        }
-
-        .luxury-card:hover {
-          transform: translateY(-15px);
-          background: rgba(255,255,255,0.1);
-          border-color: rgba(255,255,255,0.3);
-          box-shadow: 0 30px 70px rgba(0,0,0,0.5);
-        }
-
-        .light-card {
-          background: white;
-          border: 1px solid rgba(0,0,0,0.08);
-        }
-
-        .light-card:hover {
-          background: rgba(74, 158, 255, 0.02);
-          border-color: rgba(74, 158, 255, 0.3);
-          box-shadow: 0 30px 70px rgba(74, 158, 255, 0.15);
-        }
-
-        .card-image {
-          width: 100%;
-          height: 250px;
-          background-size: cover;
-          background-position: center;
-          position: relative;
-          overflow: hidden;
-          transition: transform 0.5s ease;
-        }
-
-        .card-image::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 100%);
-        }
-
-        .luxury-card:hover .card-image {
-          transform: scale(1.05);
-        }
-
-        .card-content {
-          padding: 2.5rem;
-        }
-
-        .card-title {
-          font-size: 1.8rem;
-          margin-bottom: 1.5rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 600;
-          letter-spacing: 2px;
-        }
-
-        .card-description {
-          font-size: 1.1rem;
-          line-height: 1.8;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          opacity: 0.9;
-        }
-
-        .process-box {
-          background: rgba(255,255,255,0.08);
-          backdrop-filter: blur(30px);
-          border: 1px solid rgba(255,255,255,0.2);
-          padding: 3rem;
-          margin: 4rem 0;
-        }
-
-        .process-box h3 {
-          font-size: 2.5rem;
-          margin-bottom: 2rem;
-          font-family: 'Cormorant Garamond', serif;
-          font-weight: 300;
-          letter-spacing: 3px;
-          color: #4a9eff;
-        }
-
-        .process-box ol {
-          list-style: none;
-          counter-reset: step-counter;
-          padding: 0;
-        }
-
-        .process-box ol li {
-          counter-increment: step-counter;
-          margin-bottom: 2rem;
-          padding-left: 4rem;
-          position: relative;
-          font-size: 1.2rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          line-height: 1.8;
-        }
-
-        .process-box ol li::before {
-          content: counter(step-counter);
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 2.5rem;
-          height: 2.5rem;
-          background: linear-gradient(135deg, #4a9eff 0%, #00d4ff 100%);
-          color: white;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 600;
-          font-family: 'Montserrat', sans-serif;
-        }
-
-        .benefits-list {
-          list-style: none;
-          padding: 0;
-          margin: 4rem 0;
-        }
-
-        .benefits-list li {
-          margin-bottom: 2rem;
-          padding: 2rem;
-          background: rgba(255,255,255,0.05);
-          backdrop-filter: blur(30px);
-          border: 1px solid rgba(255,255,255,0.15);
-          border-left: 4px solid #4a9eff;
-          transition: all 0.3s ease;
-        }
-
-        .benefits-list li:hover {
-          background: rgba(255,255,255,0.1);
-          border-left-width: 8px;
-          transform: translateX(10px);
-        }
-
-        .benefits-list li strong {
-          display: block;
-          font-size: 1.4rem;
-          margin-bottom: 0.8rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 600;
-          letter-spacing: 2px;
-          color: #4a9eff;
-        }
-
-        .benefits-list li {
-          font-size: 1.1rem;
-          line-height: 1.8;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-        }
-
-        .contact-cta {
-          text-align: center;
-          padding: 3rem;
-          margin: 4rem 0;
-          background: rgba(255,255,255,0.08);
-          backdrop-filter: blur(30px);
-          border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .contact-cta p {
-          font-size: 1.3rem;
-          margin-bottom: 1rem;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          letter-spacing: 1px;
-        }
-
-        .contact-cta a {
-          color: #4a9eff;
-          text-decoration: none;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 500;
-          letter-spacing: 1px;
-          transition: color 0.3s ease;
-        }
-
-        .contact-cta a:hover {
-          color: #00d4ff;
-        }
-
-        @media (max-width: 1024px) {
-          .luxury-cards-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-          }
-
-          .hero-content h1 {
-            font-size: 4rem;
-            letter-spacing: 8px;
-          }
-
-          .section-title {
-            font-size: 3.5rem;
-            letter-spacing: 5px;
-          }
-
-          .luxury-section {
-            padding: 4rem 5%;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-content h1 {
-            font-size: 3rem;
-            letter-spacing: 5px;
-          }
-
-          .section-title {
-            font-size: 2.5rem;
-          }
-        }
-      `}</style>
-
-      <div className="luxury-hero">
-        <div className="hero-content">
-          <h1>PURCHASING</h1>
-          <p className="subtitle">Your Path to Electric Excellence</p>
-          <p>
-            Discover flexible purchasing options designed to make your transition to electric 
-            driving seamless, affordable, and tailored to your unique needs.
+          </h1>
+          <p style={{ fontSize: '22px', color: '#fff', marginTop: '20px', fontWeight: 300, maxWidth: '700px', textAlign: 'center', lineHeight: '1.6' }}>
+            From cash purchases to flexible subscriptions - discover the option that fits your lifestyle
           </p>
         </div>
       </div>
 
-      <section className="luxury-section cash-section fade-in-section">
-        <div className="section-content">
-          <h2 className="section-title">Cash Purchase</h2>
-          <p className="section-subtitle">
-            Own your BYD outright with no interest charges and enjoy immediate equity, 
-            complete ownership freedom, and maximum long-term value.
-          </p>
-          
-          <div className="luxury-cards-grid">
-            <div className="luxury-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1554224311-beee460c201f?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title">No Interest Charges</h3>
-                <p className="card-description">
-                  Save thousands over the life of ownership by avoiding financing costs and 
-                  interest payments completely.
-                </p>
-              </div>
-            </div>
-            <div className="luxury-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title">Immediate Ownership</h3>
-                <p className="card-description">
-                  Full title transfer on delivery with no restrictions, allowing complete freedom 
-                  to modify, sell, or trade your vehicle anytime.
-                </p>
-              </div>
-            </div>
-            <div className="luxury-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title">Maximum Value</h3>
-                <p className="card-description">
-                  Build equity from day one and benefit from the highest resale value with no 
-                  mileage restrictions or wear penalties.
-                </p>
-              </div>
-            </div>
+      {/* Cash Purchase */}
+<section id="cash-purchase" style={{ padding: '80px 20px', backgroundColor: '#ffffff', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{
+              fontSize: '42px',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: '#252728'
+            }}>
+              Cash Purchase
+            </h2>
+            <p style={{
+              fontSize: '18px',
+              color: '#5f5f5f',
+              maxWidth: '700px',
+              margin: '0 auto'
+            }}>
+              Buy outright and own your BYD from day one with no monthly payments or interest charges
+            </p>
           </div>
 
-          <div className="process-box">
-            <h3>Purchase Process</h3>
-            <ol>
-              <li>Select your preferred BYD model and configuration</li>
-              <li>Review vehicle specifications and finalize order details</li>
-              <li>Arrange payment via wire transfer or certified funds</li>
-              <li>Complete documentation and title transfer</li>
-              <li>Take delivery of your new electric vehicle</li>
-            </ol>
-          </div>
-
-          <div className="contact-cta">
-            <p>Ready to purchase your BYD?</p>
-            <p><a href="mailto:sales@evergreenmotor.tc">sales@evergreenmotor.tc</a> | <a href="tel:+16494329988">+1 (649) 432-9988</a></p>
-          </div>
-        </div>
-      </section>
-
-      <section className="luxury-section finance-section fade-in-section">
-        <div className="section-content">
-          <h2 className="section-title" style={{color: '#333'}}>Financing Options</h2>
-          <p className="section-subtitle" style={{color: '#666'}}>
-            Partner with leading financial institutions for competitive rates and flexible terms 
-            tailored to your budget and lifestyle.
-          </p>
-          
-          <div className="luxury-cards-grid">
-            <div className="luxury-card light-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1554224311-beee460c201f?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title" style={{color: '#333'}}>Bank Financing</h3>
-                <p className="card-description" style={{color: '#666'}}>
-                  Access preferential interest rates through our partner banks with flexible 
-                  terms from 24 to 84 months and competitive APR.
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {[
+              { title: 'No Interest Charges', description: 'Avoid finance costs and save money' },
+              { title: 'Immediate Ownership', description: 'The vehicle is yours from day one' },
+              { title: 'Complete Freedom', description: 'No mileage or modification restrictions' },
+              { title: 'Potential Discounts', description: 'Cash buyers may get special offers' }
+            ].map((benefit, index) => (
+              <div key={index} style={{
+                backgroundColor: '#f8f9fa',
+                padding: '28px',
+                borderRadius: '8px',
+                textAlign: 'center'
+              }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  margin: '0 auto 16px',
+                  backgroundColor: '#3276AE',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src={`https://placehold.co/60x60/3276AE/ffffff?text=${index + 1}`}
+                    alt={benefit.title}
+                    style={{ width: '60px', height: '60px' }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#3276AE' }}>
+                  {benefit.title}
+                </h3>
+                <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#5f5f5f' }}>
+                  {benefit.description}
                 </p>
               </div>
-            </div>
-            <div className="luxury-card light-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title" style={{color: '#333'}}>Dealer Financing</h3>
-                <p className="card-description" style={{color: '#666'}}>
-                  Convenient in-house financing with competitive rates, special promotions, 
-                  and personalized service from our finance team.
-                </p>
-              </div>
-            </div>
-            <div className="luxury-card light-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title" style={{color: '#333'}}>Quick Approval</h3>
-                <p className="card-description" style={{color: '#666'}}>
-                  Fast pre-approval process, often within 24 hours, to get you driving your 
-                  new BYD sooner with minimal hassle.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
 
-          <div className="process-box" style={{background: 'rgba(74, 158, 255, 0.05)', border: '1px solid rgba(74, 158, 255, 0.2)'}}>
-            <h3 style={{color: '#4a9eff'}}>Financing Process</h3>
-            <ol style={{color: '#333'}}>
-              <li>Submit financing application to partner bank or dealer</li>
-              <li>Receive pre-approval and competitive rate quote within 24 hours</li>
-              <li>Select your BYD vehicle with your approved budget</li>
-              <li>Finalize loan terms and complete all documentation</li>
-              <li>Take delivery of your new electric vehicle</li>
-            </ol>
-          </div>
-
-          <div className="contact-cta" style={{background: 'rgba(74, 158, 255, 0.05)', border: '1px solid rgba(74, 158, 255, 0.2)'}}>
-            <p style={{color: '#333'}}>For financing information, contact:</p>
-            <p><a href="mailto:finance@evergreenmotor.tc">finance@evergreenmotor.tc</a></p>
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: '#3276AE',
+              color: '#ffffff',
+              padding: '14px 40px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(50, 118, 174, 0.3)'
+            }}>
+              Contact Us for Cash Purchase
+            </button>
           </div>
         </div>
       </section>
 
-      <section className="luxury-section lease-section fade-in-section">
-        <div className="section-content">
-          <h2 className="section-title">Leasing Options</h2>
-          <p className="section-subtitle">
-            Drive the latest BYD technology with flexible lease terms and enjoy hassle-free 
-            ownership with lower monthly payments.
-          </p>
-          
-          <ul className="benefits-list">
-            <li>
-              <strong>Lower Monthly Payments</strong>
-              Pay significantly less per month compared to traditional financing options while 
-              enjoying premium electric vehicle ownership.
-            </li>
-            <li>
-              <strong>Latest Technology</strong>
-              Upgrade to newer models every few years and always drive the newest features, 
-              innovations, and improved range capabilities.
-            </li>
-            <li>
-              <strong>Warranty Coverage</strong>
-              Most leases are fully covered by manufacturer warranty throughout the lease term 
-              for complete peace of mind.
-            </li>
-            <li>
-              <strong>Tax Benefits</strong>
-              Potential business tax deductions for qualified business use, reducing your 
-              overall ownership costs significantly.
-            </li>
-            <li>
-              <strong>Flexibility</strong>
-              Simple return process at lease end or option to purchase your vehicle at 
-              predetermined residual value.
-            </li>
-          </ul>
-
-          <div className="luxury-cards-grid">
-            <div className="luxury-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1563298723-dcfebaa392e3?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title">24-Month Lease</h3>
-                <p className="card-description">
-                  Short-term flexibility perfect for those who want the latest models 
-                  and newest technology every two years.
-                </p>
-              </div>
-            </div>
-            <div className="luxury-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title">36-Month Lease</h3>
-                <p className="card-description">
-                  Most popular option with balanced payments and optimal term length 
-                  for the perfect ownership experience.
-                </p>
-              </div>
-            </div>
-            <div className="luxury-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title">48-Month Lease</h3>
-                <p className="card-description">
-                  Lowest monthly payments with extended term for maximum affordability 
-                  and long-term budget planning.
-                </p>
-              </div>
-            </div>
+      {/* Bank Finance */}
+<section id="bank-finance" style={{ padding: '80px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{
+              fontSize: '42px',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: '#252728'
+            }}>
+              Bank Finance
+            </h2>
+            <p style={{
+              fontSize: '18px',
+              color: '#5f5f5f',
+              maxWidth: '700px',
+              margin: '0 auto'
+            }}>
+              Flexible finance through trusted UK banks with competitive rates and immediate ownership
+            </p>
           </div>
 
-          <div className="contact-cta">
-            <p>Contact us for personalized lease quotes:</p>
-            <p><a href="mailto:lease@evergreenmotor.tc">lease@evergreenmotor.tc</a></p>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {[
+              { title: 'Competitive Rates', description: 'Access great rates from leading banks' },
+              { title: 'Trusted Lenders', description: 'Work with established institutions' },
+              { title: 'Own from Day One', description: 'You own the vehicle immediately' },
+              { title: 'Simple Process', description: 'Quick application with fast decisions' }
+            ].map((benefit, index) => (
+              <div key={index} style={{
+                backgroundColor: '#ffffff',
+                padding: '28px',
+                borderRadius: '8px',
+                textAlign: 'center',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+              }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  margin: '0 auto 16px',
+                  backgroundColor: '#3276AE',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src={`https://placehold.co/60x60/3276AE/ffffff?text=${index + 1}`}
+                    alt={benefit.title}
+                    style={{ width: '60px', height: '60px' }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#3276AE' }}>
+                  {benefit.title}
+                </h3>
+                <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#5f5f5f' }}>
+                  {benefit.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: '#3276AE',
+              color: '#ffffff',
+              padding: '14px 40px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(50, 118, 174, 0.3)'
+            }}>
+              Contact Us for Finance Options
+            </button>
           </div>
         </div>
       </section>
 
-      <section className="luxury-section fleet-section fade-in-section">
-        <div className="section-content">
-          <h2 className="section-title" style={{color: '#333'}}>Fleet & Business Solutions</h2>
-          <p className="section-subtitle" style={{color: '#666'}}>
-            Transform your business fleet with BYD electric vehicles and dramatically reduce 
-            operational costs while meeting sustainability goals.
-          </p>
-          
-          <div className="luxury-cards-grid">
-            <div className="luxury-card light-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title" style={{color: '#333'}}>Corporate Fleets</h3>
-                <p className="card-description" style={{color: '#666'}}>
-                  Volume pricing and dedicated fleet management support for your organization 
-                  with customized solutions and priority service.
+      {/* Dealer Finance (PCP) */}
+<section id="dealer-finance" style={{ padding: '80px 20px', backgroundColor: '#ffffff', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{
+              fontSize: '42px',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: '#252728'
+            }}>
+              Personal Contract Purchase (PCP)
+            </h2>
+            <p style={{
+              fontSize: '18px',
+              color: '#5f5f5f',
+              maxWidth: '700px',
+              margin: '0 auto'
+            }}>
+              Lower monthly payments with flexibility to keep, return, or exchange your vehicle
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {[
+              { title: 'Lower Payments', description: 'Reduced monthly costs with final payment' },
+              { title: 'Multiple Options', description: 'Keep, return, or exchange at end of term' },
+              { title: 'Guaranteed Value', description: 'Know your vehicle\'s future value upfront' },
+              { title: 'Dealer Support', description: 'Expert guidance throughout your contract' }
+            ].map((benefit, index) => (
+              <div key={index} style={{
+                backgroundColor: '#f8f9fa',
+                padding: '28px',
+                borderRadius: '8px',
+                textAlign: 'center'
+              }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  margin: '0 auto 16px',
+                  backgroundColor: '#3276AE',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src={`https://placehold.co/60x60/3276AE/ffffff?text=${index + 1}`}
+                    alt={benefit.title}
+                    style={{ width: '60px', height: '60px' }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#3276AE' }}>
+                  {benefit.title}
+                </h3>
+                <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#5f5f5f' }}>
+                  {benefit.description}
                 </p>
               </div>
-            </div>
-            <div className="luxury-card light-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1494412519320-aa613dfb7738?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title" style={{color: '#333'}}>Commercial Vehicles</h3>
-                <p className="card-description" style={{color: '#666'}}>
-                  Electric vans and trucks perfect for delivery and logistics operations 
-                  with significantly lower operating costs.
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: '#3276AE',
+              color: '#ffffff',
+              padding: '14px 40px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(50, 118, 174, 0.3)'
+            }}>
+              Contact Us for PCP Deals
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Personal Contract Hire (Leasing) */}
+<section id="leasing" style={{ padding: '80px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{
+              fontSize: '42px',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: '#252728'
+            }}>
+              Personal Contract Hire (Leasing)
+            </h2>
+            <p style={{
+              fontSize: '18px',
+              color: '#5f5f5f',
+              maxWidth: '700px',
+              margin: '0 auto'
+            }}>
+              Drive a brand new BYD with low fixed monthly payments and no ownership worries
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {[
+              { title: 'Fixed Term', description: 'Choose 24-48 month lease periods' },
+              { title: 'Low Payments', description: 'Affordable fixed monthly costs' },
+              { title: 'Latest Models', description: 'Always drive the newest vehicles' },
+              { title: 'Maintenance Options', description: 'Add service packages for peace of mind' }
+            ].map((benefit, index) => (
+              <div key={index} style={{
+                backgroundColor: '#ffffff',
+                padding: '28px',
+                borderRadius: '8px',
+                textAlign: 'center',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+              }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  margin: '0 auto 16px',
+                  backgroundColor: '#3276AE',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src={`https://placehold.co/60x60/3276AE/ffffff?text=${index + 1}`}
+                    alt={benefit.title}
+                    style={{ width: '60px', height: '60px' }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#3276AE' }}>
+                  {benefit.title}
+                </h3>
+                <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#5f5f5f' }}>
+                  {benefit.description}
                 </p>
               </div>
-            </div>
-            <div className="luxury-card light-card">
-              <div 
-                className="card-image"
-                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200)'}}
-              ></div>
-              <div className="card-content">
-                <h3 className="card-title" style={{color: '#333'}}>Government Solutions</h3>
-                <p className="card-description" style={{color: '#666'}}>
-                  Special programs designed specifically for government and municipal fleets 
-                  with competitive pricing and dedicated support.
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: '#3276AE',
+              color: '#ffffff',
+              padding: '14px 40px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(50, 118, 174, 0.3)'
+            }}>
+              Contact Us for Lease Deals
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Fleet & Business */}
+<section id="fleet-business" style={{ padding: '80px 20px', backgroundColor: '#ffffff', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{
+              fontSize: '42px',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: '#252728'
+            }}>
+              Fleet & Business Solutions
+            </h2>
+            <p style={{
+              fontSize: '18px',
+              color: '#5f5f5f',
+              maxWidth: '800px',
+              margin: '0 auto'
+            }}>
+              Comprehensive electric vehicle solutions for businesses of all sizes with volume discounts and dedicated support
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {[
+              { title: 'Advanced Technology', description: 'Industry-leading battery and range' },
+              { title: 'Cost Savings', description: 'Reduce fuel and maintenance costs' },
+              { title: 'Volume Discounts', description: 'Special pricing for fleet orders 5+' },
+              { title: 'Comprehensive Warranty', description: '6-year vehicle, 8-year battery warranty' },
+              { title: 'Fleet Management', description: 'Digital tools and dedicated support' },
+              { title: 'ESG Compliance', description: 'Meet sustainability goals' }
+            ].map((benefit, index) => (
+              <div key={index} style={{
+                backgroundColor: '#f8f9fa',
+                padding: '28px',
+                borderRadius: '8px',
+                textAlign: 'center'
+              }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  margin: '0 auto 16px',
+                  backgroundColor: '#1a2a6c',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src={`https://placehold.co/60x60/1a2a6c/ffffff?text=${index + 1}`}
+                    alt={benefit.title}
+                    style={{ width: '60px', height: '60px' }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px', color: '#1a2a6c' }}>
+                  {benefit.title}
+                </h3>
+                <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#5f5f5f' }}>
+                  {benefit.description}
                 </p>
               </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: '#1a2a6c',
+              color: '#ffffff',
+              padding: '14px 40px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(26, 42, 108, 0.3)'
+            }}>
+              Contact Fleet Specialists
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Rentals */}
+<section id="rentals" style={{ padding: '80px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{
+              fontSize: '42px',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: '#252728'
+            }}>
+              Short-Term Rentals
+            </h2>
+            <p style={{
+              fontSize: '18px',
+              color: '#5f5f5f',
+              maxWidth: '700px',
+              margin: '0 auto'
+            }}>
+              Experience electric driving with flexible daily, weekly, or monthly rental options
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {[
+              { title: 'Daily Rental', price: 'From £89/day', description: 'Perfect for short trips' },
+              { title: 'Weekly Rental', price: 'From £499/week', description: 'Great for vacations' },
+              { title: 'Monthly Rental', price: 'From £1,499/month', description: 'Ideal for extended use' }
+            ].map((option, index) => (
+              <div key={index} style={{
+                backgroundColor: '#ffffff',
+                padding: '32px',
+                borderRadius: '8px',
+                textAlign: 'center',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+              }}>
+                <div style={{ 
+                  width: '100px', 
+                  height: '100px', 
+                  margin: '0 auto 16px',
+                  backgroundColor: '#f5576c',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src={`https://placehold.co/80x80/f5576c/ffffff?text=${index + 1}`}
+                    alt={option.title}
+                    style={{ width: '80px', height: '80px' }}
+                  />
+                </div>
+                <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px', color: '#f5576c' }}>
+                  {option.title}
+                </h3>
+                <p style={{ fontSize: '24px', fontWeight: '700', color: '#252728', marginBottom: '8px' }}>
+                  {option.price}
+                </p>
+                <p style={{ fontSize: '14px', color: '#5f5f5f' }}>
+                  {option.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{
+            backgroundColor: '#ffffff',
+            padding: '30px',
+            borderRadius: '8px',
+            marginBottom: '30px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'
+          }}>
+            <h4 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '16px', color: '#252728', textAlign: 'center' }}>
+              All Rentals Include:
+            </h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+              {['Fully charged vehicle', 'Comprehensive insurance', '24/7 breakdown assistance', 'Unlimited mileage'].map((item, idx) => (
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5576c" strokeWidth="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span style={{ fontSize: '14px', color: '#252728' }}>{item}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          <ul className="benefits-list" style={{background: 'rgba(74, 158, 255, 0.05)', border: '1px solid rgba(74, 158, 255, 0.2)'}}>
-            <li style={{color: '#333'}}>
-              <strong style={{color: '#4a9eff'}}>Lower Operating Costs</strong>
-              Reduced fuel and maintenance expenses with up to 70% savings on operating costs 
-              compared to traditional combustion engine fleets.
-            </li>
-            <li style={{color: '#333'}}>
-              <strong style={{color: '#4a9eff'}}>Tax Incentives</strong>
-              Federal and local EV tax credits can significantly reduce acquisition costs, 
-              improving your return on investment.
-            </li>
-            <li style={{color: '#333'}}>
-              <strong style={{color: '#4a9eff'}}>Sustainability Goals</strong>
-              Meet corporate environmental targets and reduce your carbon footprint with 
-              zero-emission electric vehicles.
-            </li>
-            <li style={{color: '#333'}}>
-              <strong style={{color: '#4a9eff'}}>Fleet Management</strong>
-              Comprehensive fleet management services with telematics, dedicated support team, 
-              and priority maintenance scheduling.
-            </li>
-          </ul>
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: '#f5576c',
+              color: '#ffffff',
+              padding: '14px 40px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(245, 87, 108, 0.3)'
+            }}>
+              Contact Us for Rentals
+            </button>
+          </div>
+        </div>
+      </section>
 
-          <div className="contact-cta" style={{background: 'rgba(74, 158, 255, 0.05)', border: '1px solid rgba(74, 158, 255, 0.2)'}}>
-            <p style={{color: '#333'}}>Contact our fleet specialists:</p>
-            <p><a href="mailto:fleet@evergreenmotor.tc">fleet@evergreenmotor.tc</a></p>
+      {/* Subscriptions */}
+<section id="subscriptions" style={{ padding: '80px 20px', backgroundColor: '#ffffff', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <h2 style={{
+              fontSize: '42px',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: '#252728'
+            }}>
+              All-Inclusive Subscription
+            </h2>
+            <p style={{
+              fontSize: '18px',
+              color: '#5f5f5f',
+              maxWidth: '700px',
+              margin: '0 auto'
+            }}>
+              Ultimate flexibility with insurance, maintenance, and everything included in one monthly payment
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '30px',
+            marginBottom: '40px'
+          }}>
+            {[
+              { plan: 'Starter', monthly: '£599', model: 'BYD DOLPHIN', mileage: '750 miles/month' },
+              { plan: 'Premium', monthly: '£799', model: 'BYD ATTO 3', mileage: '1,000 miles/month', featured: true },
+              { plan: 'Executive', monthly: '£999', model: 'BYD SEAL', mileage: '1,250 miles/month' }
+            ].map((tier, index) => (
+              <div key={index} style={{
+                backgroundColor: tier.featured ? '#667eea' : '#f8f9fa',
+                padding: '36px',
+                borderRadius: '8px',
+                border: tier.featured ? '3px solid #667eea' : '1px solid #e5e7eb',
+                textAlign: 'center',
+                position: 'relative',
+                transform: tier.featured ? 'scale(1.05)' : 'scale(1)'
+              }}>
+                {tier.featured && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '-14px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    backgroundColor: '#764ba2',
+                    color: '#ffffff',
+                    padding: '6px 20px',
+                    borderRadius: '20px',
+                    fontSize: '12px',
+                    fontWeight: '600'
+                  }}>
+                    MOST POPULAR
+                  </div>
+                )}
+                <h3 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '16px', color: tier.featured ? '#ffffff' : '#252728' }}>
+                  {tier.plan}
+                </h3>
+                <p style={{ fontSize: '48px', fontWeight: '700', marginBottom: '8px', color: tier.featured ? '#ffffff' : '#667eea' }}>
+                  {tier.monthly}
+                </p>
+                <p style={{ fontSize: '14px', marginBottom: '20px', color: tier.featured ? 'rgba(255,255,255,0.8)' : '#6b7280' }}>
+                  per month
+                </p>
+                <div style={{ marginBottom: '24px', textAlign: 'left' }}>
+                  <p style={{ fontSize: '14px', marginBottom: '8px', color: tier.featured ? 'rgba(255,255,255,0.9)' : '#5f5f5f' }}>
+                    <strong>Model:</strong> {tier.model}
+                  </p>
+                  <p style={{ fontSize: '14px', marginBottom: '8px', color: tier.featured ? 'rgba(255,255,255,0.9)' : '#5f5f5f' }}>
+                    <strong>Mileage:</strong> {tier.mileage}
+                  </p>
+                  <p style={{ fontSize: '14px', color: tier.featured ? 'rgba(255,255,255,0.9)' : '#5f5f5f' }}>
+                    <strong>Minimum:</strong> 6 months
+                  </p>
+                </div>
+                <div style={{ marginBottom: '20px', paddingTop: '20px', borderTop: `1px solid ${tier.featured ? 'rgba(255,255,255,0.2)' : '#e5e7eb'}` }}>
+                  <p style={{ fontSize: '13px', fontWeight: '600', marginBottom: '10px', color: tier.featured ? '#ffffff' : '#252728' }}>
+                    Everything Included:
+                  </p>
+                  <p style={{ fontSize: '12px', lineHeight: '1.6', color: tier.featured ? 'rgba(255,255,255,0.85)' : '#5f5f5f' }}>
+                    Vehicle • Insurance • Maintenance • Breakdown Cover • Vehicle Swaps • Digital Management
+                  </p>
+                </div>
+                <button style={{
+                  width: '100%',
+                  backgroundColor: tier.featured ? '#ffffff' : '#667eea',
+                  color: tier.featured ? '#667eea' : '#ffffff',
+                  padding: '14px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}>
+                  Subscribe Now
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: '#667eea',
+              color: '#ffffff',
+              padding: '14px 40px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
+            }}>
+              Contact Us About Subscriptions
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section style={{
+        padding: '80px 20px',
+        background: 'linear-gradient(135deg, #2d3436 0%, #3276AE 100%)',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', color: '#ffffff' }}>
+          <h2 style={{
+            fontSize: '40px',
+            fontWeight: '700',
+            marginBottom: '20px',
+            lineHeight: '1.2'
+          }}>
+            Ready to Get Your BYD?
+          </h2>
+          <p style={{
+            fontSize: '20px',
+            lineHeight: '1.6',
+            marginBottom: '40px',
+            opacity: '0.95'
+          }}>
+            Contact us today and our team will help you find the perfect purchasing option for your needs
+          </p>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button style={{
+              backgroundColor: '#ffffff',
+              color: '#3276AE',
+              padding: '16px 48px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+            }}>
+              Contact Us Now
+            </button>
+            <button style={{
+              backgroundColor: 'transparent',
+              color: '#ffffff',
+              padding: '16px 48px',
+              fontSize: '16px',
+              fontWeight: '600',
+              border: '2px solid #ffffff',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}>
+              Find a Location
+            </button>
           </div>
         </div>
       </section>
     </div>
   );
-};
-
-export default Purchasing;
+}

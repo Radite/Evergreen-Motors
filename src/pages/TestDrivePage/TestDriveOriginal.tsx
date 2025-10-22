@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Calendar, Check } from 'lucide-react';
+import { models as allModels } from './data/models'; // Import from models.ts
+import CountryCodeSelect from './CountryCodeSelect';
 
 const TestDrivePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -54,20 +56,17 @@ const TestDrivePage = () => {
     };
   }, []);
 
-  const models = [
-    { id: 1, name: 'ATTO 2', type: 'electric', image: '/models/BYD-ATTO-2/BYD_ATTO_2.jpg' },
-    { id: 2, name: 'DOLPHIN SURF', type: 'electric', image: '/models/BYD-DOLPHIN-SURF/BYD-DOLPHIN-SURF.webp' },
-    { id: 3, name: 'SEALION 7', type: 'electric', image: '/models/BYD-SEALION-7/BYD-SEALION-7.webp' },
-    { id: 4, name: 'SEAL U DM-i', type: 'hybrid', image: '/models/BYD-SEAL-U-DM-i/BYD-SEAL-U-DM-i.webp' },
-    { id: 5, name: 'SEAL', type: 'electric', image: '/models/BYD-SEAL/BYD-SEAL.webp' },
-    { id: 6, name: 'ATTO 3', type: 'electric', image: '/models/BYD-ATTO3/BYD-ATTO3.webp' },
-    { id: 7, name: 'DOLPHIN', type: 'electric', image: '/models/BYD-DOLPHIN/BYD-DOLPHIN.webp' }
-  ];
+  // Map models from models.ts to the format needed for test drive
+  const models = allModels.map(model => ({
+    id: model.id,
+    name: model.name,
+    type: model.type,
+    image: model.images[0] // Use first image
+  }));
 
   const filteredModels = selectedCategory === 'all' 
     ? models 
     : models.filter(m => m.type === selectedCategory);
-
   const scrollCarousel = (direction) => {
     const container = document.querySelector('.models-grid');
     const cardWidth = 410;
@@ -80,6 +79,29 @@ const TestDrivePage = () => {
     setCarouselIndex(newIndex);
   };
 
+  useEffect(() => {
+  const container = document.querySelector('.models-grid');
+  
+  const handleCarouselScroll = () => {
+    if (!container) return;
+    
+    const cardWidth = 410;
+    const scrollLeft = container.scrollLeft;
+    const newIndex = Math.round(scrollLeft / cardWidth);
+    
+    setCarouselIndex(newIndex);
+  };
+
+  if (container) {
+    container.addEventListener('scroll', handleCarouselScroll);
+  }
+  
+  return () => {
+    if (container) {
+      container.removeEventListener('scroll', handleCarouselScroll);
+    }
+  };
+}, [filteredModels]);
   const scrollToIndex = (index) => {
     const container = document.querySelector('.models-grid');
     const cardWidth = 410;
@@ -128,7 +150,7 @@ const TestDrivePage = () => {
         .hero-section {
           height: 110vh;
           background: 
-                      url('/testdrive.jpg') center/cover;
+                      url('/models/BYD-ATTO-2/Banner.jpg') center/cover;
           display: flex;
           align-items: center;
           padding-left: 8%;
@@ -890,19 +912,11 @@ const TestDrivePage = () => {
       Phone Number<span className="required">*</span>
     </label>
     <div className="phone-group">
-      <select
-        className="country-code-select"
-        value={formData.countryCode}
-        onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
-      >
-        <option value="+1">+1 (US)</option>
-        <option value="+44">+44 (UK)</option>
-        <option value="+91">+91 (IN)</option>
-        <option value="+86">+86 (CN)</option>
-        <option value="+81">+81 (JP)</option>
-        <option value="+49">+49 (DE)</option>
-        <option value="+33">+33 (FR)</option>
-      </select>
+<CountryCodeSelect
+  value={formData.countryCode}
+  onChange={(code) => setFormData({ ...formData, countryCode: code })}
+/>
+
       <input
         type="tel"
         className="form-input"
