@@ -6,5 +6,11 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true
+  },
+  // Ensure public folder (including _redirects) is copied to dist
+  publicDir: 'public',
+  build: {
+    outDir: 'dist',
+    copyPublicDir: true
   }
 });
