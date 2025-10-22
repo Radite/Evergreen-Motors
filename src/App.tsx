@@ -4,7 +4,6 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Models from './pages/Models';
-import ModelDetail from './pages/ModelDetail';
 import Technology from './pages/Technology';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
@@ -80,8 +79,6 @@ const App: React.FC = () => {
             <Route path="/models/yu8" element={<ModelPage />} />
             <Route path="/models/shark" element={<ModelPage />} />
 
-            {/* Fallback for dynamic model routes (if you prefer) */}
-            <Route path="/models/:id" element={<ModelDetail />} />
 
             {/* Other Routes */}
             <Route path="/technology" element={<Technology />} />
