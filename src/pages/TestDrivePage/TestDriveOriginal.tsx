@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Calendar, Check } from 'lucide-react';
-import { models as allModels } from './data/models'; // Import from models.ts
+import { models as allModels } from './data/models';
 import CountryCodeSelect from './CountryCodeSelect';
+import emailjs from '@emailjs/browser';
 
 const TestDrivePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -14,6 +15,9 @@ const TestDrivePage = () => {
   const [showDateError, setShowDateError] = useState(false);
   const [showTimeError, setShowTimeError] = useState(false);
   const [isProgressAboveFooter, setIsProgressAboveFooter] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showContactError, setShowContactError] = useState(false);
+const [emailError, setEmailError] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -23,9 +27,32 @@ const TestDrivePage = () => {
     useType: 'personal'
   });
 
+  // EmailJS Configuration
+const EMAILJS_SERVICE_ID = 'service_95egztj';  // Replace with your Service ID
+const EMAILJS_TEMPLATE_ID = 'template_og3k19g'; // Replace with your Template ID
+const EMAILJS_PUBLIC_KEY = 'JT95dY0H7AhNEF5Yc';       // Replace with your Public Key
+
   const timeSlots = [
     '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'
   ];
+
+
+// Email validation function
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const handleEmailChange = (e) => {
+  const email = e.target.value;
+  setFormData({ ...formData, email });
+  
+  if (email && !validateEmail(email)) {
+    setEmailError('Please enter a valid email address');
+  } else {
+    setEmailError('');
+  }
+};
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,6 +84,7 @@ const TestDrivePage = () => {
   }, []);
 
   // Map models from models.ts to the format needed for test drive
+// Map models from models.ts to the format needed for test drive
   const models = allModels.map(model => ({
     id: model.id,
     name: model.name,
@@ -64,9 +92,22 @@ const TestDrivePage = () => {
     image: model.images[0] // Use first image
   }));
 
+  // Check if all required fields are filled
+const isFormComplete = 
+  selectedModel && 
+  selectedDate && 
+  selectedTime && 
+  formData.firstName.trim() && 
+  formData.lastName.trim() && 
+  formData.email.trim() && 
+  validateEmail(formData.email) && 
+  !emailError &&
+  formData.phone.trim() && 
+  formData.useType;
   const filteredModels = selectedCategory === 'all' 
     ? models 
     : models.filter(m => m.type === selectedCategory);
+
   const scrollCarousel = (direction) => {
     const container = document.querySelector('.models-grid');
     const cardWidth = 410;
@@ -122,25 +163,82 @@ const TestDrivePage = () => {
     setShowModelError(false);
   };
 
-  const handleSubmit = () => {
-    if (!selectedModel) {
-      setShowModelError(true);
-      return;
+const handleSubmit = async () => {
+  // Validation
+  if (!selectedModel) {
+    setShowModelError(true);
+    return;
+  }
+  if (!selectedDate) {
+    setShowDateError(true);
+    return;
+  }
+  if (!selectedTime) {
+    setShowTimeError(true);
+    return;
+  }
+if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.useType) {
+  setShowContactError(true);
+  document.querySelector('.contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return;
+}
+
+// Email validation
+if (!validateEmail(formData.email)) {
+  setEmailError('Please enter a valid email address');
+  document.querySelector('.contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return;
+}
+
+  setIsSubmitting(true);
+
+  try {
+    // Get selected model details
+    const selectedModelData = models.find(m => m.id === selectedModel);
+    
+    // Prepare email parameters
+    const templateParams = {
+      from_name: `${formData.firstName} ${formData.lastName}`,
+      user_email: formData.email,
+      phone: `${formData.countryCode} ${formData.phone}`,
+      use_type: formData.useType === 'personal' ? 'Personal' : 
+                formData.useType === 'private-hire' ? 'Private Hire' : 'Fleet/Corporate',
+      model: selectedModelData?.name || 'Unknown Model',
+      date: selectedDate,
+      time: selectedTime
+    };
+
+    // Send email using EmailJS
+    const response = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      templateParams,
+      EMAILJS_PUBLIC_KEY
+    );
+
+    if (response.status === 200) {
+      alert('Test drive booking request submitted successfully! We will contact you shortly.');
+      
+      // Reset form
+      setSelectedModel(null);
+      setSelectedDate('');
+      setSelectedTime('');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        countryCode: '+44',
+        phone: '',
+        useType: 'personal'
+      });
     }
-    if (!selectedDate) {
-      setShowDateError(true);
-      return;
-    }
-    if (!selectedTime) {
-      setShowTimeError(true);
-      return;
-    }
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
-      alert('Please fill in all required fields');
-      return;
-    }
-    alert('Booking request submitted!');
-  };
+  } catch (error) {
+    console.error('EmailJS Error:', error);
+    alert('Failed to submit booking request. Please try again or contact us directly.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div style={{ width: '100%', fontFamily: "'Montserrat', sans-serif" }}>
@@ -532,10 +630,18 @@ const TestDrivePage = () => {
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
+
   
   /* tightened spacing */
   margin-top: 12px; /* 👈 reduced from 40px */
   margin-bottom: 50px; /* 👈 keeps it visually above the progress bar */
+}
+
+  .contact-form .submit-button:disabled {
+  background-color: #999 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  opacity: 0.5 !important;
 }
 
 .contact-form .submit-button:hover {
@@ -620,6 +726,7 @@ const TestDrivePage = () => {
           transform: translateY(-3px);
           box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
         }
+
 
         @media (max-width: 768px) {
           .hero-title {
@@ -894,19 +1001,24 @@ const TestDrivePage = () => {
   </div>
 
   {/* Row 2: Email & Phone */}
-  <div className="form-group email">
-    <label className="form-label">
-      Email<span className="required">*</span>
-    </label>
-    <input
-      type="email"
-      className="form-input"
-      placeholder="Email*"
-      value={formData.email}
-      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-    />
-  </div>
-
+<div className="form-group email">
+  <label className="form-label">
+    Email<span className="required">*</span>
+  </label>
+  <input
+    type="email"
+    className="form-input"
+    placeholder="Email*"
+    value={formData.email}
+    onChange={handleEmailChange}
+    style={{ borderColor: emailError ? '#e74c3c' : '' }}
+  />
+  {emailError && (
+    <div style={{ color: '#e74c3c', fontSize: '0.8rem', marginTop: '5px' }}>
+      {emailError}
+    </div>
+  )}
+</div>
   <div className="form-group phone">
     <label className="form-label">
       Phone Number<span className="required">*</span>
@@ -944,9 +1056,13 @@ const TestDrivePage = () => {
     </select>
   </div>
 
-  <button onClick={handleSubmit} className="submit-button">
-    Request Booking
-  </button>
+<button 
+  onClick={handleSubmit} 
+  className="submit-button" 
+  disabled={isSubmitting || !isFormComplete}
+>
+  {isSubmitting ? 'Submitting...' : 'Request Booking'}
+</button>
 </div>
 
         </div>

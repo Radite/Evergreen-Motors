@@ -62,7 +62,7 @@ export const models: Model[] = [
     ],
     videos: ['/videos/BYD-ATTO3/Overview.mp4'],
   },
-  {
+  /*{
     id: 4,
     name: 'iCAR 03 Adventure Ed.',
     type: 'electric',
@@ -82,7 +82,7 @@ export const models: Model[] = [
       '/models/ICAR-03/Banner.webp',
     ],
     videos: ['/videos/ICAR-03/Overview.mp4'],
-  },
+  },*/
   {
     id: 5,
     name: 'BYD Seal U',

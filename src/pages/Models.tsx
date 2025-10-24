@@ -443,12 +443,7 @@ const getModelSlug = (modelName: string): string => {
                 <div className="model-type-badge">
                   {model.type === 'electric' ? '⚡ Electric' : '🔋 Hybrid'}
                 </div>
-                {model.notes && (
-                  <div className="model-availability-badge">
-                    {model.notes.includes('3-month') ? 'Pre-Order' : 
-                     model.notes.includes('January 2026') ? 'Coming Soon' : 'Available'}
-                  </div>
-                )}
+
               </div>
               <div className="luxury-model-info">
                 <h3 className="luxury-model-name">{model.name}</h3>

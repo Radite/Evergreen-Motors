@@ -3,7 +3,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { models } from './TestDrivePage/data/models';
 import InstagramLightbox from './InstagramLightbox';
 import { instagramPosts } from './instagramPosts';
-
+import CountryCodeSelect from './TestDrivePage/CountryCodeSelect';
+import emailjs from '@emailjs/browser';
 // Add this helper function after your imports and before the component
 const getModelSlug = (modelName: string): string => {
   const slugMap: { [key: string]: string } = {
@@ -61,6 +62,19 @@ const openLightbox = (index: number) => {
   const currentModel = models[currentIndex];
 const selectedImageIndex = carouselImageConfig[currentModel.id] || 0;
 
+
+// Inside the component, add these state variables after the existing useState declarations:
+const [formData, setFormData] = useState({
+  firstName: '',
+  lastName: '',
+  email: '',
+  countryCode: '+44',
+  phone: '',
+  modelInterest: '',
+  helpWith: ''
+});
+const [emailError, setEmailError] = useState('');
+const [isSubmitting, setIsSubmitting] = useState(false);
   // Models Section State - FIXED FOR INFINITE SCROLL
   const [currentSlide, setCurrentSlide] = useState(models.length); // Start at first duplicate set
   const [instagramIndex, setInstagramIndex] = useState(0);
@@ -191,27 +205,134 @@ const formatRange = (rangeString: string) => {
   }
   return 'N/A';
 };
-
+// Add EmailJS configuration
+const EMAILJS_SERVICE_ID = 'service_95egztj';
+const EMAILJS_TEMPLATE_ID = 'template_pufs515'; // You'll need to create this template
+const EMAILJS_PUBLIC_KEY = 'JT95dY0H7AhNEF5Yc';
   const modelDescription = modelDescriptions[currentModel.id] || '';
-  const handleSubmit = () => {
-    if (!selectedModel) {
-      setShowModelError(true);
-      return;
+// Add email validation function
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// Phone validation function
+const validatePhone = (phone) => {
+  // Remove all non-digit characters for validation
+  const digitsOnly = phone.replace(/\D/g, '');
+  
+  // Check if it has between 7 and 15 digits (international standard)
+  if (digitsOnly.length < 7 || digitsOnly.length > 15) {
+    return false;
+  }
+  
+  // Basic pattern: allows digits, spaces, dashes, parentheses, and plus
+  const phoneRegex = /^[\d\s\-\(\)\+]+$/;
+  return phoneRegex.test(phone);
+};
+
+// Optional: Format phone number as user types
+const formatPhoneNumber = (value) => {
+  // Remove all non-digit characters
+  const digitsOnly = value.replace(/\D/g, '');
+  
+  // Format based on length (UK format example)
+  if (digitsOnly.length <= 5) {
+    return digitsOnly;
+  } else if (digitsOnly.length <= 9) {
+    return `${digitsOnly.slice(0, 5)} ${digitsOnly.slice(5)}`;
+  } else {
+    return `${digitsOnly.slice(0, 5)} ${digitsOnly.slice(5, 11)}`;
+  }
+};
+const [phoneError, setPhoneError] = useState('');
+const handlePhoneChange = (e) => {
+  const phone = e.target.value;
+  
+  // Optional: Auto-format as user types
+  // const formatted = formatPhoneNumber(phone);
+  // setFormData({ ...formData, phone: formatted });
+  
+  // Or just set the value directly
+  setFormData({ ...formData, phone });
+  
+  // Validate only if user has entered something
+  if (phone && !validatePhone(phone)) {
+    setPhoneError('Please enter a valid phone number');
+  } else {
+    setPhoneError('');
+  }
+};
+const handleEmailChange = (e) => {
+  const email = e.target.value;
+  setFormData({ ...formData, email });
+  
+  if (email && !validateEmail(email)) {
+    setEmailError('Please enter a valid email address');
+  } else {
+    setEmailError('');
+  }
+};
+
+// Replace the existing handleSubmit function with:
+const handleSubmit = async () => {
+  // Validation
+  if (!formData.firstName || !formData.lastName || !formData.email || 
+      !formData.phone || !formData.modelInterest || !formData.helpWith) {
+    alert('Please fill in all required fields');
+    return;
+  }
+
+  if (!validateEmail(formData.email)) {
+    setEmailError('Please enter a valid email address');
+    return;
+  }
+
+    // Add phone validation
+  if (!validatePhone(formData.phone)) {
+    setPhoneError('Please enter a valid phone number');
+    return;
+  }
+  setIsSubmitting(true);
+
+  try {
+    const templateParams = {
+      from_name: `${formData.firstName} ${formData.lastName}`,
+      user_email: formData.email,
+      phone: `${formData.countryCode} ${formData.phone}`,
+      model_interest: formData.modelInterest,
+      help_with: formData.helpWith
+    };
+
+    const response = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      templateParams,
+      EMAILJS_PUBLIC_KEY
+    );
+
+    if (response.status === 200) {
+      alert('Message sent successfully! We will contact you shortly.');
+      
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        countryCode: '+44',
+        phone: '',
+        modelInterest: '',
+        helpWith: ''
+      });
+      setEmailError('');
     }
-    if (!selectedDate) {
-      setShowDateError(true);
-      return;
-    }
-    if (!selectedTime) {
-      setShowTimeError(true);
-      return;
-    }
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
-      alert('Please fill in all required fields');
-      return;
-    }
-    alert('Booking request submitted!');
-  };
+  } catch (error) {
+    console.error('EmailJS Error:', error);
+    alert('Failed to send message. Please try again or contact us directly.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   return (
     <div style={{ width: '100%', overflow: 'hidden' }}>
       <style>{`
@@ -1356,95 +1477,123 @@ const formatRange = (rangeString: string) => {
   onClose={() => setLightboxOpen(false)}
 />
       {/* Contact Section */}
-      <section className="contact-section">
-        <div className="contact-form-wrapper">
-          <h2 className="contact-title">Contact us</h2>
-          
-          <form onSubmit={(e) => { e.preventDefault(); }}>
-            <div className="form-row">
-              <div className="form-group">
-                <input 
-                  type="text" 
-                  className="form-input" 
-                  placeholder="First Name*"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input 
-                  type="text" 
-                  className="form-input" 
-                  placeholder="Last Name*"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <input 
-                type="email" 
-                className="form-input" 
-                placeholder="Email*"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <div className="phone-input-group">
-                <select className="form-select">
-                  <option>+44</option>
-                  <option>+1</option>
-                  <option>+91</option>
-                </select>
-                <input 
-                  type="tel" 
-                  className="form-input" 
-                  placeholder="07400 123456*"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <select className="form-select" required>
-                <option value="">Model of Interest*</option>
-                {models.map(model => (
-                  <option key={model.id} value={model.name}>{model.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <select className="form-select" required>
-                <option value="">Post Code*</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <select className="form-select" required>
-                <option value="">How can we help you?*</option>
-                <option>Test Drive</option>
-                <option>Purchase Inquiry</option>
-                <option>General Question</option>
-                <option>Service Inquiry</option>
-              </select>
-            </div>
-
-<button onClick={handleSubmit} className="submit-button">
-  Submit
-</button>
-
-          </form>
-        </div>
-
-        <div>
-          <img 
-            src="/Home/Contact.jpg"
-            alt="BYD Electric Car"
-            className="contact-image"
+<section className="contact-section">
+  <div className="contact-form-wrapper">
+    <h2 className="contact-title">Contact us</h2>
+    
+    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+      <div className="form-row">
+        <div className="form-group">
+          <input 
+            type="text" 
+            className="form-input" 
+            placeholder="First Name*"
+            value={formData.firstName}
+            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+            required
           />
         </div>
-      </section>
+        <div className="form-group">
+          <input 
+            type="text" 
+            className="form-input" 
+            placeholder="Last Name*"
+            value={formData.lastName}
+            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+            required
+          />
+        </div>
+      </div>
+
+      <div className="form-group">
+        <input 
+          type="email" 
+          className="form-input" 
+          placeholder="Email*"
+          value={formData.email}
+          onChange={handleEmailChange}
+          style={{ borderColor: emailError ? '#e74c3c' : '' }}
+          required
+        />
+        {emailError && (
+          <div style={{ color: '#e74c3c', fontSize: '0.85rem', marginTop: '5px' }}>
+            {emailError}
+          </div>
+        )}
+      </div>
+
+      <div className="form-group">
+<div className="form-group">
+  <div className="phone-input-group">
+    <CountryCodeSelect
+      value={formData.countryCode}
+      onChange={(code) => setFormData({ ...formData, countryCode: code })}
+    />
+    <input 
+      type="tel" 
+      className="form-input" 
+      placeholder="07400 123456*"
+      value={formData.phone}
+      onChange={handlePhoneChange}
+      style={{ borderColor: phoneError ? '#e74c3c' : '' }}
+      required
+    />
+  </div>
+  {phoneError && (
+    <div style={{ color: '#e74c3c', fontSize: '0.85rem', marginTop: '5px' }}>
+      {phoneError}
+    </div>
+  )}
+</div>
+      </div>
+
+      <div className="form-group">
+        <select 
+          className="form-select" 
+          value={formData.modelInterest}
+          onChange={(e) => setFormData({ ...formData, modelInterest: e.target.value })}
+          required
+        >
+          <option value="">Model of Interest*</option>
+          {models.map(model => (
+            <option key={model.id} value={model.name}>{model.name}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <select 
+          className="form-select" 
+          value={formData.helpWith}
+          onChange={(e) => setFormData({ ...formData, helpWith: e.target.value })}
+          required
+        >
+          <option value="">How can we help you?*</option>
+          <option value="test-drive">Test Drive</option>
+          <option value="purchase">Purchase Inquiry</option>
+          <option value="general">General Question</option>
+          <option value="service">Service Inquiry</option>
+        </select>
+      </div>
+
+      <button 
+        type="submit" 
+        className="submit-button"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Submitting...' : 'Submit'}
+      </button>
+    </form>
+  </div>
+
+  <div>
+    <img 
+      src="/Home/Contact.jpg"
+      alt="BYD Electric Car"
+      className="contact-image"
+    />
+  </div>
+</section>
 
       {/* Map Section */}
       <section className="map-section">
