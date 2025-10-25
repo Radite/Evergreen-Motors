@@ -1477,7 +1477,7 @@ const handleSubmit = async () => {
   onClose={() => setLightboxOpen(false)}
 />
       {/* Contact Section */}
-<section className="contact-section">
+<section id="contact" className="contact-section">
   <div className="contact-form-wrapper">
     <h2 className="contact-title">Contact us</h2>
     
