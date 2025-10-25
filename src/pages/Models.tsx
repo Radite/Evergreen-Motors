@@ -382,20 +382,65 @@ const getModelSlug = (modelName: string): string => {
           .model-specs {
             grid-template-columns: repeat(2, 1fr);
           }
+
+          .models-hero-content h1 {
+            font-size: 5rem;
+            letter-spacing: 10px;
+          }
+
+          .models-hero-content .subtitle {
+            font-size: 1.5rem;
+          }
+
+          .models-hero-content p {
+            font-size: 1.2rem;
+          }
+
+          .models-section {
+            padding: 6rem 4%;
+          }
         }
 
         @media (max-width: 768px) {
+          .models-hero {
+            height: 80vh;
+            background-attachment: scroll;
+          }
+
+          .models-hero-content {
+            padding: 2rem;
+          }
+
           .models-hero-content h1 {
             font-size: 3.5rem;
             letter-spacing: 6px;
           }
 
+          .models-hero-content .subtitle {
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+          }
+
+          .models-hero-content p {
+            font-size: 1.1rem;
+          }
+
           .luxury-models-grid {
             grid-template-columns: 1fr;
+            gap: 2.5rem;
+          }
+
+          .models-intro {
+            margin-bottom: 5rem;
           }
 
           .models-intro h2 {
             font-size: 3rem;
+            letter-spacing: 6px;
+          }
+
+          .models-intro p {
+            font-size: 1.1rem;
           }
 
           .model-specs {
@@ -405,6 +450,318 @@ const getModelSlug = (modelName: string): string => {
 
           .luxury-model-name {
             font-size: 2.2rem;
+            letter-spacing: 3px;
+          }
+
+          .luxury-model-info {
+            padding: 2.5rem;
+          }
+
+          .model-image-container {
+            height: 300px;
+          }
+
+          .model-type-badge,
+          .model-availability-badge {
+            padding: 0.5rem 1.4rem;
+            font-size: 0.75rem;
+          }
+
+          .models-section {
+            padding: 5rem 5%;
+          }
+        }
+
+        @media (max-width: 599px) {
+          .models-hero {
+            height: 70vh;
+          }
+
+          .models-hero-content h1 {
+            font-size: 2.8rem;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+          }
+
+          .models-hero-content .subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+          }
+
+          .models-hero-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+          }
+
+          .models-intro h2 {
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+          }
+
+          .models-intro p {
+            font-size: 1rem;
+          }
+
+          .luxury-models-grid {
+            gap: 2rem;
+          }
+
+          .luxury-model-name {
+            font-size: 2rem;
+            letter-spacing: 2px;
+          }
+
+          .luxury-model-category {
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+          }
+
+          .luxury-model-description {
+            font-size: 1rem;
+          }
+
+          .luxury-model-info {
+            padding: 2rem;
+          }
+
+          .model-image-container {
+            height: 260px;
+          }
+
+          .spec-label {
+            font-size: 0.7rem;
+          }
+
+          .spec-value {
+            font-size: 1rem;
+          }
+
+          .color-preview-label {
+            font-size: 0.8rem;
+          }
+
+          .color-dot {
+            width: 24px;
+            height: 24px;
+          }
+
+          .luxury-learn-more {
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+          }
+
+          .models-section {
+            padding: 4rem 5%;
+          }
+        }
+
+        @media (max-width: 479px) {
+          .models-hero {
+            height: 60vh;
+          }
+
+          .models-hero-content {
+            padding: 1.5rem;
+          }
+
+          .models-hero-content h1 {
+            font-size: 2.2rem;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+          }
+
+          .models-hero-content .subtitle {
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.8rem;
+          }
+
+          .models-hero-content p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+          }
+
+          .models-section {
+            padding: 3rem 4%;
+          }
+
+          .models-intro {
+            margin-bottom: 4rem;
+          }
+
+          .models-intro h2 {
+            font-size: 2rem;
+            letter-spacing: 3px;
+            margin-bottom: 1.2rem;
+          }
+
+          .models-intro p {
+            font-size: 0.95rem;
+          }
+
+          .luxury-models-grid {
+            gap: 1.8rem;
+          }
+
+          .luxury-model-info {
+            padding: 1.8rem;
+          }
+
+          .luxury-model-name {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+          }
+
+          .luxury-model-category {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+          }
+
+          .luxury-model-description {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .model-image-container {
+            height: 220px;
+          }
+
+          .model-type-badge {
+            top: 15px;
+            left: 15px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+          }
+
+          .model-availability-badge {
+            top: 15px;
+            right: 15px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.65rem;
+          }
+
+          .model-specs {
+            gap: 1.2rem;
+            padding-top: 1.2rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .spec-label {
+            font-size: 0.65rem;
+            margin-bottom: 0.4rem;
+          }
+
+          .spec-value {
+            font-size: 0.95rem;
+          }
+
+          .color-preview {
+            margin-bottom: 1.5rem;
+          }
+
+          .color-preview-label {
+            font-size: 0.75rem;
+            margin-bottom: 0.6rem;
+          }
+
+          .color-dot {
+            width: 22px;
+            height: 22px;
+          }
+
+          .luxury-learn-more {
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            padding-bottom: 0.2rem;
+          }
+        }
+
+        @media (max-width: 374px) {
+          .models-hero-content h1 {
+            font-size: 1.9rem;
+            letter-spacing: 2px;
+          }
+
+          .models-hero-content .subtitle {
+            font-size: 0.9rem;
+          }
+
+          .models-hero-content p {
+            font-size: 0.85rem;
+          }
+
+          .models-intro h2 {
+            font-size: 1.7rem;
+            letter-spacing: 2px;
+          }
+
+          .models-intro p {
+            font-size: 0.9rem;
+          }
+
+          .luxury-model-name {
+            font-size: 1.6rem;
+          }
+
+          .luxury-model-category {
+            font-size: 0.8rem;
+          }
+
+          .luxury-model-description {
+            font-size: 0.9rem;
+          }
+
+          .luxury-model-info {
+            padding: 1.5rem;
+          }
+
+          .model-image-container {
+            height: 200px;
+          }
+
+          .luxury-learn-more {
+            font-size: 0.8rem;
+          }
+
+          .color-dot {
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+          .models-hero {
+            background-attachment: scroll !important;
+          }
+
+          .luxury-model-card,
+          .luxury-model-card:hover,
+          .color-dot,
+          .luxury-learn-more {
+            transition: none !important;
+          }
+
+          .fade-in-section {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .luxury-model-card {
+            min-height: 44px;
+          }
+
+          .luxury-learn-more {
+            min-height: 44px;
+            display: flex;
+            align-items: center;
           }
         }
       `}</style>

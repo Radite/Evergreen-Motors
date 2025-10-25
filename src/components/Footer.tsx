@@ -52,7 +52,92 @@ const Footer: React.FC = () => {
         margin: 0,
       }}
     >
+      <style>{`
+        @media (max-width: 1024px) {
+          .footer-grid {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+            gap: 1.8rem !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .footer-container {
+            padding: 3rem 1.5rem !important;
+          }
+
+          .footer-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 2.5rem !important;
+          }
+
+          .footer-section-title {
+            font-size: 1rem !important;
+          }
+
+          .footer-link {
+            font-size: 0.8rem !important;
+          }
+
+          .footer-bottom {
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+            text-align: center !important;
+          }
+
+          .footer-social {
+            justify-content: center !important;
+          }
+
+          .footer-legal {
+            justify-content: center !important;
+          }
+        }
+
+        @media (max-width: 599px) {
+          .footer-container {
+            padding: 2.5rem 1.2rem !important;
+          }
+
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+
+          .models-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+
+        @media (max-width: 479px) {
+          .footer-container {
+            padding: 2rem 1rem !important;
+          }
+
+          .footer-section-title {
+            font-size: 0.95rem !important;
+            margin-bottom: 0.8rem !important;
+          }
+
+          .footer-link {
+            font-size: 0.75rem !important;
+          }
+
+          .models-grid {
+            gap: 0.4rem 0.8rem !important;
+          }
+
+          .footer-copyright {
+            font-size: 0.75rem !important;
+          }
+
+          .footer-legal {
+            gap: 1rem !important;
+            font-size: 0.75rem !important;
+          }
+        }
+      `}</style>
       <div
+        className="footer-container"
         style={{
           maxWidth: '1600px',
           margin: '0 auto',
@@ -60,6 +145,7 @@ const Footer: React.FC = () => {
         }}
       >
         <div
+          className="footer-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -70,6 +156,7 @@ const Footer: React.FC = () => {
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section}>
               <h3
+                className="footer-section-title"
                 style={{
                   fontWeight: 600,
                   fontSize: '1.125rem',
@@ -84,6 +171,7 @@ const Footer: React.FC = () => {
               {/* Models Section - 2 columns */}
               {section === 'Models' ? (
                 <ul
+                  className="models-grid"
                   style={{
                     listStyle: 'none',
                     padding: 0,
@@ -96,6 +184,7 @@ const Footer: React.FC = () => {
                   {links.map((link) => (
                     <li key={link.label}>
                       <a
+                        className="footer-link"
                         href={link.href}
                         style={linkStyle(link.label)}
                         onMouseEnter={() => setIsHovered(link.label)}
@@ -111,6 +200,7 @@ const Footer: React.FC = () => {
                   {links.map((link) => (
                     <li key={link.label} style={{ marginBottom: '0.5rem' }}>
                       <a
+                        className="footer-link"
                         href={link.href}
                         style={linkStyle(link.label)}
                         onMouseEnter={() => setIsHovered(link.label)}
@@ -128,6 +218,7 @@ const Footer: React.FC = () => {
 
         {/* Bottom section */}
         <div
+          className="footer-bottom"
           style={{
             borderTop: '1px solid rgba(255,255,255,0.1)',
             paddingTop: '2rem',
@@ -139,6 +230,7 @@ const Footer: React.FC = () => {
           }}
         >
           <div
+            className="footer-social"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -165,6 +257,7 @@ const Footer: React.FC = () => {
 
           {/* Legal Links */}
           <div
+            className="footer-legal"
             style={{
               display: 'flex',
               flexWrap: 'wrap',
@@ -173,6 +266,7 @@ const Footer: React.FC = () => {
             }}
           >
             <a
+              className="footer-link"
               href="/privacy"
               style={linkStyle('privacy-link')}
               onMouseEnter={() => setIsHovered('privacy-link')}
@@ -181,6 +275,7 @@ const Footer: React.FC = () => {
               Privacy Policy
             </a>
             <a
+              className="footer-link"
               href="/terms"
               style={linkStyle('terms-link')}
               onMouseEnter={() => setIsHovered('terms-link')}
@@ -189,6 +284,7 @@ const Footer: React.FC = () => {
               Terms of Use
             </a>
             <a
+              className="footer-link"
               href="/cookies"
               style={linkStyle('cookies-link')}
               onMouseEnter={() => setIsHovered('cookies-link')}
@@ -197,6 +293,7 @@ const Footer: React.FC = () => {
               Cookies
             </a>
             <a
+              className="footer-link"
               href="/contact"
               style={linkStyle('contact-link')}
               onMouseEnter={() => setIsHovered('contact-link')}
@@ -208,6 +305,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div
+          className="footer-copyright"
           style={{
             textAlign: 'center',
             fontSize: '0.85rem',

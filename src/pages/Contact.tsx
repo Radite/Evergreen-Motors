@@ -423,7 +423,33 @@ const Contact: React.FC = () => {
           border: none;
           filter: grayscale(20%) brightness(0.9);
         }
-          
+
+        @media (max-width: 1024px) {
+          .luxury-contact-hero {
+            padding: 10rem 6%;
+          }
+
+          .hero-content h1 {
+            font-size: 6.5rem;
+            letter-spacing: 12px;
+          }
+
+          .luxury-section,
+          .map-section {
+            padding: 5rem 4%;
+          }
+
+          .section-title {
+            font-size: 3.5rem;
+            letter-spacing: 7px;
+          }
+
+          .contact-info-box,
+          .contact-form-box {
+            padding: 2.8rem 2.5rem;
+          }
+        }
+
         @media (max-width: 768px) {
           .hero-content h1 {
             font-size: 4rem;
@@ -433,28 +459,396 @@ const Contact: React.FC = () => {
           .luxury-contact-hero {
             padding: 8rem 5%;
             background-attachment: scroll !important;
+            min-height: 80vh;
           }
 
           .section-title {
             font-size: 3rem;
+            letter-spacing: 6px;
+          }
+
+          .section-label {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
           }
 
           .contact-grid {
             grid-template-columns: 1fr;
-            gap: 4rem;
+            gap: 3.5rem;
           }
 
           .contact-info-box,
           .contact-form-box {
-            padding: 3rem 2rem;
+            padding: 2.5rem 2rem;
+          }
+
+          .contact-info-box h2,
+          .contact-form-box h2 {
+            font-size: 2rem;
+            letter-spacing: 5px;
+            margin-bottom: 2rem;
+          }
+
+          .form-subtitle {
+            font-size: 0.85rem;
+          }
+
+          .contact-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+          }
+
+          .contact-item h3 {
+            font-size: 1.1rem;
+          }
+
+          .contact-item p,
+          .contact-item a {
+            font-size: 1rem;
           }
 
           .map-header h2 {
             font-size: 3rem;
+            letter-spacing: 6px;
+          }
+
+          .map-header p {
+            font-size: 0.95rem;
           }
 
           .map-wrapper {
             height: 400px;
+          }
+        }
+
+        @media (max-width: 599px) {
+          .luxury-contact-hero {
+            padding: 7rem 4%;
+            min-height: 70vh;
+          }
+
+          .hero-content h1 {
+            font-size: 3rem;
+            letter-spacing: 6px;
+          }
+
+          .luxury-section {
+            padding: 4rem 4%;
+          }
+
+          .section-label {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+          }
+
+          .section-title {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 1.5rem;
+          }
+
+          .contact-grid {
+            gap: 3rem;
+          }
+
+          .contact-info-box,
+          .contact-form-box {
+            padding: 2rem 1.5rem;
+          }
+
+          .contact-info-box h2,
+          .contact-form-box h2 {
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+          }
+
+          .form-subtitle {
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .contact-item {
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.2rem;
+          }
+
+          .contact-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+          }
+
+          .contact-item p,
+          .contact-item a {
+            font-size: 0.95rem;
+          }
+
+          .form-group {
+            margin-bottom: 1.3rem;
+          }
+
+          .form-group label {
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+          }
+
+          .form-group input,
+          .form-group select,
+          .form-group textarea {
+            padding: 0.9rem 1.1rem;
+            font-size: 0.9rem;
+          }
+
+          .form-group textarea {
+            min-height: 120px;
+          }
+
+          .submit-btn {
+            padding: 1.2rem 2.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 2.5px;
+          }
+
+          .map-section {
+            padding: 4rem 4%;
+          }
+
+          .map-header {
+            margin-bottom: 2.5rem;
+          }
+
+          .map-header h2 {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 0.8rem;
+          }
+
+          .map-header p {
+            font-size: 0.9rem;
+          }
+
+          .map-wrapper {
+            height: 350px;
+          }
+        }
+
+        @media (max-width: 479px) {
+          .luxury-contact-hero {
+            padding: 6rem 4%;
+            min-height: 60vh;
+          }
+
+          .hero-content h1 {
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+          }
+
+          .luxury-section {
+            padding: 3.5rem 4%;
+          }
+
+          .section-label {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 1.2rem;
+          }
+
+          .section-title {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin-bottom: 1.2rem;
+          }
+
+          .contact-grid {
+            gap: 2.5rem;
+          }
+
+          .contact-info-box,
+          .contact-form-box {
+            padding: 1.8rem 1.2rem;
+          }
+
+          .contact-info-box h2,
+          .contact-form-box h2 {
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            margin-bottom: 1.3rem;
+          }
+
+          .form-subtitle {
+            font-size: 0.75rem;
+            margin-bottom: 1.3rem;
+            line-height: 1.7;
+          }
+
+          .contact-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+          }
+
+          .contact-item h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+            letter-spacing: 1.5px;
+          }
+
+          .contact-item p,
+          .contact-item a {
+            font-size: 0.9rem;
+            line-height: 1.6;
+          }
+
+          .form-group {
+            margin-bottom: 1.2rem;
+          }
+
+          .form-group label {
+            font-size: 0.8rem;
+            margin-bottom: 0.7rem;
+            letter-spacing: 1.5px;
+          }
+
+          .form-group input,
+          .form-group select {
+            padding: 0.85rem 1rem;
+            font-size: 0.85rem;
+          }
+
+          .form-group textarea {
+            min-height: 110px;
+            padding: 1rem 1.2rem;
+            font-size: 0.85rem;
+          }
+
+          .submit-btn {
+            padding: 1.1rem 2.2rem;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-top: 1.2rem;
+          }
+
+          .success-message,
+          .error-message {
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+          }
+
+          .map-section {
+            padding: 3.5rem 4%;
+          }
+
+          .map-header {
+            margin-bottom: 2rem;
+          }
+
+          .map-header h2 {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin-bottom: 0.6rem;
+          }
+
+          .map-header p {
+            font-size: 0.85rem;
+          }
+
+          .map-wrapper {
+            height: 300px;
+          }
+        }
+
+        @media (max-width: 374px) {
+          .luxury-contact-hero {
+            padding: 5rem 3%;
+            min-height: 55vh;
+          }
+
+          .hero-content h1 {
+            font-size: 2rem;
+            letter-spacing: 3px;
+          }
+
+          .luxury-section {
+            padding: 3rem 3%;
+          }
+
+          .section-label {
+            font-size: 0.75rem;
+          }
+
+          .section-title {
+            font-size: 1.7rem;
+            letter-spacing: 3px;
+          }
+
+          .contact-info-box,
+          .contact-form-box {
+            padding: 1.5rem 1rem;
+          }
+
+          .contact-info-box h2,
+          .contact-form-box h2 {
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+          }
+
+          .form-subtitle {
+            font-size: 0.7rem;
+          }
+
+          .contact-item h3 {
+            font-size: 0.9rem;
+          }
+
+          .contact-item p,
+          .contact-item a {
+            font-size: 0.85rem;
+          }
+
+          .form-group label {
+            font-size: 0.75rem;
+          }
+
+          .form-group input,
+          .form-group select,
+          .form-group textarea {
+            padding: 0.8rem 0.9rem;
+            font-size: 0.8rem;
+          }
+
+          .submit-btn {
+            padding: 1rem 2rem;
+            font-size: 0.85rem;
+          }
+
+          .map-header h2 {
+            font-size: 1.7rem;
+            letter-spacing: 3px;
+          }
+
+          .map-header p {
+            font-size: 0.8rem;
+          }
+
+          .map-wrapper {
+            height: 280px;
+          }
+
+          .map-section {
+            padding: 3rem 3%;
+          }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .submit-btn,
+          .contact-item a {
+            min-height: 44px;
+          }
+
+          .form-group input,
+          .form-group select {
+            min-height: 44px;
           }
         }
 
@@ -463,7 +857,7 @@ const Contact: React.FC = () => {
           .luxury-contact-hero {
             background-attachment: scroll !important;
           }
-          
+
           .submit-btn,
           .contact-item a {
             transition: none !important;

@@ -171,9 +171,326 @@ const CarModelPage: React.FC = () => {
       backgroundColor: '#fff',
       minHeight: '100vh'
     }}>
-      
+      <style>{`
+        /* Model Page Responsive Styles */
+        @media (max-width: 1024px) {
+          .model-page-hero h1 {
+            font-size: 52px !important;
+            letter-spacing: -0.5px !important;
+          }
+
+          .model-page-hero p {
+            font-size: 20px !important;
+            margin-bottom: 50px !important;
+          }
+
+          .spec-item {
+            font-size: 24px !important;
+          }
+
+          .spec-label {
+            font-size: 13px !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .model-page-hero {
+            height: 80vh !important;
+          }
+
+          .model-page-hero h1 {
+            font-size: 38px !important;
+            margin-bottom: 16px !important;
+          }
+
+          .model-page-hero p {
+            font-size: 18px !important;
+            margin-bottom: 40px !important;
+          }
+
+          .hero-specs-container {
+            gap: 40px !important;
+            padding: 0 20px !important;
+          }
+
+          .spec-icon {
+            width: 52px !important;
+            height: 52px !important;
+            margin-bottom: 12px !important;
+          }
+
+          .spec-item {
+            font-size: 22px !important;
+          }
+
+          .spec-label {
+            font-size: 12px !important;
+          }
+
+          .section-padding {
+            padding: 60px 5% !important;
+          }
+
+          .section-title {
+            font-size: 32px !important;
+            margin-bottom: 30px !important;
+          }
+
+          .section-subtitle {
+            font-size: 16px !important;
+          }
+
+          .color-selector {
+            gap: 10px !important;
+          }
+
+          .color-swatch {
+            width: 38px !important;
+            height: 38px !important;
+          }
+
+          .gallery-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+
+          .cta-button {
+            padding: 14px 35px !important;
+            font-size: 15px !important;
+          }
+        }
+
+        @media (max-width: 599px) {
+          .model-page-hero {
+            height: 70vh !important;
+          }
+
+          .model-page-hero h1 {
+            font-size: 32px !important;
+            margin-bottom: 14px !important;
+            padding: 0 15px !important;
+          }
+
+          .model-page-hero p {
+            font-size: 16px !important;
+            margin-bottom: 35px !important;
+            padding: 0 15px !important;
+          }
+
+          .hero-specs-container {
+            gap: 30px !important;
+            flex-direction: column !important;
+            padding: 0 15px !important;
+          }
+
+          .spec-icon {
+            width: 48px !important;
+            height: 48px !important;
+            margin-bottom: 10px !important;
+          }
+
+          .spec-item {
+            font-size: 20px !important;
+            margin-bottom: 6px !important;
+          }
+
+          .spec-label {
+            font-size: 11px !important;
+          }
+
+          .section-padding {
+            padding: 50px 4% !important;
+          }
+
+          .section-title {
+            font-size: 28px !important;
+            margin-bottom: 25px !important;
+          }
+
+          .section-subtitle {
+            font-size: 15px !important;
+            line-height: 1.6 !important;
+          }
+
+          .color-selector {
+            gap: 8px !important;
+            justify-content: center !important;
+          }
+
+          .color-swatch {
+            width: 34px !important;
+            height: 34px !important;
+          }
+
+          .gallery-grid {
+            gap: 15px !important;
+          }
+
+          .cta-button {
+            padding: 12px 30px !important;
+            font-size: 14px !important;
+            width: 100% !important;
+            max-width: 300px !important;
+          }
+
+          .features-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+        }
+
+        @media (max-width: 479px) {
+          .model-page-hero {
+            height: 60vh !important;
+          }
+
+          .model-page-hero h1 {
+            font-size: 26px !important;
+            margin-bottom: 12px !important;
+            letter-spacing: 0px !important;
+          }
+
+          .model-page-hero p {
+            font-size: 14px !important;
+            margin-bottom: 30px !important;
+          }
+
+          .hero-specs-container {
+            gap: 25px !important;
+          }
+
+          .spec-icon {
+            width: 44px !important;
+            height: 44px !important;
+            margin-bottom: 8px !important;
+          }
+
+          .spec-item {
+            font-size: 18px !important;
+            margin-bottom: 5px !important;
+          }
+
+          .spec-label {
+            font-size: 10px !important;
+          }
+
+          .section-padding {
+            padding: 40px 4% !important;
+          }
+
+          .section-title {
+            font-size: 24px !important;
+            margin-bottom: 20px !important;
+            letter-spacing: -0.5px !important;
+          }
+
+          .section-subtitle {
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+          }
+
+          .color-selector {
+            gap: 6px !important;
+          }
+
+          .color-swatch {
+            width: 30px !important;
+            height: 30px !important;
+          }
+
+          .color-name {
+            font-size: 13px !important;
+          }
+
+          .gallery-grid {
+            gap: 12px !important;
+          }
+
+          .cta-button {
+            padding: 11px 25px !important;
+            font-size: 13px !important;
+            letter-spacing: 0.5px !important;
+          }
+
+          .features-grid {
+            gap: 18px !important;
+          }
+
+          .feature-card {
+            padding: 20px !important;
+          }
+
+          .feature-title {
+            font-size: 16px !important;
+            margin-bottom: 10px !important;
+          }
+
+          .feature-description {
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+          }
+        }
+
+        @media (max-width: 374px) {
+          .model-page-hero h1 {
+            font-size: 22px !important;
+          }
+
+          .model-page-hero p {
+            font-size: 13px !important;
+          }
+
+          .spec-item {
+            font-size: 16px !important;
+          }
+
+          .spec-label {
+            font-size: 9px !important;
+          }
+
+          .section-title {
+            font-size: 21px !important;
+          }
+
+          .section-subtitle {
+            font-size: 13px !important;
+          }
+
+          .color-swatch {
+            width: 28px !important;
+            height: 28px !important;
+          }
+
+          .cta-button {
+            padding: 10px 22px !important;
+            font-size: 12px !important;
+          }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .cta-button,
+          .color-swatch {
+            min-height: 44px !important;
+            min-width: 44px !important;
+          }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+
       {/* Hero Banner */}
-      <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
+      <div className="model-page-hero" style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
         <img 
           src={carData.heroImage}
           alt={carData.name}
@@ -221,7 +538,7 @@ const CarModelPage: React.FC = () => {
             {carData.tagline}
           </p>
           
-          <div style={{
+          <div className="hero-specs-container" style={{
             display: 'flex',
             gap: '80px',
             listStyle: 'none',
@@ -235,7 +552,7 @@ const CarModelPage: React.FC = () => {
               const IconComponent = spec.icon;
               return (
                 <div key={index} style={{ textAlign: 'center' }}>
-                  <div style={{
+                  <div className="spec-icon" style={{
                     width: '64px',
                     height: '64px',
                     margin: '0 auto 16px',
@@ -259,10 +576,10 @@ const CarModelPage: React.FC = () => {
                   >
                     <IconComponent size={28} />
                   </div>
-                  <div style={{ fontSize: '28px', fontWeight: 700, marginBottom: '8px' }}>
+                  <div className="spec-item" style={{ fontSize: '28px', fontWeight: 700, marginBottom: '8px' }}>
                     {spec.value}{spec.unit}
                   </div>
-                  <div style={{ fontSize: '14px', opacity: 0.9 }}>
+                  <div className="spec-label" style={{ fontSize: '14px', opacity: 0.9 }}>
                     {spec.label}
                   </div>
                 </div>
