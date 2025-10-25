@@ -928,8 +928,8 @@ const CarModelPage: React.FC = () => {
             >
               Book Test Drive
             </a>
-            <a 
-              href="/contact"
+            <a
+              href="/#contact"
               style={{
                 display: 'inline-block',
                 backgroundColor: 'transparent',
