@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ChevronRight, Gauge, Users, Zap, Battery, Settings, Award, Palette, Car } from 'lucide-react';
+import { ChevronRight, Gauge, Users, Zap, Battery, Settings, Award, Palette, Car, Play, Pause, X } from 'lucide-react';
 import { models } from './TestDrivePage/data/models';
 
 const CarModelPage: React.FC = () => {
@@ -8,7 +8,10 @@ const CarModelPage: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState(0);
   const [isVisible, setIsVisible] = useState<{ [key: string]: boolean }>({});
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const observerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Map URL slugs to model names
   const urlToModelMap: { [key: string]: string } = {
@@ -26,10 +29,7 @@ const CarModelPage: React.FC = () => {
     '/models/shark': 'BYD Shark',
   };
 
-  // Get the model name from the URL
   const modelName = urlToModelMap[location.pathname];
-  
-  // Find the model by name
   const model = models.find(m => m.name === modelName);
 
   if (!model) {
@@ -67,7 +67,6 @@ const CarModelPage: React.FC = () => {
     );
   }
 
-  // Transform model data for the component
   const carData = {
     name: model.name,
     tagline: `${model.type === 'electric' ? 'Electric' : 'Hybrid'} ${model.class}`,
@@ -75,6 +74,8 @@ const CarModelPage: React.FC = () => {
     mainImage: model.images[0],
     sideImage: model.images[0] || model.images[0],
     interiorImage: model.images[0] || model.images[0],
+    video: model.videos[0],
+    allImages: model.images, // All images for gallery
     specs: [
       { value: model.range.split(' ')[0], unit: 'km', label: 'Range', icon: Zap },
       { value: model.seats, unit: '', label: 'Seating', icon: Users },
@@ -93,7 +94,6 @@ const CarModelPage: React.FC = () => {
     interiorColors: model.colors.interior
   };
 
-  // Helper function to get hex colors
   function getColorHex(colorName: string): string {
     const colorMap: { [key: string]: string } = {
       'White': '#F3F4F6',
@@ -116,7 +116,17 @@ const CarModelPage: React.FC = () => {
     return colorMap[colorName] || '#6B7280';
   }
 
-  // Intersection Observer for scroll animations
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (isVideoPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsVideoPlaying(!isVideoPlaying);
+    }
+  };
+
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
     
@@ -237,20 +247,22 @@ const CarModelPage: React.FC = () => {
                     backdropFilter: 'blur(10px)',
                     border: '2px solid rgba(255,255,255,0.3)',
                     transition: 'all 0.3s ease'
-                  }}>
-                    <IconComponent size={32} color="#fff" />
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px) scale(1.1)';
+                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
+                  }}
+                  >
+                    <IconComponent size={28} />
                   </div>
-                  <div style={{
-                    fontSize: '32px',
-                    fontWeight: 700,
-                    marginBottom: '4px'
-                  }}>
-                    {spec.value}
-                    <span style={{ fontSize: '18px', fontWeight: 400, marginLeft: '4px' }}>
-                      {spec.unit}
-                    </span>
+                  <div style={{ fontSize: '28px', fontWeight: 700, marginBottom: '8px' }}>
+                    {spec.value}{spec.unit}
                   </div>
-                  <div style={{ fontSize: '14px', opacity: 0.9, fontWeight: 500 }}>
+                  <div style={{ fontSize: '14px', opacity: 0.9 }}>
                     {spec.label}
                   </div>
                 </div>
@@ -260,679 +272,612 @@ const CarModelPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Overview Section */}
+      {/* Video Section */}
       <div 
-        ref={el => observerRefs.current['overview'] = el}
-        style={{ 
-          padding: '120px 20px',
-          backgroundColor: '#fff'
+        ref={el => observerRefs.current['video'] = el}
+        style={{
+          padding: '100px 20px',
+          maxWidth: '1400px',
+          margin: '0 auto'
         }}
       >
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{
-            opacity: isVisible['overview'] ? 1 : 0,
-            transform: isVisible['overview'] ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'all 0.8s ease-out'
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '50px',
+          opacity: isVisible['video'] ? 1 : 0,
+          transform: isVisible['video'] ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.8s ease-out'
+        }}>
+          <h2 style={{
+            fontSize: '48px',
+            fontWeight: 700,
+            marginBottom: '16px',
+            color: '#252728',
+            letterSpacing: '-1px'
           }}>
-            <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-              <div style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '2px',
-                color: '#3B82F6',
-                marginBottom: '16px'
-              }}>
-                {carData.category}
-              </div>
-              <h2 style={{ 
-                fontSize: '48px', 
-                fontWeight: 700, 
-                marginBottom: '24px',
-                letterSpacing: '-1px'
-              }}>
-                Designed for Excellence
-              </h2>
-              <p style={{
-                fontSize: '18px',
-                lineHeight: '1.8',
-                color: '#6B7280',
-                maxWidth: '800px',
-                margin: '0 auto'
-              }}>
-                The {carData.name} combines cutting-edge {carData.type} technology with sophisticated design, 
-                delivering an exceptional driving experience that sets new standards in the {carData.class.toLowerCase()} segment.
-              </p>
-            </div>
-          </div>
-
-          {/* Main Image Gallery */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '30px',
-            marginBottom: '60px'
+            See It In Action
+          </h2>
+          <p style={{
+            fontSize: '18px',
+            color: '#666',
+            maxWidth: '600px',
+            margin: '0 auto'
           }}>
-            {/* Main Vehicle Image */}
-            <div style={{
-              gridColumn: 'span 2',
-              position: 'relative',
-              overflow: 'hidden',
-              borderRadius: '16px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
-              opacity: isVisible['overview'] ? 1 : 0,
-              transform: isVisible['overview'] ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 0.8s ease-out 0.2s'
-            }}>
-              <img 
-                src={carData.mainImage}
-                alt={`${carData.name} main view`}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  display: 'block',
-                  transition: 'transform 0.5s ease'
-                }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-              />
-            </div>
+            Experience the {carData.name} like never before
+          </p>
+        </div>
 
-            {/* Side View */}
-            <div style={{
-              position: 'relative',
-              overflow: 'hidden',
-              borderRadius: '16px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
-              opacity: isVisible['overview'] ? 1 : 0,
-              transform: isVisible['overview'] ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 0.8s ease-out 0.3s'
-            }}>
-              <img 
-                src={carData.sideImage}
-                alt={`${carData.name} side view`}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                  transition: 'transform 0.5s ease'
-                }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-              />
-              <div style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '20px',
-                color: '#fff',
-                fontWeight: 600,
-                fontSize: '18px',
-                textShadow: '0 2px 10px rgba(0,0,0,0.5)'
-              }}>
-                Exterior Design
-              </div>
-            </div>
-
-            {/* Interior View */}
-            <div style={{
-              position: 'relative',
-              overflow: 'hidden',
-              borderRadius: '16px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
-              opacity: isVisible['overview'] ? 1 : 0,
-              transform: isVisible['overview'] ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'all 0.8s ease-out 0.4s'
-            }}>
-              <img 
-                src={carData.interiorImage}
-                alt={`${carData.name} interior view`}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                  transition: 'transform 0.5s ease'
-                }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-              />
-              <div style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '20px',
-                color: '#fff',
-                fontWeight: 600,
-                fontSize: '18px',
-                textShadow: '0 2px 10px rgba(0,0,0,0.5)'
-              }}>
-                Interior Luxury
-              </div>
-            </div>
-          </div>
+        <div style={{
+          position: 'relative',
+          borderRadius: '16px',
+          overflow: 'hidden',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+          opacity: isVisible['video'] ? 1 : 0,
+          transform: isVisible['video'] ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.8s ease-out 0.2s',
+          background: '#000'
+        }}>
+          <video
+            ref={videoRef}
+            loop
+            muted
+            playsInline
+            style={{
+              width: '100%',
+              height: 'auto',
+              display: 'block'
+            }}
+            onPlay={() => setIsVideoPlaying(true)}
+            onPause={() => setIsVideoPlaying(false)}
+          >
+            <source src={carData.video} type="video/mp4" />
+          </video>
+          
+          <button
+            onClick={toggleVideo}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '80px',
+              height: '80px',
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.95)',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+              opacity: isVideoPlaying ? 0 : 1,
+              pointerEvents: isVideoPlaying ? 'none' : 'auto'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.1)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.3)';
+            }}
+          >
+            <Play size={32} color="#252728" strokeWidth={2} style={{ marginLeft: '4px' }} />
+          </button>
         </div>
       </div>
 
-      {/* Color Selection Section */}
+      {/* Featured Images Grid */}
       <div 
-        ref={el => observerRefs.current['colors'] = el}
-        style={{ 
-          padding: '120px 20px',
+        ref={el => observerRefs.current['featured'] = el}
+        style={{
+          padding: '100px 20px',
           backgroundColor: '#f8f9fa'
         }}
       >
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{
-            opacity: isVisible['colors'] ? 1 : 0,
-            transform: isVisible['colors'] ? 'translateY(0)' : 'translateY(30px)',
+            textAlign: 'center',
+            marginBottom: '50px',
+            opacity: isVisible['featured'] ? 1 : 0,
+            transform: isVisible['featured'] ? 'translateY(0)' : 'translateY(30px)',
             transition: 'all 0.8s ease-out'
           }}>
-            <h2 style={{ 
-              fontSize: '44px', 
-              fontWeight: 700, 
-              marginBottom: '16px', 
-              textAlign: 'center',
-              letterSpacing: '-0.5px'
+            <h2 style={{
+              fontSize: '48px',
+              fontWeight: 700,
+              marginBottom: '16px',
+              color: '#252728',
+              letterSpacing: '-1px'
             }}>
-              Personalize Your Style
+              Every Angle Matters
             </h2>
             <p style={{
               fontSize: '18px',
-              color: '#6B7280',
-              textAlign: 'center',
-              marginBottom: '60px',
-              maxWidth: '700px',
-              margin: '0 auto 60px'
+              color: '#666'
             }}>
-              Choose from our curated palette of premium exterior and interior finishes
+              Discover the design excellence from every perspective
             </p>
+          </div>
 
-            <div style={{
-              display: 'flex',
-              gap: '80px',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              justifyContent: 'center'
-            }}>
-              {/* Color Swatches */}
-              <div style={{ flex: '1', minWidth: '300px' }}>
-                <div style={{ marginBottom: '40px' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '24px'
-                  }}>
-                    <Palette size={24} color="#252728" />
-                    <h3 style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>
-                      Exterior Colors
-                    </h3>
-                  </div>
-                  <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                    {carData.colors.map((color, index) => (
-                      <div
-                        key={color.id}
-                        onClick={() => setSelectedColor(index)}
-                        style={{
-                          width: '72px',
-                          height: '72px',
-                          borderRadius: '50%',
-                          backgroundColor: color.hex,
-                          cursor: 'pointer',
-                          border: selectedColor === index ? '4px solid #3B82F6' : '3px solid #E5E7EB',
-                          boxShadow: selectedColor === index 
-                            ? '0 8px 24px rgba(59, 130, 246, 0.3)' 
-                            : '0 4px 12px rgba(0,0,0,0.1)',
-                          transition: 'all 0.3s ease',
-                          transform: selectedColor === index ? 'scale(1.1)' : 'scale(1)',
-                          position: 'relative'
-                        }}
-                        onMouseEnter={e => {
-                          if (selectedColor !== index) {
-                            e.currentTarget.style.transform = 'scale(1.05)';
-                            e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.15)';
-                          }
-                        }}
-                        onMouseLeave={e => {
-                          if (selectedColor !== index) {
-                            e.currentTarget.style.transform = 'scale(1)';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                          }
-                        }}
-                      >
-                        {selectedColor === index && (
-                          <div style={{
-                            position: 'absolute',
-                            bottom: '-30px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            fontSize: '13px',
-                            fontWeight: 600,
-                            whiteSpace: 'nowrap',
-                            color: '#252728'
-                          }}>
-                            {color.name}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{
-                    marginTop: '50px',
-                    padding: '20px',
-                    backgroundColor: '#fff',
-                    borderRadius: '12px',
-                    border: '1px solid #E5E7EB'
-                  }}>
-                    <div style={{ fontWeight: 600, marginBottom: '8px', fontSize: '16px' }}>
-                      Selected: {carData.colors[selectedColor].name}
-                    </div>
-                    <div style={{ fontSize: '14px', color: '#6B7280' }}>
-                      Premium {carData.colors[selectedColor].name.toLowerCase()} finish with UV protection
-                    </div>
-                  </div>
-                </div>
-
-                {/* Interior Colors */}
-                <div>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '24px'
-                  }}>
-                    <Car size={24} color="#252728" />
-                    <h3 style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>
-                      Interior Options
-                    </h3>
-                  </div>
-                  <div style={{
-                    padding: '24px',
-                    backgroundColor: '#fff',
-                    borderRadius: '12px',
-                    border: '1px solid #E5E7EB'
-                  }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                      {carData.interiorColors.map((color, idx) => (
-                        <div key={idx} style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px'
-                        }}>
-                          <div style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
-                            backgroundColor: getColorHex(color),
-                            border: '2px solid #E5E7EB',
-                            flexShrink: 0
-                          }} />
-                          <div>
-                            <div style={{ fontWeight: 600, fontSize: '15px' }}>{color}</div>
-                            <div style={{ fontSize: '13px', color: '#6B7280' }}>Premium upholstery</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Large Preview Image */}
-              <div style={{
-                flex: '1.5',
-                minWidth: '400px',
-                position: 'relative'
-              }}>
-                <div style={{
-                  borderRadius: '24px',
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gap: '30px'
+          }}>
+            {[
+              { img: carData.mainImage, label: 'Exterior Design' },
+              { img: carData.sideImage, label: 'Side Profile' },
+              { img: carData.interiorImage, label: 'Interior Luxury' }
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                onClick={() => setLightboxImage(item.img)}
+                style={{
+                  position: 'relative',
+                  borderRadius: '12px',
                   overflow: 'hidden',
-                  boxShadow: '0 30px 80px rgba(0,0,0,0.15)',
-                  backgroundColor: '#fff',
-                  padding: '40px'
+                  cursor: 'pointer',
+                  aspectRatio: '16/10',
+                  transition: 'all 0.4s ease',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                  opacity: isVisible['featured'] ? 1 : 0,
+                  transform: isVisible['featured'] ? 'translateY(0)' : 'translateY(30px)',
+                  transitionDelay: `${0.2 + idx * 0.1}s`
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 20px 50px rgba(0,0,0,0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                }}
+              >
+                <img
+                  src={item.img}
+                  alt={item.label}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.5s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLImageElement).style.transform = 'scale(1.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLImageElement).style.transform = 'scale(1)';
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: '24px',
+                  background: 'linear-gradient(to top, rgba(37,39,40,0.9), transparent)',
+                  color: '#fff'
                 }}>
-                  <img 
-                    src={carData.mainImage}
-                    alt={`${carData.name} in ${carData.colors[selectedColor].name}`}
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      display: 'block',
-                      transition: 'all 0.5s ease'
-                    }}
-                  />
-                  <div style={{
-                    marginTop: '30px',
-                    textAlign: 'center',
-                    fontSize: '18px',
+                  <h3 style={{
+                    fontSize: '20px',
                     fontWeight: 600,
-                    color: '#252728'
+                    margin: 0
                   }}>
-                    {carData.name}
-                  </div>
-                  <div style={{
-                    textAlign: 'center',
-                    fontSize: '14px',
-                    color: '#6B7280',
-                    marginTop: '8px'
-                  }}>
-                    Shown in {carData.colors[selectedColor].name}
-                  </div>
+                    {item.label}
+                  </h3>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Color Selector */}
+      <div 
+        ref={el => observerRefs.current['colors'] = el}
+        style={{
+          padding: '100px 20px',
+          maxWidth: '1200px',
+          margin: '0 auto'
+        }}
+      >
+        <div style={{
+          background: '#fff',
+          borderRadius: '16px',
+          padding: '60px 40px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
+          opacity: isVisible['colors'] ? 1 : 0,
+          transform: isVisible['colors'] ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.8s ease-out'
+        }}>
+          <h3 style={{
+            fontSize: '36px',
+            fontWeight: 700,
+            marginBottom: '40px',
+            textAlign: 'center',
+            color: '#252728'
+          }}>
+            Choose Your Color
+          </h3>
+
+          <div style={{
+            display: 'flex',
+            gap: '20px',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            marginBottom: '50px'
+          }}>
+            {carData.colors.map((color, idx) => (
+              <div
+                key={color.id}
+                onClick={() => setSelectedColor(idx)}
+                style={{
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '50%',
+                  backgroundColor: color.hex,
+                  cursor: 'pointer',
+                  border: selectedColor === idx 
+                    ? '3px solid #252728' 
+                    : '3px solid #e0e0e0',
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  boxShadow: selectedColor === idx
+                    ? '0 8px 20px rgba(37,39,40,0.3)'
+                    : '0 4px 12px rgba(0,0,0,0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.15) translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(37,39,40,0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                  e.currentTarget.style.boxShadow = selectedColor === idx
+                    ? '0 8px 20px rgba(37,39,40,0.3)'
+                    : '0 4px 12px rgba(0,0,0,0.1)';
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-32px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                  color: selectedColor === idx ? '#252728' : '#999',
+                  transition: 'color 0.3s ease'
+                }}>
+                  {color.name}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{
+            textAlign: 'center',
+            marginTop: '50px'
+          }}>
+            <div style={{
+              fontWeight: 600,
+              color: '#252728',
+              marginBottom: '16px',
+              fontSize: '16px',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              Interior Options
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              {carData.interiorColors.map((color, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    padding: '10px 24px',
+                    background: '#f8f9fa',
+                    borderRadius: '20px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#252728',
+                    border: '1px solid #e0e0e0'
+                  }}
+                >
+                  {color}
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Specifications Section */}
+      {/* Specifications Grid */}
       <div 
         ref={el => observerRefs.current['specs'] = el}
-        style={{ 
-          padding: '120px 20px',
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
-          color: '#fff'
+        style={{
+          padding: '100px 20px',
+          backgroundColor: '#f8f9fa'
         }}
       >
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{
+            textAlign: 'center',
+            marginBottom: '50px',
             opacity: isVisible['specs'] ? 1 : 0,
             transform: isVisible['specs'] ? 'translateY(0)' : 'translateY(30px)',
             transition: 'all 0.8s ease-out'
           }}>
-            <h2 style={{ 
-              fontSize: '44px', 
-              fontWeight: 700, 
-              marginBottom: '60px', 
-              textAlign: 'center',
-              letterSpacing: '-0.5px'
+            <h2 style={{
+              fontSize: '48px',
+              fontWeight: 700,
+              marginBottom: '16px',
+              color: '#252728',
+              letterSpacing: '-1px'
             }}>
               Technical Specifications
             </h2>
+          </div>
 
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '24px'
+          }}>
+            {[
+              { icon: Settings, label: 'Class', value: carData.class },
+              { icon: Gauge, label: 'Dimensions', value: carData.size },
+              { icon: Battery, label: 'Type', value: carData.type.toUpperCase() },
+              { icon: Zap, label: 'Range', value: model.range },
+              { icon: Users, label: 'Capacity', value: `${carData.specs[1].value} Seats` }
+            ].map((spec, idx) => {
+              const IconComponent = spec.icon;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    background: '#fff',
+                    borderRadius: '12px',
+                    padding: '32px',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
+                    opacity: isVisible['specs'] ? 1 : 0,
+                    transform: isVisible['specs'] ? 'translateY(0)' : 'translateY(30px)',
+                    transitionDelay: `${0.1 + idx * 0.05}s`
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px)';
+                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.05)';
+                  }}
+                >
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    background: '#f8f9fa',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '20px'
+                  }}>
+                    <IconComponent size={24} color="#252728" strokeWidth={1.5} />
+                  </div>
+                  <div style={{
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: '#999',
+                    marginBottom: '8px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px'
+                  }}>
+                    {spec.label}
+                  </div>
+                  <div style={{
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    color: '#252728',
+                    lineHeight: '1.4'
+                  }}>
+                    {spec.value}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {model.notes && (
             <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '30px'
+              marginTop: '40px',
+              padding: '24px',
+              background: '#fff3cd',
+              borderRadius: '12px',
+              borderLeft: '4px solid #ffc107',
+              fontSize: '15px',
+              color: '#856404',
+              opacity: isVisible['specs'] ? 1 : 0,
+              transform: isVisible['specs'] ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'all 0.8s ease-out 0.5s'
             }}>
-              {/* Range */}
               <div style={{
-                padding: '32px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: '12px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                transition: 'all 0.3s ease',
-                opacity: isVisible['specs'] ? 1 : 0,
-                animation: isVisible['specs'] ? 'fadeInUp 0.6s ease-out 0.1s both' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                e.currentTarget.style.transform = 'translateY(0)';
+                fontSize: '13px',
+                fontWeight: 600,
+                marginBottom: '8px',
+                textTransform: 'uppercase',
+                letterSpacing: '1px'
               }}>
-                <div style={{ 
-                  fontSize: '13px', 
-                  opacity: 0.8, 
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  fontWeight: 600
-                }}>
-                  {model.type === 'electric' ? 'Electric Range' : 'Combined Range'}
-                </div>
-                <div style={{ 
-                  fontSize: '36px', 
-                  fontWeight: 700,
-                  marginBottom: '8px'
-                }}>
-                  {model.range}
-                </div>
-                <div style={{ fontSize: '14px', opacity: 0.7 }}>
-                  CLTC Standard
-                </div>
+                Availability
               </div>
-
-              {/* Seating */}
-              <div style={{
-                padding: '32px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: '12px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                transition: 'all 0.3s ease',
-                opacity: isVisible['specs'] ? 1 : 0,
-                animation: isVisible['specs'] ? 'fadeInUp 0.6s ease-out 0.2s both' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}>
-                <div style={{ 
-                  fontSize: '13px', 
-                  opacity: 0.8, 
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  fontWeight: 600
-                }}>
-                  Seating Capacity
-                </div>
-                <div style={{ 
-                  fontSize: '36px', 
-                  fontWeight: 700,
-                  marginBottom: '8px'
-                }}>
-                  {model.seats}
-                </div>
-                <div style={{ fontSize: '14px', opacity: 0.7 }}>
-                  {model.seats === '2+3+2' ? '7 Passengers' : '5 Passengers'}
-                </div>
-              </div>
-
-              {/* Dimensions */}
-              <div style={{
-                padding: '32px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: '12px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                transition: 'all 0.3s ease',
-                opacity: isVisible['specs'] ? 1 : 0,
-                animation: isVisible['specs'] ? 'fadeInUp 0.6s ease-out 0.3s both' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}>
-                <div style={{ 
-                  fontSize: '13px', 
-                  opacity: 0.8, 
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  fontWeight: 600
-                }}>
-                  Dimensions
-                </div>
-                <div style={{ 
-                  fontSize: '36px', 
-                  fontWeight: 700,
-                  marginBottom: '8px'
-                }}>
-                  {model.size}
-                </div>
-                <div style={{ fontSize: '14px', opacity: 0.7 }}>
-                  Length × Width × Height
-                </div>
-              </div>
-
-              {/* Exterior Colors */}
-              <div style={{
-                padding: '32px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: '12px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                transition: 'all 0.3s ease',
-                opacity: isVisible['specs'] ? 1 : 0,
-                animation: isVisible['specs'] ? 'fadeInUp 0.6s ease-out 0.4s both' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}>
-                <div style={{ 
-                  fontSize: '13px', 
-                  opacity: 0.8, 
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  fontWeight: 600
-                }}>
-                  Exterior Colors
-                </div>
-                <div style={{ 
-                  fontSize: '36px', 
-                  fontWeight: 700,
-                  marginBottom: '8px'
-                }}>
-                  {model.colors.exterior.length}
-                </div>
-                <div style={{ fontSize: '14px', opacity: 0.7 }}>
-                  Premium Finishes Available
-                </div>
-              </div>
-
-              {/* Powertrain Type */}
-              <div style={{
-                padding: '32px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: '12px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                transition: 'all 0.3s ease',
-                opacity: isVisible['specs'] ? 1 : 0,
-                animation: isVisible['specs'] ? 'fadeInUp 0.6s ease-out 0.5s both' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}>
-                <div style={{ 
-                  fontSize: '13px', 
-                  opacity: 0.8, 
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  fontWeight: 600
-                }}>
-                  Powertrain
-                </div>
-                <div style={{ 
-                  fontSize: '36px', 
-                  fontWeight: 700,
-                  marginBottom: '8px',
-                  textTransform: 'capitalize'
-                }}>
-                  {model.type}
-                </div>
-                <div style={{ fontSize: '14px', opacity: 0.7 }}>
-                  {model.type === 'electric' ? 'Zero Emissions' : 'Plug-in Hybrid'}
-                </div>
-              </div>
-
-              {/* Category */}
-              <div style={{
-                padding: '32px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                borderRadius: '12px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                transition: 'all 0.3s ease',
-                opacity: isVisible['specs'] ? 1 : 0,
-                animation: isVisible['specs'] ? 'fadeInUp 0.6s ease-out 0.6s both' : 'none'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-                e.currentTarget.style.transform = 'translateY(-4px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}>
-                <div style={{ 
-                  fontSize: '13px', 
-                  opacity: 0.8, 
-                  marginBottom: '12px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  fontWeight: 600
-                }}>
-                  Vehicle Class
-                </div>
-                <div style={{ 
-                  fontSize: '28px', 
-                  fontWeight: 700,
-                  marginBottom: '8px'
-                }}>
-                  {model.class}
-                </div>
-                <div style={{ fontSize: '14px', opacity: 0.7 }}>
-                  {model.category}
-                </div>
+              <div style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                {model.notes}
               </div>
             </div>
-
-            {/* Availability Note */}
-            {model.notes && (
-              <div style={{
-                marginTop: '60px',
-                padding: '24px 32px',
-                backgroundColor: 'rgba(255,255,255,0.15)',
-                borderRadius: '12px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                textAlign: 'center',
-                opacity: isVisible['specs'] ? 1 : 0,
-                animation: isVisible['specs'] ? 'fadeInUp 0.6s ease-out 0.7s both' : 'none'
-              }}>
-                <div style={{
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  marginBottom: '8px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px'
-                }}>
-                  Availability
-                </div>
-                <div style={{ fontSize: '16px', lineHeight: '1.6' }}>
-                  {model.notes}
-                </div>
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
+
+      {/* Gallery Section */}
+      <div 
+        ref={el => observerRefs.current['gallery'] = el}
+        style={{
+          padding: '100px 20px',
+          maxWidth: '1600px',
+          margin: '0 auto'
+        }}
+      >
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '50px',
+          opacity: isVisible['gallery'] ? 1 : 0,
+          transform: isVisible['gallery'] ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'all 0.8s ease-out'
+        }}>
+          <h2 style={{
+            fontSize: '48px',
+            fontWeight: 700,
+            marginBottom: '16px',
+            color: '#252728',
+            letterSpacing: '-1px'
+          }}>
+            Photo Gallery
+          </h2>
+          <p style={{
+            fontSize: '18px',
+            color: '#666'
+          }}>
+            Browse through our complete collection
+          </p>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: '20px'
+        }}>
+          {carData.allImages.map((img, idx) => (
+            <div
+              key={idx}
+              onClick={() => setLightboxImage(img)}
+              style={{
+                position: 'relative',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                aspectRatio: '4/3',
+                transition: 'all 0.4s ease',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                opacity: isVisible['gallery'] ? 1 : 0,
+                transform: isVisible['gallery'] ? 'scale(1)' : 'scale(0.95)',
+                transitionDelay: `${idx * 0.05}s`
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 12px 35px rgba(0,0,0,0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+              }}
+            >
+              <img
+                src={img}
+                alt={`${carData.name} - Image ${idx + 1}`}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transition: 'transform 0.4s ease'
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '50px',
+                height: '50px',
+                background: 'rgba(255,255,255,0.9)',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: 0,
+                transition: 'opacity 0.3s ease',
+                pointerEvents: 'none'
+              }}
+              className="gallery-overlay"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#252728" strokeWidth="2">
+                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                </svg>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Lightbox */}
+      {lightboxImage && (
+        <div
+          onClick={() => setLightboxImage(null)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.95)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            animation: 'fadeIn 0.3s ease-out'
+          }}
+        >
+          <button
+            onClick={() => setLightboxImage(null)}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              width: '48px',
+              height: '48px',
+              background: 'rgba(255,255,255,0.1)',
+              border: 'none',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+            }}
+          >
+            <X size={24} color="#fff" />
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Full size"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
+              borderRadius: '8px',
+              animation: 'scaleIn 0.3s ease-out'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
 
       {/* CTA Section */}
       <div style={{ padding: '120px 20px', background: 'linear-gradient(135deg, #252728 0%, #3d3f42 100%)' }}>
@@ -973,10 +918,12 @@ const CarModelPage: React.FC = () => {
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#f3f4f6';
                 e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 8px 20px rgba(255,255,255,0.2)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#fff';
                 e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
               }}
             >
               Book Test Drive
@@ -1083,9 +1030,24 @@ const CarModelPage: React.FC = () => {
           }
         }
 
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
         * {
           scroll-behavior: smooth;
           box-sizing: border-box;
+        }
+
+        div:hover .gallery-overlay {
+          opacity: 1 !important;
         }
 
         @media (max-width: 991px) {
@@ -1101,8 +1063,8 @@ const CarModelPage: React.FC = () => {
             grid-template-columns: 1fr !important;
           }
 
-          div[style*="gridColumn: 'span 2'"] {
-            grid-column: span 1 !important;
+          div[style*="gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))'"] {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
           }
 
           h1 {
@@ -1117,6 +1079,9 @@ const CarModelPage: React.FC = () => {
           div[style*="padding: 120px"] {
             padding: 60px 20px !important;
           }
+          div[style*="padding: 100px"] {
+            padding: 60px 20px !important;
+          }
           div[style*="gap: 80px"] {
             gap: 40px !important;
           }
@@ -1128,10 +1093,6 @@ const CarModelPage: React.FC = () => {
           }
           div[style*="fontSize: '44px'"] {
             font-size: 28px !important;
-          }
-          div[style*="width: '72px'"] {
-            width: 56px !important;
-            height: 56px !important;
           }
           div[style*="width: '64px'"] {
             width: 48px !important;
@@ -1145,6 +1106,9 @@ const CarModelPage: React.FC = () => {
           }
           div[style*="minWidth: '300px'"] {
             min-width: 100% !important;
+          }
+          div[style*="gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))'"] {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>

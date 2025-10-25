@@ -60,7 +60,7 @@ export const models: Model[] = [
       '/models/BYD-ATTO3/BYD-ATTO3_interior.webp',
       '/models/BYD-ATTO3/Banner.jpg',
     ],
-    videos: ['/videos/BYD-ATTO3/Overview.mp4'],
+    videos: ['/models/BYD-ATTO3/videos/Video.mp4'],
   },
   /*{
     id: 4,
