@@ -71,7 +71,9 @@ const [formData, setFormData] = useState({
   countryCode: '+44',
   phone: '',
   modelInterest: '',
-  helpWith: ''
+  helpWith: '',
+  privacyConsent: false,  // Add this
+  emailConsent: false     // Add this
 });
 const [emailError, setEmailError] = useState('');
 const [isSubmitting, setIsSubmitting] = useState(false);
@@ -122,8 +124,8 @@ const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Hero Carousel Auto-advance
 useEffect(() => {
-  const autoInterval = 1000000; // 10 seconds
-  const idleThreshold = 1000000; // wait 10 seconds before auto-change
+const autoInterval = 10000; // 10 seconds
+const idleThreshold = 10000;
 
   const interval = setInterval(() => {
     const timeSinceLastInteraction = Date.now() - lastInteraction;
@@ -138,13 +140,13 @@ useEffect(() => {
 
 
   // Instagram Auto-rotate
-// Change from 8 to 9 items
+// BETTER (pauses on hover, syncs with clicks):
 useEffect(() => {
   const interval = setInterval(() => {
-    setInstagramIndex((prev) => (prev + 1) % 9);  // Updated to 9
-  }, 3000);
+    setInstagramIndex((prev) => (prev + 1) % instagramPosts.length);
+  }, 5000);
   return () => clearInterval(interval);
-}, []);
+}, [instagramPosts.length]);
 
   // Models Carousel Functions - FIXED FOR INFINITE SCROLL
   const nextModelsSlide = () => {
@@ -212,8 +214,8 @@ const EMAILJS_PUBLIC_KEY = 'JT95dY0H7AhNEF5Yc';
   const modelDescription = modelDescriptions[currentModel.id] || '';
 // Add email validation function
 const validateEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  return emailRegex.test(email) && email.length <= 254;
 };
 
 // Phone validation function
@@ -246,17 +248,14 @@ const formatPhoneNumber = (value) => {
   }
 };
 const [phoneError, setPhoneError] = useState('');
+// Currently unused function - enable it:
 const handlePhoneChange = (e) => {
   const phone = e.target.value;
   
-  // Optional: Auto-format as user types
-  // const formatted = formatPhoneNumber(phone);
-  // setFormData({ ...formData, phone: formatted });
+  // UNCOMMENT THIS:
+  const formatted = formatPhoneNumber(phone);
+  setFormData({ ...formData, phone: formatted });
   
-  // Or just set the value directly
-  setFormData({ ...formData, phone });
-  
-  // Validate only if user has entered something
   if (phone && !validatePhone(phone)) {
     setPhoneError('Please enter a valid phone number');
   } else {
@@ -273,6 +272,8 @@ const handleEmailChange = (e) => {
     setEmailError('');
   }
 };
+
+const slideOffset = (currentSlide * 100) / itemsPerView;
 
 // Replace the existing handleSubmit function with:
 const handleSubmit = async () => {
@@ -1285,11 +1286,16 @@ const handleSubmit = async () => {
 
         <div className="carousel-indicators">
           {models.map((_, index) => (
-            <div
-              key={index}
-              className={`indicator-dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => goToSlide(index)}
-            />
+<div 
+  key={index}
+  className={`indicator-dot ${index === currentIndex ? 'active' : ''}`}
+  onClick={() => goToSlide(index)}
+  role="button"
+  tabIndex={0}
+  aria-label={`Go to slide ${index + 1}`}
+  aria-current={index === currentIndex ? 'true' : 'false'}
+  onKeyPress={(e) => e.key === 'Enter' && goToSlide(index)}
+/>
           ))}
         </div>
       </div>
@@ -1320,10 +1326,10 @@ const handleSubmit = async () => {
 
 <div 
   className="models-carousel-track"
-  style={{ 
-    transform: `translateX(calc(25% - ${currentSlide * (100 / itemsPerView)}%))`,
-    transition: isSliding ? 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
-  }}
+style={{ 
+  transform: `translateX(-${slideOffset}%)`,
+  transition: isSliding ? 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+}}
 >
               {extendedModels.map((model, index) => (
 <div key={`${model.id}-${index}`} className="model-card">
@@ -1383,12 +1389,9 @@ const handleSubmit = async () => {
         <div className="electric-content">
           <h2 className="electric-title">Electric Cars</h2>
           <p className="electric-description">
-            At Evergreen Motors, our electric vehicles are different; our industry-leading battery 
-            technology marries perfectly with innovative design to create a range of EVs 
-            that are as safe as they are luxurious. Time to upgrade? Discover our available 
-            models today.
+At Evergreen Motors we only sell electric vehicles, along with a handful of exceptional plug-in hybrids. All the vehicles we sell have been carefully chosen because they offer exceptional value, and because they represent the very best balance between affordable luxury, leading edge technologies, reliability, and safety. We offer vehicles in a broad range of classes, from small hatchbacks, to pickup trucks, to large luxury SUVs. Each dominate their respective classes, or they have been selected because of their special features and suitability to the Islands. 
           </p>
-          <button className="electric-button" onClick={() => window.location.href = '/electric-cars'}>
+          <button className="electric-button" onClick={() => window.location.href = '/about'}>
             Learn More
           </button>
         </div>
@@ -1408,8 +1411,7 @@ const handleSubmit = async () => {
   <div className="community-container">
     <h2 className="community-title">Our Evergreen Community</h2>
     <p className="community-subtitle">
-      Share your BYD with us via social media by tagging @EvergreenMotorsTCI & using #EvergreenMotorsTCI 
-      for a chance to feature across our website and social channels.
+Share a photo of you and your EV with us via social media by tagging @EvergreenMotorsTCI and by using #EvergreenMotorsTCI for a chance to feature across our website and social media channels, and to win a prize. 
     </p>
     
     <div className="instagram-grid">
@@ -1523,28 +1525,26 @@ const handleSubmit = async () => {
       </div>
 
       <div className="form-group">
-<div className="form-group">
-  <div className="phone-input-group">
-    <CountryCodeSelect
-      value={formData.countryCode}
-      onChange={(code) => setFormData({ ...formData, countryCode: code })}
-    />
-    <input 
-      type="tel" 
-      className="form-input" 
-      placeholder="07400 123456*"
-      value={formData.phone}
-      onChange={handlePhoneChange}
-      style={{ borderColor: phoneError ? '#e74c3c' : '' }}
-      required
-    />
-  </div>
-  {phoneError && (
-    <div style={{ color: '#e74c3c', fontSize: '0.85rem', marginTop: '5px' }}>
-      {phoneError}
-    </div>
-  )}
-</div>
+        <div className="phone-input-group">
+          <CountryCodeSelect
+            value={formData.countryCode}
+            onChange={(code) => setFormData({ ...formData, countryCode: code })}
+          />
+          <input 
+            type="tel" 
+            className="form-input" 
+            placeholder="07400 123456*"
+            value={formData.phone}
+            onChange={handlePhoneChange}
+            style={{ borderColor: phoneError ? '#e74c3c' : '' }}
+            required
+          />
+        </div>
+        {phoneError && (
+          <div style={{ color: '#e74c3c', fontSize: '0.85rem', marginTop: '5px' }}>
+            {phoneError}
+          </div>
+        )}
       </div>
 
       <div className="form-group">
@@ -1576,10 +1576,63 @@ const handleSubmit = async () => {
         </select>
       </div>
 
+      {/* Consent Checkboxes */}
+      <div className="form-group" style={{ marginTop: '25px' }}>
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'flex-start', 
+          fontSize: '0.9rem', 
+          gap: '12px', 
+          color: '#666',
+          lineHeight: '1.5',
+          cursor: 'pointer'
+        }}>
+          <input 
+            type="checkbox" 
+            style={{ marginTop: '3px', cursor: 'pointer' }}
+            checked={formData.privacyConsent}
+            onChange={(e) => setFormData({ ...formData, privacyConsent: e.target.checked })}
+            required
+          />
+          <span>
+            I consent to the way Evergreen Motors processes my personal data. You can find additional information on how Evergreen Motors processes your personal data in the{' '}
+            <a href="/privacy" style={{ color: '#252728', textDecoration: 'underline', fontWeight: 600 }}>
+              privacy policy
+            </a>.*
+          </span>
+        </label>
+      </div>
+
+      <div className="form-group" style={{ marginTop: '15px' }}>
+        <label style={{ 
+          display: 'flex', 
+          alignItems: 'flex-start', 
+          fontSize: '0.9rem', 
+          gap: '12px', 
+          color: '#666',
+          lineHeight: '1.5',
+          cursor: 'pointer'
+        }}>
+          <input 
+            type="checkbox" 
+            style={{ marginTop: '3px', cursor: 'pointer' }}
+            checked={formData.emailConsent}
+            onChange={(e) => setFormData({ ...formData, emailConsent: e.target.checked })}
+          />
+          <span>
+            I consent to my personal data being used to receive all relevant Evergreen Motors email updates. For more information, please see our{' '}
+            <a href="/privacy" style={{ color: '#252728', textDecoration: 'underline', fontWeight: 600 }}>
+              privacy policy
+            </a>.
+          </span>
+        </label>
+      </div>
+
       <button 
         type="submit" 
         className="submit-button"
         disabled={isSubmitting}
+        style={{ marginTop: '25px' }}
       >
         {isSubmitting ? 'Submitting...' : 'Submit'}
       </button>
@@ -1596,17 +1649,18 @@ const handleSubmit = async () => {
 </section>
 
       {/* Map Section */}
-      <section className="map-section">
-        <h2 className="map-title">Our Location</h2>
-        <div className="map-container">
-          <iframe
-src="https://maps.google.com/maps?q=21.795800671508836,-72.18088702512645&t=&z=13&ie=UTF8&iwloc=&output=embed"            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="BYD Location Map"
-          />
-        </div>
-      </section>
+<section className="map-section">
+  <h2 className="map-title">Our Locations</h2>
+  <div className="map-container">
+    <iframe
+      src="https://www.google.com/maps/d/u/0/embed?mid=1QNXWZWS8hrfRKK3EQXLr_n_LAy9Kz78&ehbc=2E312F&noprof=1"
+      allowFullScreen
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      title="BYD Locations Map"
+    />
+  </div>
+</section>
     </div>
   );
 };

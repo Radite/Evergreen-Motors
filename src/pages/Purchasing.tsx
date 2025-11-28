@@ -8,7 +8,7 @@ export default function Purchasing() {
       <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
         <img 
           src="/Purchasing/Banner.jpg" 
-          alt="BYD Purchasing"
+          alt="EM Electric Vehicle Purchasing"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <div style={{
@@ -24,10 +24,10 @@ export default function Purchasing() {
           flexDirection: 'column'
         }}>
           <h1 style={{ fontSize: '64px', fontWeight: 700, color: '#fff', margin: 0, textAlign: 'center', letterSpacing: '-1px' }}>
-            Find Your Perfect Way to Own a BYD
+            Purchasing Menu
           </h1>
           <p style={{ fontSize: '22px', color: '#fff', marginTop: '20px', fontWeight: 300, maxWidth: '700px', textAlign: 'center', lineHeight: '1.6' }}>
-            From cash purchases to flexible subscriptions - discover the option that fits your lifestyle
+            We have a range of flexible options to meet the needs of everyone looking to drive an electric vehicle, from short term visitors looking to rent for just a few days, to residents looking to own the planet's most advanced vehicles, to businesses looking to build a modern fleet of technologically advanced, reliable, and safe vehicles with ultra-low running costs.
           </p>
         </div>
       </div>
@@ -47,10 +47,10 @@ export default function Purchasing() {
               <div style={{ width: '56px', height: '56px', backgroundColor: '#252728', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <DollarSign size={28} color="#fff" />
               </div>
-              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Cash Purchase</h2>
+              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Purchasing with Cash</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Buy outright and own your BYD from day one with no monthly payments or interest charges. Cash purchase offers complete freedom with immediate ownership, no mileage restrictions, and the potential for exclusive cash buyer incentives.
+              Buying an electric vehicle with cash is the fastest and simplest option. It provides immediate ownership of the vehicle, with no restrictions on the type of insurance cover the owner must carry or the maximum mileage the vehicle can be driven. Cash purchases also avoid interest and finance charges, and there are often no delays in securing immediate use of the vehicle if the desired model and trim is in stock.
             </p>
             
             <div style={{ backgroundColor: '#f8f9fa', padding: '28px', borderRadius: '10px', marginBottom: '30px', border: '1px solid #e9ecef' }}>
@@ -58,39 +58,22 @@ export default function Purchasing() {
               <ul style={{ fontSize: '16px', lineHeight: '2', color: '#252728', margin: 0, paddingLeft: '0', listStyle: 'none' }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>No interest charges - avoid finance costs and save money</span>
+                  <span>Immediate ownership of the vehicle with no restrictions</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Immediate ownership - the vehicle is yours from day one</span>
+                  <span>No interest and finance charges</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Complete freedom - no mileage or modification restrictions</span>
+                  <span>Fastest and simplest option</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Potential discounts - cash buyers may receive special offers</span>
+                  <span>No delays in securing immediate use if model in stock</span>
                 </li>
               </ul>
             </div>
-            
-            <a 
-              href="/contact" 
-              style={{
-                display: 'inline-block',
-                padding: '16px 45px',
-                backgroundColor: '#252728',
-                color: '#fff',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '16px',
-                borderRadius: '6px',
-                transition: 'all 0.3s'
-              }}
-            >
-              Contact Us for Cash Purchase
-            </a>
           </div>
         </div>
       </div>
@@ -110,10 +93,10 @@ export default function Purchasing() {
               <div style={{ width: '56px', height: '56px', backgroundColor: '#252728', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <TrendingUp size={28} color="#fff" />
               </div>
-              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Bank Finance</h2>
+              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Purchasing with Bank Financing</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Flexible finance through trusted UK banks with competitive rates and immediate ownership. Bank finance allows you to spread the cost while owning the vehicle from day one, with straightforward terms from established financial institutions.
+              We have good working relationships with all the major retail banks, some of which provide one hundred percent financing to qualified borrowers. Buying an electric vehicle with bank financing provides immediate ownership and use of a vehicle (once the loan has been approved), there is also no maximum mileage the vehicle can be driven, and this option avoids purchasers having to use savings, which might not be available. It's a great way to get use and ownership of an advanced modern vehicle with little upfront costs.
             </p>
             
             <div style={{ backgroundColor: '#fff', padding: '28px', borderRadius: '10px', marginBottom: '30px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
@@ -121,44 +104,27 @@ export default function Purchasing() {
               <ul style={{ fontSize: '16px', lineHeight: '2', color: '#252728', margin: 0, paddingLeft: '0', listStyle: 'none' }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Competitive rates from leading UK banks and lenders</span>
+                  <span>Good working relationships with all major retail banks in TCI</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Work with trusted, established financial institutions</span>
+                  <span>Some banks provide one hundred percent financing to qualified borrowers</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Own the vehicle immediately with no balloon payments</span>
+                  <span>Immediate ownership and use once loan is approved</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Simple application process with fast approval decisions</span>
+                  <span>No maximum mileage restrictions</span>
                 </li>
               </ul>
             </div>
-            
-            <a 
-              href="/contact" 
-              style={{
-                display: 'inline-block',
-                padding: '16px 45px',
-                backgroundColor: '#252728',
-                color: '#fff',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '16px',
-                borderRadius: '6px',
-                transition: 'all 0.3s'
-              }}
-            >
-              Contact Us for Finance Options
-            </a>
           </div>
         </div>
       </div>
 
-      {/* Dealer Finance (PCP) Section */}
+      {/* Dealer Finance Section */}
       <div id="dealer-finance" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
@@ -173,77 +139,40 @@ export default function Purchasing() {
               <div style={{ width: '56px', height: '56px', backgroundColor: '#252728', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <CreditCard size={28} color="#fff" />
               </div>
-              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Dealer Finance (PCP)</h2>
+              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Purchasing with Dealer Financing</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Personal Contract Purchase offers lower monthly payments with flexibility at the end of your term. Drive your BYD with manageable monthly costs and choose to own, return, or upgrade when your agreement ends.
+              For established businesses that wish to finance the purchase of a vehicle, and who would rather do so other than through traditional bank financing, we offer dealer financing. Like bank financing, buying an electric vehicle with dealer financing provides immediate ownership and use of a vehicle (once the loan has been approved), there is no maximum mileage the vehicle can be driven, and this option also avoids purchasers having to use savings. It's also a great way for businesses to get use and ownership of an advanced modern vehicle with little upfront costs.
             </p>
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '35px' }}>
               <div style={{ padding: '24px', backgroundColor: '#f8f9fa', borderRadius: '10px', border: '1px solid #e9ecef' }}>
-                <div style={{ fontSize: '13px', color: '#666', fontWeight: 600, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Lower Payments</div>
-                <div style={{ fontSize: '22px', fontWeight: 700, color: '#252728', marginBottom: '8px' }}>Affordable Monthly</div>
-                <div style={{ fontSize: '13px', color: '#666' }}>Smaller payments than traditional loans</div>
-              </div>
-              <div style={{ padding: '24px', backgroundColor: '#f8f9fa', borderRadius: '10px', border: '1px solid #e9ecef' }}>
                 <div style={{ fontSize: '13px', color: '#666', fontWeight: 600, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Flexibility</div>
                 <div style={{ fontSize: '22px', fontWeight: 700, color: '#252728', marginBottom: '8px' }}>Three Options</div>
-                <div style={{ fontSize: '13px', color: '#666' }}>Keep, return, or upgrade your vehicle</div>
-              </div>
-              <div style={{ padding: '24px', backgroundColor: '#f8f9fa', borderRadius: '10px', border: '1px solid #e9ecef' }}>
-                <div style={{ fontSize: '13px', color: '#666', fontWeight: 600, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>GAP Insurance</div>
-                <div style={{ fontSize: '22px', fontWeight: 700, color: '#252728', marginBottom: '8px' }}>Protection</div>
-                <div style={{ fontSize: '13px', color: '#666' }}>Optional coverage available</div>
+                <div style={{ fontSize: '13px', color: '#666' }}>Immediate ownership and use once loan approved</div>
               </div>
               <div style={{ padding: '24px', backgroundColor: '#f8f9fa', borderRadius: '10px', border: '1px solid #e9ecef' }}>
                 <div style={{ fontSize: '13px', color: '#666', fontWeight: 600, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Structured</div>
                 <div style={{ fontSize: '22px', fontWeight: 700, color: '#252728', marginBottom: '8px' }}>Clear Terms</div>
-                <div style={{ fontSize: '13px', color: '#666' }}>Transparent agreement details</div>
+                <div style={{ fontSize: '13px', color: '#666' }}>No maximum mileage restrictions</div>
+              </div>
+              <div style={{ padding: '24px', backgroundColor: '#f8f9fa', borderRadius: '10px', border: '1px solid #e9ecef', gridColumn: '1 / -1' }}>
+                <div style={{ fontSize: '13px', color: '#666', fontWeight: 600, marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>End of Term Option</div>
+                <div style={{ fontSize: '22px', fontWeight: 700, color: '#252728', marginBottom: '8px' }}>Complete Ownership</div>
+                <div style={{ fontSize: '13px', color: '#666' }}>Vehicle becomes your property after loan is paid</div>
               </div>
             </div>
-
-            <div style={{ backgroundColor: '#f8f9fa', padding: '24px', borderRadius: '10px', marginBottom: '30px', border: '1px solid #e9ecef' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '15px', color: '#252728' }}>End of Term Options</h3>
-              <div style={{ fontSize: '15px', color: '#666', lineHeight: '1.8' }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <strong style={{ color: '#252728' }}>1. Part Exchange:</strong> Upgrade to a new BYD model
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <strong style={{ color: '#252728' }}>2. Purchase:</strong> Pay the final payment and keep your vehicle
-                </div>
-                <div>
-                  <strong style={{ color: '#252728' }}>3. Return:</strong> Simply hand back the vehicle with nothing more to pay
-                </div>
-              </div>
-            </div>
-            
-            <a 
-              href="/contact" 
-              style={{
-                display: 'inline-block',
-                padding: '16px 45px',
-                backgroundColor: '#252728',
-                color: '#fff',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '16px',
-                borderRadius: '6px',
-                transition: 'all 0.3s'
-              }}
-            >
-              Explore PCP Options
-            </a>
           </div>
         </div>
       </div>
 
-      {/* Lease Section */}
+      {/* Business Lease Section */}
       <div id="lease" style={{ padding: '120px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
           <div style={{ flex: 1 }}>
             <img 
               src="/Purchasing/lease.jpg" 
-              alt="Lease"
+              alt="Business Lease"
               style={{ width: '100%', height: 'auto', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.1)' }}
             />
           </div>
@@ -252,10 +181,10 @@ export default function Purchasing() {
               <div style={{ width: '56px', height: '56px', backgroundColor: '#252728', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Calendar size={28} color="#fff" />
               </div>
-              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Business Lease</h2>
+              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Business Leases</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Perfect for business users seeking predictable monthly costs with potential tax benefits. Business lease provides fixed-term vehicle access with maintenance options and no depreciation risk, ideal for fleet and corporate requirements.
+              This option is available to businesses who are willing to commit to using a vehicle for three to five years, who are able to make a small upfront payment on possession of the vehicle, of typically $5,000.00 to $10,000.00, who do not want the hassle of maintaining the vehicle, and who want the option of buying the vehicle or getting another new vehicle at the end of the term. The business has the option to buy the vehicle at the end the term for an amount that is typically a small portion of its value.
             </p>
             
             <div style={{ backgroundColor: '#fff', padding: '28px', borderRadius: '10px', marginBottom: '30px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
@@ -263,54 +192,33 @@ export default function Purchasing() {
               <ul style={{ fontSize: '16px', lineHeight: '2', color: '#252728', margin: 0, paddingLeft: '0', listStyle: 'none' }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Potential tax benefits and VAT reclaim opportunities</span>
-                </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-                  <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
                   <span>Fixed monthly costs with no depreciation concerns</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Flexible lease terms from 24 to 48 months</span>
+                  <span>Flexible lease terms from 36 to 60 months</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Optional maintenance packages for complete peace of mind</span>
+                  <span>Option to purchase at end of term</span>
+                </li>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
+                  <span>No hassle maintaining the vehicle</span>
                 </li>
               </ul>
             </div>
-
-            <p style={{ fontSize: '15px', color: '#666', marginBottom: '25px', lineHeight: '1.6', fontStyle: 'italic' }}>
-              Note: Speak with your accountant about the specific tax implications for your business. Terms and availability may vary based on credit approval.
-            </p>
-            
-            <a 
-              href="/contact" 
-              style={{
-                display: 'inline-block',
-                padding: '16px 45px',
-                backgroundColor: '#252728',
-                color: '#fff',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '16px',
-                borderRadius: '6px',
-                transition: 'all 0.3s'
-              }}
-            >
-              Contact Us for Business Lease
-            </a>
           </div>
         </div>
       </div>
 
-      {/* Rental Section */}
+      {/* Rentals Section */}
       <div id="rental" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
             <img 
               src="/Purchasing/rental.jpg" 
-              alt="Rental"
+              alt="Rentals"
               style={{ width: '100%', height: 'auto', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.1)' }}
             />
           </div>
@@ -319,50 +227,37 @@ export default function Purchasing() {
               <div style={{ width: '56px', height: '56px', backgroundColor: '#252728', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Shield size={28} color="#fff" />
               </div>
-              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Short-Term Rental</h2>
+              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Rentals</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Experience a BYD before committing to ownership or rent for temporary needs. Our short-term rental service provides flexible access to BYD vehicles for test drives, business trips, or temporary transportation requirements.
+              This provides access to our vehicles for periods as short as three days, with no fixed commitment, for persons who wish to get a deeper and more meaningful experience driving an electric vehicle before they commit to a purchase. It's something we encourage interested purchasers to do, and it's a great way to get comfortable with a decision to purchase an electric vehicle. It's also great for persons who need transportation for a few days or for a short term without a commitment.
             </p>
             
             <div style={{ backgroundColor: '#f8f9fa', padding: '28px', borderRadius: '10px', marginBottom: '30px', border: '1px solid #e9ecef' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '20px', color: '#252728' }}>Rental Features</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '20px', color: '#252728' }}>Rental Benefits</h3>
               <ul style={{ fontSize: '16px', lineHeight: '2', color: '#252728', margin: 0, paddingLeft: '0', listStyle: 'none' }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Daily, weekly, and monthly rental options available</span>
+                  <span>Access for periods as short as three days</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Full insurance coverage included in the rental price</span>
+                  <span>No fixed commitment</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>24/7 roadside assistance throughout your rental period</span>
+                  <span>No maintenance or insurance obligations</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Perfect for trying before buying or temporary vehicle needs</span>
+                  <span>Complete refund if you return after three days</span>
+                </li>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
+                  <span>Restricted to persons over 25 years old</span>
                 </li>
               </ul>
             </div>
-            
-            <a 
-              href="/contact" 
-              style={{
-                display: 'inline-block',
-                padding: '16px 45px',
-                backgroundColor: '#252728',
-                color: '#fff',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '16px',
-                borderRadius: '6px',
-                transition: 'all 0.3s'
-              }}
-            >
-              Contact Us for Rentals
-            </a>
           </div>
         </div>
       </div>
@@ -383,7 +278,7 @@ export default function Purchasing() {
               color: '#252728',
               letterSpacing: '-0.5px'
             }}>
-              All-Inclusive Subscription
+              Subscriptions
             </h2>
             <p style={{
               fontSize: '18px',
@@ -392,198 +287,68 @@ export default function Purchasing() {
               margin: '0 auto',
               lineHeight: '1.8'
             }}>
-              Ultimate flexibility with insurance, maintenance, and everything included in one monthly payment. No long-term commitments, just pure driving enjoyment.
+              A subscription is a rental for periods of a month or more, on a month-to-month basis, or a quarter or more, on a quarter-to-quarter basis. There is no commitment other than to payment for the upcoming month or quarter, plus maintenance and insurance is included. It has most of the same benefits and disadvantages as a short-term rental. It differs in that the daily rates for a subscription are better than those for a short-term rental.
             </p>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '30px',
-            marginBottom: '50px'
-          }}>
-            {[
-              { plan: 'Starter', monthly: '£599', model: 'BYD DOLPHIN', mileage: '750 miles/month', description: 'Perfect for city driving and daily commutes' },
-              { plan: 'Premium', monthly: '£799', model: 'BYD ATTO 3', mileage: '1,000 miles/month', description: 'Ideal for families and weekend adventures' },
-              { plan: 'Executive', monthly: '£999', model: 'BYD SEAL', mileage: '1,250 miles/month', description: 'Premium experience for discerning drivers' }
-            ].map((tier, index) => (
-              <div key={index} style={{
-                backgroundColor: '#fff',
-                padding: '36px',
-                borderRadius: '12px',
-                border: '2px solid #e9ecef',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
-              }}>
-                <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid #e9ecef' }}>
-                  <h3 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '12px', color: '#252728' }}>
-                    {tier.plan}
-                  </h3>
-                  <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6' }}>
-                    {tier.description}
-                  </p>
+          <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+            <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '24px', color: '#252728' }}>Why Choose Subscriptions?</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '28px' }}>
+              <div style={{ paddingBottom: '24px', borderBottom: '1px solid #e9ecef' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <CheckCircle size={24} color="#22c55e" />
+                  <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#252728', margin: 0 }}>Better Daily Rates</h4>
                 </div>
-
-                <div style={{ marginBottom: '28px' }}>
-                  <div style={{ fontSize: '48px', fontWeight: 700, color: '#252728', marginBottom: '8px' }}>
-                    {tier.monthly}
-                  </div>
-                  <div style={{ fontSize: '14px', color: '#666' }}>per month</div>
-                </div>
-
-                <div style={{ marginBottom: '28px' }}>
-                  <div style={{ padding: '16px', backgroundColor: '#f8f9fa', borderRadius: '8px', marginBottom: '12px' }}>
-                    <div style={{ fontSize: '12px', color: '#666', fontWeight: 600, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Model</div>
-                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#252728' }}>{tier.model}</div>
-                  </div>
-                  <div style={{ padding: '16px', backgroundColor: '#f8f9fa', borderRadius: '8px', marginBottom: '12px' }}>
-                    <div style={{ fontSize: '12px', color: '#666', fontWeight: 600, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Mileage Allowance</div>
-                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#252728' }}>{tier.mileage}</div>
-                  </div>
-                  <div style={{ padding: '16px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '12px', color: '#666', fontWeight: 600, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Minimum Term</div>
-                    <div style={{ fontSize: '16px', fontWeight: 600, color: '#252728' }}>6 months</div>
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '28px', paddingTop: '24px', borderTop: '1px solid #e9ecef' }}>
-                  <h4 style={{ fontSize: '14px', fontWeight: 700, marginBottom: '16px', color: '#252728', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    Everything Included
-                  </h4>
-                  <ul style={{ fontSize: '14px', lineHeight: '2', color: '#666', margin: 0, paddingLeft: '0', listStyle: 'none' }}>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                      <CheckCircle size={16} color="#22c55e" style={{ flexShrink: 0 }} />
-                      <span>Vehicle Access</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                      <CheckCircle size={16} color="#22c55e" style={{ flexShrink: 0 }} />
-                      <span>Full Insurance</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                      <CheckCircle size={16} color="#22c55e" style={{ flexShrink: 0 }} />
-                      <span>Maintenance & Servicing</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                      <CheckCircle size={16} color="#22c55e" style={{ flexShrink: 0 }} />
-                      <span>Breakdown Cover</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                      <CheckCircle size={16} color="#22c55e" style={{ flexShrink: 0 }} />
-                      <span>Vehicle Swap Options</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <CheckCircle size={16} color="#22c55e" style={{ flexShrink: 0 }} />
-                      <span>Digital Management</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <button style={{
-                  width: '100%',
-                  backgroundColor: '#252728',
-                  color: '#fff',
-                  padding: '16px',
-                  fontSize: '15px',
-                  fontWeight: 600,
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontFamily: 'Montserrat, Arial, sans-serif',
-                  transition: 'all 0.3s'
-                }}>
-                  Subscribe Now
-                </button>
+                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', margin: 0 }}>
+                  Daily rates for subscriptions are better than short-term rentals, saving you money over longer periods.
+                </p>
               </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: '15px', color: '#666', marginBottom: '25px', lineHeight: '1.6' }}>
-              All subscriptions include comprehensive insurance, scheduled maintenance, breakdown assistance, and the flexibility to upgrade or cancel with just 30 days notice.
-            </p>
-            <a 
-              href="/contact" 
-              style={{
-                display: 'inline-block',
-                padding: '16px 45px',
-                backgroundColor: '#252728',
-                color: '#fff',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '16px',
-                borderRadius: '6px',
-                transition: 'all 0.3s'
-              }}
-            >
-              Learn More About Subscriptions
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Comparison Table */}
-      <div style={{ padding: '120px 20px', backgroundColor: '#fff' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{
-              fontSize: '44px',
-              fontWeight: 700,
-              marginBottom: '20px',
-              color: '#252728',
-              letterSpacing: '-0.5px'
-            }}>
-              Compare Your Options
-            </h2>
-            <p style={{
-              fontSize: '18px',
-              color: '#666',
-              maxWidth: '800px',
-              margin: '0 auto',
-              lineHeight: '1.8'
-            }}>
-              Find the perfect purchasing solution for your needs and budget
-            </p>
-          </div>
-
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', backgroundColor: '#fff', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderRadius: '12px', overflow: 'hidden' }}>
-              <thead>
-                <tr style={{ backgroundColor: '#252728', color: '#fff' }}>
-                  <th style={{ padding: '20px', textAlign: 'left', fontSize: '16px', fontWeight: 600 }}>Feature</th>
-                  <th style={{ padding: '20px', textAlign: 'center', fontSize: '16px', fontWeight: 600 }}>Cash</th>
-                  <th style={{ padding: '20px', textAlign: 'center', fontSize: '16px', fontWeight: 600 }}>Bank Finance</th>
-                  <th style={{ padding: '20px', textAlign: 'center', fontSize: '16px', fontWeight: 600 }}>PCP</th>
-                  <th style={{ padding: '20px', textAlign: 'center', fontSize: '16px', fontWeight: 600 }}>Lease</th>
-                  <th style={{ padding: '20px', textAlign: 'center', fontSize: '16px', fontWeight: 600 }}>Rental</th>
-                  <th style={{ padding: '20px', textAlign: 'center', fontSize: '16px', fontWeight: 600 }}>Subscription</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { feature: 'Immediate Ownership', values: ['✓', '✓', '×', '×', '×', '×'] },
-                  { feature: 'Lower Monthly Costs', values: ['×', '○', '✓', '✓', '✓', '✓'] },
-                  { feature: 'No Interest Charges', values: ['✓', '×', '×', '×', '○', '○'] },
-                  { feature: 'Flexibility to Return', values: ['×', '×', '✓', '○', '✓', '✓'] },
-                  { feature: 'Tax Benefits (Business)', values: ['×', '×', '×', '✓', '×', '○'] },
-                  { feature: 'Insurance Included', values: ['×', '×', '×', '×', '○', '✓'] },
-                  { feature: 'Maintenance Included', values: ['×', '×', '×', '○', '×', '✓'] }
-                ].map((row, index) => (
-                  <tr key={index} style={{ borderBottom: '1px solid #e9ecef', backgroundColor: index % 2 === 0 ? '#fff' : '#f8f9fa' }}>
-                    <td style={{ padding: '20px', fontSize: '15px', color: '#252728', fontWeight: 600 }}>{row.feature}</td>
-                    {row.values.map((value, i) => (
-                      <td key={i} style={{ padding: '20px', textAlign: 'center', fontSize: '18px', color: value === '✓' ? '#22c55e' : value === '×' ? '#666' : '#252728' }}>
-                        {value}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div style={{ marginTop: '30px', textAlign: 'center' }}>
-            <p style={{ fontSize: '14px', color: '#666', fontStyle: 'italic' }}>
-              ✓ = Included  •  ○ = Optional or Available  •  × = Not Available
-            </p>
+              <div style={{ paddingBottom: '24px', borderBottom: '1px solid #e9ecef' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <CheckCircle size={24} color="#22c55e" />
+                  <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#252728', margin: 0 }}>Maintenance & Insurance Included</h4>
+                </div>
+                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', margin: 0 }}>
+                  All maintenance and insurance is included in your monthly or quarterly payment.
+                </p>
+              </div>
+              <div style={{ paddingBottom: '24px', borderBottom: '1px solid #e9ecef' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <CheckCircle size={24} color="#22c55e" />
+                  <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#252728', margin: 0 }}>Flexible Commitment</h4>
+                </div>
+                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', margin: 0 }}>
+                  Only commitment is for the upcoming month or quarter - ideal for short-term needs.
+                </p>
+              </div>
+              <div style={{ paddingBottom: '24px', borderBottom: '1px solid #e9ecef' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <CheckCircle size={24} color="#22c55e" />
+                  <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#252728', margin: 0 }}>Ideal for Businesses</h4>
+                </div>
+                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', margin: 0 }}>
+                  Perfect for businesses with short-term employees or temporary transportation needs.
+                </p>
+              </div>
+              <div style={{ paddingBottom: '24px', borderBottom: '1px solid #e9ecef' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <CheckCircle size={24} color="#22c55e" />
+                  <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#252728', margin: 0 }}>No Long-term Commitment</h4>
+                </div>
+                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', margin: 0 }}>
+                  Unlike leases, you're not locked in for years - just the upcoming billing period.
+                </p>
+              </div>
+              <div style={{ paddingBottom: '24px', borderBottom: '1px solid #e9ecef' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <CheckCircle size={24} color="#22c55e" />
+                  <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#252728', margin: 0 }}>Easy to Upgrade</h4>
+                </div>
+                <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.6', margin: 0 }}>
+                  Switch vehicles or upgrade to a different model when your next billing period begins.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -592,7 +357,7 @@ export default function Purchasing() {
       <div style={{ padding: '120px 20px', background: 'linear-gradient(135deg, #252728 0%, #3d3f42 100%)' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', color: '#fff' }}>
           <h3 style={{ fontSize: '44px', fontWeight: 700, marginBottom: '24px', color: '#fff', letterSpacing: '-0.5px' }}>
-            Ready to Get Your BYD?
+            Ready to Find Your Perfect Option?
           </h3>
           <p style={{
             fontSize: '18px',
@@ -602,7 +367,7 @@ export default function Purchasing() {
             maxWidth: '700px',
             margin: '0 auto 45px'
           }}>
-            Contact us today and our team will help you find the perfect purchasing option for your needs. We're here to guide you through every step of your BYD ownership journey.
+            Contact us today and our team will help you find the perfect purchasing option for your needs and lifestyle.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <a 
@@ -643,10 +408,75 @@ export default function Purchasing() {
           </div>
         </div>
       </div>
-
+    
       {/* Mobile Responsive Styles */}
       <style>{`
-        @media (max-width: 991px) {
+        /* Portrait Phones (< 600px) */
+        @media (max-width: 599px) {
+          /* Subscription cards */
+          .subscription-cards-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          
+          /* General responsive */
+          div[style*="display: flex"] {
+            flex-direction: column !important;
+          }
+          h1 {
+            font-size: 32px !important;
+          }
+          h2 {
+            font-size: 28px !important;
+          }
+          h3 {
+            font-size: 20px !important;
+          }
+          div[style*="padding: 120px"] {
+            padding: 50px 16px !important;
+          }
+          div[style*="gap: 80px"] {
+            gap: 30px !important;
+          }
+          div[style*="gridTemplateColumns: 'repeat(3, 1fr)'"] {
+            grid-template-columns: 1fr !important;
+          }
+          div[style*="gridTemplateColumns: 'repeat(2, 1fr)'"] {
+            grid-template-columns: 1fr !important;
+          }
+          div[style*="fontSize: '64px'"] {
+            font-size: 32px !important;
+          }
+          div[style*="fontSize: '44px'"] {
+            font-size: 26px !important;
+          }
+          div[style*="fontSize: '48px'"] {
+            font-size: 36px !important;
+          }
+          div[style*="fontSize: '24px'"] {
+            font-size: 20px !important;
+          }
+          div[style*="width: '56px'"] {
+            width: 44px !important;
+            height: 44px !important;
+          }
+          table {
+            font-size: 11px !important;
+          }
+          th, td {
+            padding: 10px 6px !important;
+          }
+        }
+
+        /* Landscape Phones (600px - 767px) */
+        @media (min-width: 600px) and (max-width: 767px) {
+          /* Subscription cards */
+          .subscription-cards-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          
+          /* General responsive */
           div[style*="display: flex"] {
             flex-direction: column !important;
           }
@@ -654,16 +484,16 @@ export default function Purchasing() {
             font-size: 36px !important;
           }
           h2 {
-            font-size: 32px !important;
+            font-size: 30px !important;
           }
           h3 {
-            font-size: 20px !important;
+            font-size: 22px !important;
           }
           div[style*="padding: 120px"] {
-            padding: 60px 20px !important;
+            padding: 60px 24px !important;
           }
           div[style*="gap: 80px"] {
-            gap: 40px !important;
+            gap: 35px !important;
           }
           div[style*="gridTemplateColumns: 'repeat(3, 1fr)'"] {
             grid-template-columns: 1fr !important;
@@ -677,6 +507,9 @@ export default function Purchasing() {
           div[style*="fontSize: '44px'"] {
             font-size: 28px !important;
           }
+          div[style*="fontSize: '48px'"] {
+            font-size: 38px !important;
+          }
           div[style*="width: '56px'"] {
             width: 48px !important;
             height: 48px !important;
@@ -686,6 +519,72 @@ export default function Purchasing() {
           }
           th, td {
             padding: 12px 8px !important;
+          }
+        }
+
+        /* Portrait Tablets (768px - 991px) */
+        @media (min-width: 768px) and (max-width: 991px) {
+          /* Subscription cards - 2 columns on portrait tablets */
+          .subscription-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 28px !important;
+          }
+          
+          /* General responsive */
+          div[style*="display: flex"] {
+            flex-direction: column !important;
+          }
+          h1 {
+            font-size: 40px !important;
+          }
+          h2 {
+            font-size: 32px !important;
+          }
+          h3 {
+            font-size: 24px !important;
+          }
+          div[style*="padding: 120px"] {
+            padding: 70px 32px !important;
+          }
+          div[style*="gap: 80px"] {
+            gap: 40px !important;
+          }
+          div[style*="gridTemplateColumns: 'repeat(3, 1fr)'"] {
+            grid-template-columns: 1fr !important;
+          }
+          div[style*="gridTemplateColumns: 'repeat(2, 1fr)'"] {
+            grid-template-columns: 1fr !important;
+          }
+          div[style*="fontSize: '64px'"] {
+            font-size: 40px !important;
+          }
+          div[style*="fontSize: '44px'"] {
+            font-size: 30px !important;
+          }
+          div[style*="width: '56px'"] {
+            width: 50px !important;
+            height: 50px !important;
+          }
+          table {
+            font-size: 13px !important;
+          }
+          th, td {
+            padding: 14px 10px !important;
+          }
+        }
+
+        /* Landscape Tablets (992px - 1199px) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+          /* Subscription cards - 3 columns on landscape tablets */
+          .subscription-cards-grid {
+            gap: 24px !important;
+          }
+          
+          div[style*="gap: 80px"] {
+            gap: 50px !important;
+          }
+          div[style*="padding: 120px"] {
+            padding: 90px 40px !important;
           }
         }
       `}</style>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 // Type Definitions
 interface DiversificationItem {
@@ -12,18 +12,199 @@ interface FeatureItem {
   description: string;
 }
 
+// Custom hook for responsive breakpoints
+const useResponsive = () => {
+  const [screenSize, setScreenSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    isMobile: false,
+    isTablet: false,
+    isDesktop: true,
+  });
 
-// Hero Video Banner Component
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setScreenSize({
+        width,
+        isMobile: width < 768,
+        isTablet: width >= 768 && width < 1024,
+        isDesktop: width >= 1024,
+      });
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return screenSize;
+};
+
+// Hero Video Banner Component with Controls
 const HeroBanner: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { isMobile, isTablet } = useResponsive();
+  
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [volume, setVolume] = useState(1);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [showControls, setShowControls] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleTimeUpdate = () => setCurrentTime(video.currentTime);
+    const handleLoadedMetadata = () => setDuration(video.duration);
+    const handleEnded = () => setIsPlaying(false);
+
+    // Fullscreen change listeners
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement || !!(document as any).webkitFullscreenElement);
+    };
+
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('ended', handleEnded);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('ended', handleEnded);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isPlaying) {
+      video.pause();
+    } else {
+      video.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const newVolume = parseFloat(e.target.value);
+    video.volume = newVolume;
+    setVolume(newVolume);
+    
+    if (newVolume > 0 && isMuted) {
+      video.muted = false;
+      setIsMuted(false);
+    }
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const progressBar = e.currentTarget;
+    const clickX = e.clientX - progressBar.getBoundingClientRect().left;
+    const width = progressBar.offsetWidth;
+    const percentage = clickX / width;
+    video.currentTime = percentage * duration;
+  };
+
+  const toggleFullscreen = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      if (!document.fullscreenElement) {
+        // Try standard fullscreen API first
+        if (video.requestFullscreen) {
+          await video.requestFullscreen();
+        } 
+        // Safari iOS fallback
+        else if ((video as any).webkitEnterFullscreen) {
+          (video as any).webkitEnterFullscreen();
+        }
+        // Safari desktop fallback
+        else if ((video as any).webkitRequestFullscreen) {
+          await (video as any).webkitRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } else {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        }
+        setIsFullscreen(false);
+      }
+    } catch (err) {
+      console.error('Fullscreen error:', err);
+      // If standard fullscreen fails on mobile, try video-specific fullscreen
+      if ((video as any).webkitEnterFullscreen) {
+        try {
+          (video as any).webkitEnterFullscreen();
+          setIsFullscreen(true);
+        } catch (e) {
+          console.error('WebKit fullscreen error:', e);
+        }
+      }
+    }
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const handleMouseMove = () => {
+    setShowControls(true);
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    const timeout = isMobile || isTablet ? 5000 : 3000; // Longer timeout on mobile/tablet
+    controlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, timeout);
+  };
+
+  const handleMouseLeave = () => {
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    setShowControls(false);
+  };
 
   return (
-    <section style={{
-      position: 'relative',
-      height: '140vh',
-      width: '100%',
-      overflow: 'hidden'
-    }}>
+    <section 
+      style={{
+        position: 'relative',
+        height: isMobile ? '60vh' : isTablet ? '80vh' : '140vh',
+        width: '100%',
+        overflow: 'hidden',
+        cursor: showControls ? 'default' : 'none'
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={() => setShowControls(true)}
+    >
       <video
         ref={videoRef}
         style={{
@@ -32,12 +213,22 @@ const HeroBanner: React.FC = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'cover'
+          objectFit: 'cover',
+          cursor: 'pointer'
         }}
         autoPlay
         loop
         muted
         playsInline
+        onClick={(e) => {
+          e.stopPropagation();
+          togglePlay();
+        }}
+        onTouchEnd={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          togglePlay();
+        }}
       >
         <source src="/About/Hero.mp4" type="video/mp4" />
       </video>
@@ -49,19 +240,168 @@ const HeroBanner: React.FC = () => {
         bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.3)'
       }}></div>
+
+      {/* Video Controls */}
+      <div 
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)',
+          padding: isMobile ? '3rem 1rem 1rem' : '4rem 2rem 1.5rem',
+          opacity: showControls ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+          pointerEvents: showControls ? 'auto' : 'none'
+        }}
+        onMouseEnter={() => setShowControls(true)}
+        onMouseMove={() => setShowControls(true)}
+        onTouchStart={() => setShowControls(true)}
+      >
+        {/* Progress Bar */}
+        <div 
+          style={{
+            width: '100%',
+            height: '4px',
+            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+            borderRadius: '2px',
+            cursor: 'pointer',
+            marginBottom: '1rem',
+            position: 'relative'
+          }}
+          onClick={handleProgressClick}
+        >
+          <div style={{
+            width: `${(currentTime / duration) * 100}%`,
+            height: '100%',
+            backgroundColor: '#fff',
+            borderRadius: '2px',
+            transition: 'width 0.1s linear'
+          }}></div>
+        </div>
+
+        {/* Controls Row */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: isMobile ? '0.5rem' : '1rem'
+        }}>
+          {/* Left Controls */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: isMobile ? '0.75rem' : '1rem'
+          }}>
+            {/* Play/Pause Button */}
+            <button
+              onClick={togglePlay}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'white',
+                cursor: 'pointer',
+                padding: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: isMobile ? '1.25rem' : '1.5rem'
+              }}
+              aria-label={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? '⏸' : '▶'}
+            </button>
+
+            {/* Volume Controls */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <button
+                onClick={toggleMute}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  padding: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: isMobile ? '1.25rem' : '1.5rem'
+                }}
+                aria-label={isMuted ? 'Unmute' : 'Mute'}
+              >
+                {isMuted || volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}
+              </button>
+
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={isMuted ? 0 : volume}
+                onChange={handleVolumeChange}
+                style={{
+                  width: isMobile ? '60px' : '80px',
+                  cursor: 'pointer'
+                }}
+                aria-label="Volume"
+              />
+            </div>
+
+            {/* Time Display */}
+            <span style={{
+              color: 'white',
+              fontSize: isMobile ? '0.875rem' : '0.95rem',
+              fontFamily: 'monospace',
+              display: isMobile ? 'none' : 'block'
+            }}>
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </span>
+          </div>
+
+          {/* Right Controls */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            {/* Fullscreen Button */}
+            <button
+              onClick={toggleFullscreen}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'white',
+                cursor: 'pointer',
+                padding: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: isMobile ? '1.25rem' : '1.5rem'
+              }}
+              aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            >
+              {isFullscreen ? '⤓' : '⛶'}
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
 
 // About Section Component
 const AboutSection: React.FC = () => {
+  const { isMobile, isTablet } = useResponsive();
+
   return (
 <section style={{
-  position: 'relative',
-  width: '100%',
-  height: '140vh',
-  overflow: 'hidden'
-}}>
+      position: 'relative',
+      width: '100%',
+      height: isMobile ? 'auto' : isTablet ? '100vh' : '140vh',
+      minHeight: isMobile ? '70vh' : 'auto',
+      overflow: 'hidden'
+    }}>
       <div style={{
         position: 'absolute',
         top: 0,
@@ -71,7 +411,7 @@ const AboutSection: React.FC = () => {
       }}>
         <img
           src="/About/AboutBYD.jpg"
-          alt="About BYD"
+          alt="About EM"
           style={{
             width: '100%',
             height: '100%',
@@ -82,44 +422,61 @@ const AboutSection: React.FC = () => {
       <div style={{
         position: 'relative',
         width: '100%',
-        maxWidth: '1600px',
+        maxWidth: isMobile ? '100%' : isTablet ? '900px' : '1600px',
         margin: '0 auto',
-        padding: '6rem 4rem 4rem',
+        padding: isMobile ? '3rem 1.5rem 2rem' : isTablet ? '4rem 2.5rem 3rem' : '6rem 4rem 4rem',
         textAlign: 'center'
       }}>
         <div style={{ 
-          maxWidth: '80rem',
+          maxWidth: isMobile ? '100%' : isTablet ? '45rem' : '80rem',
           margin: '0 auto'
         }}>
           <h2 style={{
-            fontSize: '3.5rem',
+            fontSize: isMobile ? '2rem' : isTablet ? '2.75rem' : '3.5rem',
             fontWeight: '700',
             color: '#000',
-            marginBottom: '2rem',
+            marginBottom: isMobile ? '1.25rem' : '2rem',
             lineHeight: '1.2'
           }}>
-            About BYD
+            About EM
           </h2>
           <p style={{
-            fontSize: '1.125rem',
+            fontSize: isMobile ? '0.95rem' : isTablet ? '1rem' : '1.125rem',
             color: '#000',
-            lineHeight: '1.8',
-            fontWeight: '300'
+            lineHeight: isMobile ? '1.6' : '1.8',
+            fontWeight: '300',
+            marginBottom: isMobile ? '1.5rem' : '2rem'
           }}>
-            Founded in 1994, BYD is a high-tech company devoted to leveraging
-            technological innovations for a better life. After more than 31 years
-            of rapid growth, BYD has played a significant role in industries
-            related to electronics, auto, renewable energy and rail transit. With
-            a focus on energy acquisition, storage, and application, BYD offers
-            comprehensive zero-emission new energy solutions.
+            We put residents and visitors to the Turks & Caicos Islands at the forefront of the automotive and clean energy revolutions, by introducing residents to the planet's most advanced, its safest, and its most environmentally responsible vehicles, and by supporting multiple pathways to sustainable mobility and clean energy consumption. We are passionate about helping TCI's residents, its businesses, Government, and visitors solve their transportation needs, in as safe and affordable a manner as possible, with the least environmental impact, and with the most resilient energy consumption options. That is the thread that ties all our products and services together. We court the world's most innovative brands, and we seek to offer and support their most suitable products for the Islands.
+          </p>
+          <p style={{
+            fontSize: isMobile ? '1.05rem' : isTablet ? '1.15rem' : '1.25rem',
+            color: '#000',
+            lineHeight: isMobile ? '1.6' : '1.8',
+            fontWeight: '500',
+            marginBottom: isMobile ? '1rem' : '1.5rem'
+          }}>
+            We provide mobility and clean energy solutions, intended to help residents live their best lives.
+          </p>
+          <p style={{
+            fontSize: isMobile ? '0.95rem' : isTablet ? '1rem' : '1.125rem',
+            color: '#000',
+            lineHeight: isMobile ? '1.6' : '1.8',
+            fontWeight: '300',
+            fontStyle: 'italic'
+          }}>
+            Hastening the transition from fossil fuel to clean energy vehicles.
           </p>
         </div>
       </div>
     </section>
   );
 };
+
 // Diversification Section Component
 const DiversificationSection: React.FC = () => {
+  const { isMobile, isTablet } = useResponsive();
+  
   const businesses: DiversificationItem[] = [
     { icon: '/About/icon1pc.png', title: 'Auto', image: '/About/diversification-auto.jpg' },
     { icon: '/About/icon2pc.png', title: 'Rail Transit', image: '/About/diversification-rail-transit.jpg' },
@@ -128,12 +485,11 @@ const DiversificationSection: React.FC = () => {
   ];
 
   return (
-<section style={{
+    <section style={{
       position: 'relative',
       width: '100%',
-      padding: '8rem 0'
+      padding: isMobile ? '4rem 0' : isTablet ? '6rem 0' : '8rem 0'
     }}>
-
       {/* Background Image Container */}
       <div style={{
         position: 'absolute',
@@ -152,7 +508,6 @@ const DiversificationSection: React.FC = () => {
             objectFit: 'cover'
           }}
         />
-        {/* Dark overlay for better text readability */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -167,23 +522,27 @@ const DiversificationSection: React.FC = () => {
       <div style={{
         position: 'relative',
         zIndex: 1,
-        maxWidth: '1200px',
+        maxWidth: isMobile ? '100%' : '1200px',
         margin: '0 auto',
-        padding: '0 2rem'
+        padding: isMobile ? '0 1.25rem' : '0 2rem'
       }}>
         <h2 style={{
-          fontSize: '3rem',
+          fontSize: isMobile ? '2rem' : isTablet ? '2.5rem' : '3rem',
           fontWeight: 'bold',
           textAlign: 'center',
-          marginBottom: '4rem',
+          marginBottom: isMobile ? '2.5rem' : isTablet ? '3rem' : '4rem',
           color: 'white'
         }}>
           Diversification
         </h2>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '2.5rem'
+          gridTemplateColumns: isMobile 
+            ? '1fr' 
+            : isTablet 
+              ? 'repeat(2, 1fr)' 
+              : 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: isMobile ? '1.5rem' : '2.5rem'
         }}>
           {businesses.map((business, index) => (
             <div
@@ -197,10 +556,13 @@ const DiversificationSection: React.FC = () => {
                 padding: '0.5rem'
               }}
             >
-              <div style={{ padding: '1.5rem 1rem 1rem', textAlign: 'center' }}>
+              <div style={{ 
+                padding: isMobile ? '1rem 0.75rem 0.75rem' : '1.5rem 1rem 1rem', 
+                textAlign: 'center' 
+              }}>
                 <div style={{ 
-                  width: '60px', 
-                  height: '60px', 
+                  width: isMobile ? '50px' : '60px', 
+                  height: isMobile ? '50px' : '60px', 
                   margin: '0 auto 0.75rem',
                   display: 'flex',
                   alignItems: 'center',
@@ -216,7 +578,14 @@ const DiversificationSection: React.FC = () => {
                     }}
                   />
                 </div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'white', marginBottom: '1rem' }}>{business.title}</h3>
+                <h3 style={{ 
+                  fontSize: isMobile ? '1.1rem' : '1.25rem', 
+                  fontWeight: 600, 
+                  color: 'white', 
+                  marginBottom: '1rem' 
+                }}>
+                  {business.title}
+                </h3>
               </div>
               <div style={{
                 aspectRatio: '4/3',
@@ -245,7 +614,6 @@ const DiversificationSection: React.FC = () => {
 };
 
 // Image Text Section Component
-// Image Text Section Component
 const ImageTextSection: React.FC<{
   title: string;
   description: string;
@@ -253,13 +621,16 @@ const ImageTextSection: React.FC<{
   reverse?: boolean;
   darkText?: boolean;
 }> = ({ title, description, image, reverse, darkText }) => {
+  const { isMobile, isTablet } = useResponsive();
+
   return (
-<section style={{
-  position: 'relative',
-  width: '100%',
-  minHeight: '140vh',
-  overflow: 'hidden'
-}}>
+    <section style={{
+      position: 'relative',
+      width: '100%',
+      minHeight: isMobile ? 'auto' : isTablet ? '100vh' : '140vh',
+      height: isMobile ? 'auto' : isTablet ? '100vh' : '140vh',
+      overflow: 'hidden'
+    }}>
       <div style={{
         position: 'absolute',
         top: 0,
@@ -280,27 +651,30 @@ const ImageTextSection: React.FC<{
       <div style={{
         position: 'relative',
         width: '100%',
-        maxWidth: '1600px',
+        maxWidth: isMobile ? '100%' : isTablet ? '900px' : '1600px',
         margin: '0 auto',
-        padding: '6rem 4rem 4rem',
-        textAlign: 'center'
+        padding: isMobile ? '3rem 1.5rem 2rem' : isTablet ? '4rem 2.5rem 3rem' : '6rem 4rem 4rem',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        minHeight: isMobile ? '70vh' : 'auto'
       }}>
         <div style={{
-          maxWidth: '56rem',
+          maxWidth: isMobile ? '100%' : isTablet ? '40rem' : '56rem',
           margin: '0 auto'
         }}>
           <h2 style={{
-            fontSize: '3.5rem',
+            fontSize: isMobile ? '2rem' : isTablet ? '2.75rem' : '3.5rem',
             fontWeight: '700',
-            marginBottom: '2rem',
+            marginBottom: isMobile ? '1.25rem' : '2rem',
             color: darkText ? '#252728' : 'white',
             lineHeight: '1.2'
           }}>
             {title}
           </h2>
           <p style={{
-            fontSize: '1.125rem',
-            lineHeight: '1.8',
+            fontSize: isMobile ? '0.95rem' : isTablet ? '1rem' : '1.125rem',
+            lineHeight: isMobile ? '1.6' : '1.8',
             color: darkText ? '#4b5563' : 'white',
             fontWeight: '300'
           }}>
@@ -311,6 +685,7 @@ const ImageTextSection: React.FC<{
     </section>
   );
 };
+
 // Features Section Component
 const FeaturesSection: React.FC<{
   title: string;
@@ -318,15 +693,18 @@ const FeaturesSection: React.FC<{
   features: FeatureItem[];
   image: string;
 }> = ({ title, subtitle, features, image }) => {
+  const { isMobile, isTablet } = useResponsive();
+
   return (
-<section style={{
-  position: 'relative',
-  width: '100%',
-  height: '140vh',        // ← Add (same as hero)
-  display: 'flex',        // ← Add (for centering)
-  alignItems: 'center',   // ← Add (vertical center)
-  overflow: 'hidden'      // ← Add (clean edges)
-}}>
+    <section style={{
+      position: 'relative',
+      width: '100%',
+      minHeight: isMobile ? 'auto' : isTablet ? '100vh' : '140vh',
+      display: 'flex',
+      alignItems: 'center',
+      overflow: 'hidden',
+      padding: isMobile ? '3rem 0' : isTablet ? '4rem 0' : '0'
+    }}>
       <div style={{
         position: 'absolute',
         top: 0,
@@ -346,22 +724,23 @@ const FeaturesSection: React.FC<{
       </div>
       <div style={{
         position: 'relative',
-        maxWidth: '1600px',
+        maxWidth: isMobile ? '100%' : isTablet ? '900px' : '1600px',
         margin: '0 auto',
-        padding: '0 1rem'
+        padding: isMobile ? '0 1.5rem' : '0 2rem',
+        width: '100%'
       }}>
-        <div style={{ marginBottom: '3rem' }}>
+        <div style={{ marginBottom: isMobile ? '2rem' : '3rem' }}>
           <h2 style={{
-            fontSize: '3rem',
+            fontSize: isMobile ? '2rem' : isTablet ? '2.5rem' : '3rem',
             fontWeight: 'bold',
             color: 'white',
-            marginBottom: '1rem'
+            marginBottom: isMobile ? '0.75rem' : '1rem'
           }}>
             {title}
           </h2>
           {subtitle && (
             <p style={{
-              fontSize: '1.125rem',
+              fontSize: isMobile ? '0.95rem' : isTablet ? '1rem' : '1.125rem',
               color: 'white',
               opacity: 0.9
             }}>{subtitle}</p>
@@ -369,18 +748,22 @@ const FeaturesSection: React.FC<{
         </div>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '2rem'
+          gridTemplateColumns: isMobile 
+            ? '1fr' 
+            : isTablet 
+              ? 'repeat(2, 1fr)' 
+              : 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: isMobile ? '1.25rem' : '2rem'
         }}>
           {features.map((feature, index) => (
             <div key={index} style={{
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(10px)',
               borderRadius: '8px',
-              padding: '1.5rem'
+              padding: isMobile ? '1.25rem' : '1.5rem'
             }}>
               <h3 style={{
-                fontSize: '1.5rem',
+                fontSize: isMobile ? '1.25rem' : isTablet ? '1.35rem' : '1.5rem',
                 fontWeight: 600,
                 color: 'white',
                 marginBottom: '0.75rem'
@@ -388,6 +771,7 @@ const FeaturesSection: React.FC<{
                 {feature.title}
               </h3>
               <p style={{
+                fontSize: isMobile ? '0.9rem' : '1rem',
                 color: 'white',
                 opacity: 0.9,
                 lineHeight: '1.75'
@@ -401,7 +785,6 @@ const FeaturesSection: React.FC<{
     </section>
   );
 };
-
 
 // Main App Component
 const BYDAboutPage: React.FC = () => {
@@ -444,57 +827,42 @@ const BYDAboutPage: React.FC = () => {
   ];
 
   return (
-    <div style={{ minHeight: '140vh', backgroundColor: 'white' }}>
-      <main >
+    <div style={{ minHeight: '100vh', backgroundColor: 'white' }}>
+      <main>
         <HeroBanner />
         <AboutSection />
         <DiversificationSection />
-        <ImageTextSection
-          title="Globalisation"
-          description="BYD's new energy vehicles have established a presence in 112 countries and regions worldwide, while its passenger vehicles have reached 102 countries and regions."
-          image="/About/Globalization.jpg"
-        />
+
         <ImageTextSection
           title="Auto"
-          description="BYD has developed the Blade Battery and dual-mode hybrid power technology, accelerating the once-in-a-century transition from fossil fuel powered vehicles to electric vehicles."
+          description="The BYD vehicles that we sell incorporate that company’s cutting edge and ultra safe Blade Battery and Dual-Mode hybrid power technologies, which rests on the accumulated breakthroughs and innovations of the more than one hundred thousand engineers that it employs, more than any other automotive company."
           image="/About/Auto.jpg"
         />
         <FeaturesSection
-          title="Blade Battery"
+          title="BYD’s Blade Battery Technology"
           features={bladeFeatures}
           image="/About/Blade.jpg"
         />
         <FeaturesSection
-          title="e-Platform 3.0"
+          title="BYD’s e-Platform 3.0 Technology"
           subtitle="Give full play to the advantages of intelligence, efficiency, safety, and aesthetics that electrification brings."
           features={ePlatformFeatures}
           image="/About/E-Platform.jpg"
         />
         <ImageTextSection
           title="Semiconductor Chip"
-          description="Semiconductor chip, the 'CPU' of new energy vehicles, is the core technology of the whole industry."
+          description="Semiconductor chips are the ‘CPUs’ and core technology of advanced electric and hybrid vehicles."
           image="/About/SemiCondutorChip.jpg"
         />
         <ImageTextSection
-          title="BYD Intelligent Cockpit System"
-          description="The smartphone functions are integrated into the in-vehicle platform."
+          title="Intelligent Cockpit Systems"
+          description="Smartphone functions are integrated into each vehicle’s operating and communications platform. "
           image="/About/DiLink.jpg"
         />
         <ImageTextSection
           title="Vehicle Safety"
           description="Numerous challenging tests for top quality"
           image="/About/VehicleSafety.jpg"
-        />
-        <ImageTextSection
-          title="Market Performance"
-          description="As of the end of April 2025, BYD's cumulative new energy vehicle (NEV) sales exceeded 11.9 million units. On November 18, 2024, BYD became the world's first automaker to produce 10 million NEVs."
-          image="/About/MarketPerformance.jpg"
-        />
-        <ImageTextSection
-          title="Social Responsibility"
-          description="At the beginning of 2020, in the midst of Covid-19, BYD responded quickly and announced that it would produce face masks to help alleviate mask shortages around the world."
-          image="/About/SocialResponsibility.jpg"
-          darkText
         />
       </main>
     </div>

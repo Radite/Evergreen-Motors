@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Zap, Clock, Shield, Wrench, CreditCard, Phone, Navigation, CheckCircle, AlertCircle } from 'lucide-react';
 
 const OwnershipPage: React.FC = () => {
-  const [selectedLocation, setSelectedLocation] = useState(null);
-
+const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
   const chargingStations = [
     { id: 1, name: 'Grace Bay Hub', address: 'Grace Bay Road', type: 'Fast Charge', power: '50kW', hours: '24/7', lat: 21.79535210953533, lng: -72.18081954423658 },
     { id: 2, name: 'Downtown Provo', address: 'Leeward Highway', type: 'Rapid Charge', power: '150kW', hours: '24/7', lat: 21.7814, lng: -72.2731 },
@@ -17,7 +16,7 @@ const OwnershipPage: React.FC = () => {
       <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
         <img 
           src="/Assistance/Banner.jpg" 
-          alt="BYD Ownership"
+          alt="EM Electric Vehicle Ownership"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <div style={{
@@ -33,16 +32,16 @@ const OwnershipPage: React.FC = () => {
           flexDirection: 'column'
         }}>
           <h1 style={{ fontSize: '64px', fontWeight: 700, color: '#fff', margin: 0, textAlign: 'center', letterSpacing: '-1px' }}>
-            BYD Ownership
+            EM Electric Vehicle Ownership
           </h1>
           <p style={{ fontSize: '22px', color: '#fff', marginTop: '20px', fontWeight: 300, maxWidth: '700px', textAlign: 'center', lineHeight: '1.6' }}>
-            Complete care for your electric journey. From comprehensive warranty coverage to 24/7 roadside assistance, we're with you every mile.
+            We provide complete care and support for your electric vehicle. From comprehensive warranty coverage, to parts supply and support, to roadside assistance.
           </p>
         </div>
       </div>
 
       {/* Warranty Section */}
-<div id="warranty" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
+      <div id="warranty" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
             <img 
@@ -59,7 +58,7 @@ const OwnershipPage: React.FC = () => {
               <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Warranty Protection</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Industry-leading protection for your peace of mind. Our comprehensive warranty covers all key components including power battery, drive unit, and bodywork anti-corrosion. BYD stands behind every vehicle with coverage that exceeds industry standards.
+              We provide industry-leading warranty protection for your peace of mind. Our comprehensive warranty covers all key components including your electric vehicle's battery, and its drive train. We stand behind every vehicle we sell.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '35px' }}>
               <div style={{ padding: '24px', backgroundColor: '#f8f9fa', borderRadius: '10px', border: '1px solid #e9ecef' }}>
@@ -107,7 +106,7 @@ const OwnershipPage: React.FC = () => {
       </div>
 
       {/* Service & Maintenance Section */}
-<div id="service-maintenance" style={{ padding: '120px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
+      <div id="service-maintenance" style={{ padding: '120px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
           <div style={{ flex: 1 }}>
             <img 
@@ -124,7 +123,7 @@ const OwnershipPage: React.FC = () => {
               <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Service & Maintenance</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Expert care from certified BYD technicians who understand your vehicle inside and out. Our service centers use genuine BYD parts, advanced diagnostics, and specialized EV equipment to keep your vehicle running at peak performance. We make maintenance timely, accessible, and hassle-free.
+              Expert care from competent technicians who understand your vehicle. Our service center use genuine manufacturer parts, advanced diagnostics, and specialized EV equipment to keep your vehicle running at peak performance. We make maintenance timely, accessible, and hassle-free.
             </p>
             
             <div style={{ backgroundColor: '#fff', padding: '28px', borderRadius: '10px', marginBottom: '30px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
@@ -132,19 +131,19 @@ const OwnershipPage: React.FC = () => {
               <ul style={{ fontSize: '16px', lineHeight: '2', color: '#252728', margin: 0, paddingLeft: '0', listStyle: 'none' }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Genuine BYD spare parts with competitive pricing and warranty</span>
+                  <span>Genuine manufacturer spare parts</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Factory-trained technicians specialized in electric vehicle care</span>
+                  <span>Technicians that are specialized in electric vehicle care</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Comprehensive diagnostic equipment and software updates</span>
+                  <span>Diagnostic equipment</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
-                  <span>Regular maintenance schedules optimized for electric vehicles</span>
+                  <span>Maintenance schedules that are optimized for electric vehicles</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0 }} />
@@ -194,8 +193,8 @@ const OwnershipPage: React.FC = () => {
         </div>
       </div>
 
-      {/* BYD Assistance Section */}
-<div id="assistance" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
+      {/* Roadside Assistance Section */}
+      <div id="assistance" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center' }}>
           <div style={{ flex: 1 }}>
             <img 
@@ -209,10 +208,10 @@ const OwnershipPage: React.FC = () => {
               <div style={{ width: '56px', height: '56px', backgroundColor: '#BB0A0A', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Phone size={28} color="#fff" />
               </div>
-              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>24/7 Roadside Assistance</h2>
+              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Roadside Assistance</h2>
             </div>
             <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Part of our mobility promise — help is always available when you need it most. Whether it's a breakdown, accident, theft attempt, or fire, BYD Assistance will be there for you, 24 hours a day, 7 days a week, 365 days a year. Our pan-European assistance network ensures you're never stranded.
+              Part of our mobility promise — help is always available when you need it most. Whether it's a breakdown, accident, theft attempt, or fire, our assistance will be there for you. Our assistance ensures you never get stranded.
             </p>
             
             <div style={{ backgroundColor: '#fff5f5', padding: '32px', borderRadius: '12px', marginBottom: '35px', border: '2px solid #BB0A0A' }}>
@@ -235,7 +234,7 @@ const OwnershipPage: React.FC = () => {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
                   <div style={{ width: '8px', height: '8px', backgroundColor: '#BB0A0A', borderRadius: '50%', flexShrink: 0 }} />
-                  <span style={{ fontSize: '15px', fontWeight: 500 }}>Roadside Repair</span>
+                  <span style={{ fontSize: '15px', fontWeight: 500 }}>Roadside Repair and Assistance</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
                   <div style={{ width: '8px', height: '8px', backgroundColor: '#BB0A0A', borderRadius: '50%', flexShrink: 0 }} />
@@ -244,10 +243,6 @@ const OwnershipPage: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
                   <div style={{ width: '8px', height: '8px', backgroundColor: '#BB0A0A', borderRadius: '50%', flexShrink: 0 }} />
                   <span style={{ fontSize: '15px', fontWeight: 500 }}>Replacement Vehicle</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-                  <div style={{ width: '8px', height: '8px', backgroundColor: '#BB0A0A', borderRadius: '50%', flexShrink: 0 }} />
-                  <span style={{ fontSize: '15px', fontWeight: 500 }}>Accommodation</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
                   <div style={{ width: '8px', height: '8px', backgroundColor: '#BB0A0A', borderRadius: '50%', flexShrink: 0 }} />
@@ -267,7 +262,7 @@ const OwnershipPage: React.FC = () => {
       </div>
 
       {/* Charging Locations Section */}
-<div id="charging-locations" style={{ padding: '120px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
+      <div id="charging-locations" style={{ padding: '120px 20px', backgroundColor: '#f8f9fa', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '70px' }}>
             <h2 style={{ fontSize: '44px', fontWeight: 700, marginBottom: '20px', letterSpacing: '-0.5px' }}>Charging Locations</h2>
@@ -291,15 +286,15 @@ const OwnershipPage: React.FC = () => {
                   border: selectedLocation === station.id ? '2px solid #252728' : '2px solid transparent'
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+                <div className="charging-card-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
                   <div style={{ flex: 1 }}>
-                    <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '8px' }}>{station.name}</h3>
+                    <h3 className="charging-card-title" style={{ fontSize: '22px', fontWeight: 700, marginBottom: '8px' }}>{station.name}</h3>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#666', fontSize: '14px' }}>
                       <MapPin size={16} />
                       <span>{station.address}</span>
                     </div>
                   </div>
-                  <div style={{
+                  <div className="charging-card-icon" style={{
                     width: '48px',
                     height: '48px',
                     borderRadius: '50%',
@@ -313,16 +308,16 @@ const OwnershipPage: React.FC = () => {
                   </div>
                 </div>
                 
-                <div style={{ display: 'flex', gap: '20px', paddingTop: '20px', borderTop: '1px solid #e9ecef', marginBottom: selectedLocation === station.id ? '20px' : '0' }}>
-                  <div>
+                <div className="charging-card-details" style={{ display: 'flex', gap: '20px', paddingTop: '20px', borderTop: '1px solid #e9ecef', marginBottom: selectedLocation === station.id ? '20px' : '0' }}>
+                  <div className="charging-detail-item">
                     <div style={{ fontSize: '11px', color: '#666', fontWeight: 600, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>Type</div>
                     <div style={{ fontSize: '15px', fontWeight: 600 }}>{station.type}</div>
                   </div>
-                  <div>
+                  <div className="charging-detail-item">
                     <div style={{ fontSize: '11px', color: '#666', fontWeight: 600, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>Power</div>
                     <div style={{ fontSize: '15px', fontWeight: 600 }}>{station.power}</div>
                   </div>
-                  <div>
+                  <div className="charging-detail-item">
                     <div style={{ fontSize: '11px', color: '#666', fontWeight: 600, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.5px' }}>Hours</div>
                     <div style={{ fontSize: '15px', fontWeight: 600 }}>{station.hours}</div>
                   </div>
@@ -357,6 +352,7 @@ const OwnershipPage: React.FC = () => {
             ))}
           </div>
 
+
           <div style={{ display: 'flex', justifyContent: 'center', gap: '60px', padding: '50px', backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '42px', fontWeight: 700, color: '#252728', marginBottom: '10px' }}>{chargingStations.length}</div>
@@ -372,113 +368,6 @@ const OwnershipPage: React.FC = () => {
               <div style={{ fontSize: '42px', fontWeight: 700, color: '#252728', marginBottom: '10px' }}>150kW</div>
               <div style={{ fontSize: '14px', color: '#666', fontWeight: 500 }}>Rapid Charging</div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Shell Charging Cards Section */}
-<div id="shell-charging" style={{ padding: '120px 20px', backgroundColor: '#fff', scrollMarginTop: '80px' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '80px', alignItems: 'center', flexDirection: 'row-reverse' }}>
-          <div style={{ flex: 1 }}>
-            <img 
-              src="/Charge-Cards/2.jpg" 
-              alt="Shell Charging"
-              style={{ width: '100%', height: 'auto', borderRadius: '12px', boxShadow: '0 10px 40px rgba(0,0,0,0.1)' }}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '28px' }}>
-              <div style={{ width: '56px', height: '56px', backgroundColor: '#252728', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <CreditCard size={28} color="#fff" />
-              </div>
-              <h2 style={{ fontSize: '44px', fontWeight: 700, margin: 0, letterSpacing: '-0.5px' }}>Shell EV Charging</h2>
-            </div>
-            <p style={{ fontSize: '18px', lineHeight: '1.8', color: '#666', marginBottom: '35px' }}>
-              Experience the future of electric mobility with our exclusive BYD x Shell Recharge partnership. Access 850,000+ charging points across Europe with significant discounts and seamless integration with your BYD infotainment system. No subscription fees, just smart savings.
-            </p>
-            
-            <div style={{ backgroundColor: '#f8f9fa', padding: '30px', borderRadius: '12px', marginBottom: '30px' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '20px', color: '#252728' }}>Exclusive BYD Benefits</h3>
-              <div style={{ display: 'grid', gap: '16px' }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                  <CheckCircle size={20} color="#22c55e" style={{ flexShrink: 0, marginTop: '2px' }} />
-                  <div>
-                    <div style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>Seamless Integration</div>
-                    <div style={{ fontSize: '14px', color: '#666' }}>Shell Recharge app mirrors on your BYD screen via Android Auto or Apple CarPlay</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ backgroundColor: '#fff9e6', padding: '20px', borderRadius: '8px', marginBottom: '30px', borderLeft: '4px solid #fbbf24' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <AlertCircle size={20} color="#f59e0b" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div style={{ fontSize: '14px', lineHeight: '1.6', color: '#666' }}>
-                  <strong style={{ color: '#252728' }}>How to register:</strong> Download the BYD App and follow the BYD x Shell Recharge link to activate your charge card. Discounts apply automatically when using the card at eligible stations.
-                </div>
-              </div>
-            </div>
-
-            <a 
-              href="https://www.shell.co.uk/terms-and-conditions/terms-and-conditions-shell-recharge-x-byd-promotion.html" 
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-block',
-                padding: '16px 45px',
-                backgroundColor: '#252728',
-                color: '#fff',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '16px',
-                borderRadius: '6px'
-              }}
-            >
-              View Terms & Conditions
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Customer Service Section */}
-      <div style={{ padding: '100px 20px', backgroundColor: '#252728', color: '#fff' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{ fontSize: '44px', fontWeight: 700, marginBottom: '20px', letterSpacing: '-0.5px' }}>BYD Customer Service Center</h2>
-            <p style={{ fontSize: '18px', opacity: 0.9, maxWidth: '700px', margin: '0 auto', lineHeight: '1.6' }}>
-              We're dedicated to hearing your voice and providing exceptional support. Contact our European customer service center for assistance beyond emergencies.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px', marginBottom: '50px' }}>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '35px', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
-              <MapPin size={32} color="#fff" style={{ marginBottom: '20px' }} />
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px' }}>Location</h3>
-              <p style={{ fontSize: '16px', opacity: 0.9, lineHeight: '1.6' }}>
-                Lublin, Poland<br/>
-                European Service Hub
-              </p>
-            </div>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '35px', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
-              <Clock size={32} color="#fff" style={{ marginBottom: '20px' }} />
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px' }}>Service Hours</h3>
-              <p style={{ fontSize: '16px', opacity: 0.9, lineHeight: '1.6' }}>
-                Monday to Saturday<br/>
-                9:00 AM - 6:00 PM CET
-              </p>
-            </div>
-            <div style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '35px', borderRadius: '12px', backdropFilter: 'blur(10px)' }}>
-              <div style={{ fontSize: '32px', marginBottom: '20px' }}>🌍</div>
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px' }}>Languages</h3>
-              <p style={{ fontSize: '16px', opacity: 0.9, lineHeight: '1.6' }}>
-                English, German, French,<br/>
-                Italian, Spanish & more
-              </p>
-            </div>
-          </div>
-
-          <div style={{ textAlign: 'center', fontSize: '14px', opacity: 0.8, fontStyle: 'italic' }}>
-            Additional language support coming soon
           </div>
         </div>
       </div>
@@ -550,7 +439,170 @@ const OwnershipPage: React.FC = () => {
 
       {/* Mobile Responsive Styles */}
       <style>{`
-        @media (max-width: 991px) {
+        /* Portrait Phones (< 600px) */
+        @media (max-width: 599px) {
+          /* Charging locations specific */
+          #charging-locations > div > div[style*="display: grid"] {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+          
+          #charging-locations div[style*="padding: 35px"] {
+            padding: 24px !important;
+          }
+          
+          /* Center the card header on mobile */
+          .charging-card-header {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          
+          .charging-card-header > div:first-child {
+            align-items: center !important;
+          }
+          
+          .charging-card-title {
+            text-align: center !important;
+          }
+          
+          .charging-card-icon {
+            margin-top: 15px !important;
+          }
+          
+          /* Make details inline with separators */
+          .charging-card-details {
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+          }
+          
+          .charging-detail-item {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 6px !important;
+          }
+          
+          #charging-locations h3[style*="fontSize: '22px'"],
+          #charging-locations .charging-card-title {
+            font-size: 18px !important;
+          }
+          
+          #charging-locations div[style*="fontSize: '18px'"] {
+            font-size: 15px !important;
+          }
+          
+          #charging-locations div[style*="fontSize: '16px'"] {
+            font-size: 14px !important;
+          }
+          
+          #charging-locations div[style*="fontSize: '15px'"] {
+            font-size: 14px !important;
+          }
+          
+          /* General responsive */
+          div[style*="display: flex"] {
+            flex-direction: column !important;
+          }
+          h1 {
+            font-size: 32px !important;
+          }
+          h2 {
+            font-size: 28px !important;
+          }
+          h3 {
+            font-size: 18px !important;
+          }
+          div[style*="padding: 120px"] {
+            padding: 50px 16px !important;
+          }
+          div[style*="padding: 100px"] {
+            padding: 50px 16px !important;
+          }
+          div[style*="gap: 80px"] {
+            gap: 30px !important;
+          }
+          div[style*="gridTemplateColumns"] {
+            grid-template-columns: 1fr !important;
+          }
+          div[style*="fontSize: '64px'"] {
+            font-size: 32px !important;
+          }
+          div[style*="fontSize: '44px'"] {
+            font-size: 26px !important;
+          }
+          div[style*="fontSize: '42px'"] {
+            font-size: 26px !important;
+          }
+          div[style*="fontSize: '36px'"] {
+            font-size: 24px !important;
+          }
+          div[style*="width: '56px'"] {
+            width: 44px !important;
+            height: 44px !important;
+          }
+        }
+
+        /* Landscape Phones (600px - 767px) */
+        @media (min-width: 600px) and (max-width: 767px) {
+          /* Charging locations specific */
+          #charging-locations > div > div[style*="display: grid"] {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 24px !important;
+          }
+          
+          #charging-locations div[style*="padding: 35px"] {
+            padding: 28px !important;
+          }
+          
+          /* Center the card header */
+          .charging-card-header {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          
+          .charging-card-header > div:first-child {
+            align-items: center !important;
+          }
+          
+          .charging-card-title {
+            text-align: center !important;
+          }
+          
+          .charging-card-icon {
+            margin-top: 15px !important;
+          }
+          
+          /* Make details inline */
+          .charging-card-details {
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+          }
+          
+          .charging-detail-item {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 6px !important;
+          }
+          
+          #charging-locations h3[style*="fontSize: '22px'"],
+          #charging-locations .charging-card-title {
+            font-size: 19px !important;
+          }
+          
+          #charging-locations div[style*="fontSize: '18px'"] {
+            font-size: 16px !important;
+          }
+          
+          #charging-locations div[style*="fontSize: '15px'"] {
+            font-size: 14px !important;
+          }
+          
+          /* General responsive */
           div[style*="display: flex"] {
             flex-direction: column !important;
           }
@@ -558,19 +610,19 @@ const OwnershipPage: React.FC = () => {
             font-size: 36px !important;
           }
           h2 {
-            font-size: 32px !important;
+            font-size: 30px !important;
           }
           h3 {
-            font-size: 20px !important;
+            font-size: 19px !important;
           }
           div[style*="padding: 120px"] {
-            padding: 60px 20px !important;
+            padding: 60px 24px !important;
           }
           div[style*="padding: 100px"] {
-            padding: 60px 20px !important;
+            padding: 60px 24px !important;
           }
           div[style*="gap: 80px"] {
-            gap: 40px !important;
+            gap: 35px !important;
           }
           div[style*="gridTemplateColumns"] {
             grid-template-columns: 1fr !important;
@@ -590,6 +642,135 @@ const OwnershipPage: React.FC = () => {
           div[style*="width: '56px'"] {
             width: 48px !important;
             height: 48px !important;
+          }
+        }
+
+        /* Portrait Tablets (768px - 991px) */
+        @media (min-width: 768px) and (max-width: 991px) {
+          /* Charging locations specific */
+          #charging-locations > div > div[style*="display: grid"] {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 28px !important;
+          }
+          
+          #charging-locations div[style*="padding: 35px"] {
+            padding: 32px !important;
+          }
+          
+          /* Center the card header */
+          .charging-card-header {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          
+          .charging-card-header > div:first-child {
+            align-items: center !important;
+          }
+          
+          .charging-card-title {
+            text-align: center !important;
+          }
+          
+          .charging-card-icon {
+            margin-top: 15px !important;
+          }
+          
+          /* Make details inline */
+          .charging-card-details {
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+            gap: 14px !important;
+          }
+          
+          .charging-detail-item {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 6px !important;
+          }
+          
+          #charging-locations h3[style*="fontSize: '22px'"],
+          #charging-locations .charging-card-title {
+            font-size: 20px !important;
+          }
+          
+          /* General responsive */
+          div[style*="display: flex"] {
+            flex-direction: column !important;
+          }
+          h1 {
+            font-size: 40px !important;
+          }
+          h2 {
+            font-size: 32px !important;
+          }
+          h3 {
+            font-size: 20px !important;
+          }
+          div[style*="padding: 120px"] {
+            padding: 70px 32px !important;
+          }
+          div[style*="padding: 100px"] {
+            padding: 70px 32px !important;
+          }
+          div[style*="gap: 80px"] {
+            gap: 40px !important;
+          }
+          div[style*="gridTemplateColumns"] {
+            grid-template-columns: 1fr !important;
+          }
+          div[style*="fontSize: '64px'"] {
+            font-size: 40px !important;
+          }
+          div[style*="fontSize: '44px'"] {
+            font-size: 30px !important;
+          }
+          div[style*="fontSize: '42px'"] {
+            font-size: 30px !important;
+          }
+          div[style*="fontSize: '36px'"] {
+            font-size: 28px !important;
+          }
+          div[style*="width: '56px'"] {
+            width: 50px !important;
+            height: 50px !important;
+          }
+        }
+
+        /* Landscape Tablets (992px - 1199px) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+          /* Charging locations specific */
+          #charging-locations > div > div[style*="display: grid"] {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 30px !important;
+          }
+          
+          #charging-locations div[style*="padding: 35px"] {
+            padding: 30px !important;
+          }
+          
+          #charging-locations h3[style*="fontSize: '22px'"] {
+            font-size: 20px !important;
+          }
+          
+          /* General adjustments */
+          div[style*="gap: 80px"] {
+            gap: 50px !important;
+          }
+          div[style*="padding: 120px"] {
+            padding: 90px 40px !important;
+          }
+          div[style*="padding: 100px"] {
+            padding: 80px 40px !important;
+          }
+        }
+
+        /* Small Desktop adjustments (1200px - 1399px) */
+        @media (min-width: 1200px) and (max-width: 1399px) {
+          #charging-locations > div > div[style*="display: grid"] {
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 32px !important;
           }
         }
       `}</style>

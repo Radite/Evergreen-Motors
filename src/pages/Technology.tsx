@@ -11,13 +11,9 @@ const Technology = () => {
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
   
-  // State to track viewport size for responsive styles
-  // This is better than using window.innerWidth directly in the style prop,
-  // as that won't update on window resize.
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    // Set initial value
     setIsDesktop(window.innerWidth >= 768);
 
     const handleResize = () => {
@@ -25,26 +21,23 @@ const Technology = () => {
     };
     
     window.addEventListener('resize', handleResize);
-    
-    // Cleanup event listener on component unmount
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   const nevTypes = [
     {
       title: 'Battery Electric Vehicle (BEV)',
       image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop',
       points: [
-        'Battery-electric vehicles are all-electric. They are powered solely by a battery that powers an electric motor to make the car move. This battery is charged externally by plugging the vehicle into a charger installed at your home or in public. Because it doesn\'t have an engine, it doesn\'t release exhaust emissions into the atmosphere.'
+        'Battery or pure-electric vehicles are all-electric. They are powered by a battery that spins an electric motor, which makes the car move. The battery in turn is typically charged by a charger at the owner\'s home, but for long trips in countries where the distance between one point to another might be hundreds of miles, at a public charging station. Because EVs do not have an engine they do not release exhaust emissions into the air.'
       ]
     },
     {
       title: 'Plug-in Hybrid Electric Vehicles (PHEV)',
       image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=600&h=400&fit=crop',
       points: [
-        'A PHEV is another type of NEV. Plug-in electric vehicles combine an internal combustion engine with an electric motor. This type of NEV will primarily run on electricity until it runs out of charge. This is when the internal combustion engine will kick in. PHEVs can be charged externally with a home charger or at a public charging station.',
-        'BYD has developed a hybrid technology unlike any other. Super DM Technology is the driving force behind our PHEVs. It boasts a range of benefits including enhanced driving performance and low fuel consumption.'
+        'A PHEV is another type of electric vehicle. Plug-in hybrid electric vehicles combine an internal combustion engine with an electric motor. They typically have a number of operating modes, permitting the driver to choose between electricity or gas, or by using electric as the primary source of energy until the vehicles run out of charge (when the internal combustion engine will then kick in), or by switching between the two sources of energy depending on the task the vehicles is undertaking. PHEVs can be charged with a home charger or at a public charging station. They also require gas for their engines.',
+        'EM has developed hybrid technology with exceptional features. The technology is found in some of the trucks and off-road vehicles because of its enhanced driving performance and low fuel consumption.'
       ]
     }
   ];
@@ -53,41 +46,41 @@ const Technology = () => {
     {
       title: 'Environmental impact:',
       image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&h=400&fit=crop',
-      description: 'NEVs can be used to reduce emissions on the road. NEVs including battery-electric and plug-in hybrid vehicles all produce less greenhouse gas emissions and less air pollution than fuel-powered vehicles.'
+      description: 'Battery Electric Vehicles produce no exhaust, and hybrid vehicles typically produce far less than pure gas-powered vehicles, so their take-up reduces vehicle road emissions and air pollution.'
     },
     {
       title: 'Energy Efficiency:',
       image: 'https://images.unsplash.com/photo-1593941707874-ef25b8b4a92b?w=600&h=400&fit=crop',
-      description: 'NEVs are incredibly energy-efficient, especially BEVs. They are approximately 85-90% efficient compared to an internal combustion engine\'s 17-21% efficiency.'
+      description: 'Electric Vehicles are energy-efficient, especially BEVs. They are typically 85-90% energy efficient compared with 17-21% efficiency for an internal combustion engine.'
     },
     {
       title: 'Economic benefits:',
       image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=600&h=400&fit=crop',
-      description: 'NEVs offer drivers a range of economic benefits including costing less to charge your car than to fill up with fuel. Fewer parts in NEVs mean less to spend on upkeep.'
+      description: 'It costs much less to fully charge an electric vehicle than to fill up an equivalent gas engine model with fuel, to travel the same distance. Typically, it costs one third of the cost to operate a gas engine vehicle in the TCI. Electrical vehicles also have far fewer parts, which means they typically have far less to go wrong and far less to upkeep. Maintenance costs are therefore lower.'
     },
     {
       title: 'Advanced technology:',
       image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop',
-      description: 'Many NEVs including BYD electric cars feature some of the most advanced technology to make driving safer and more comfortable.'
+      description: 'Today\'s electric cars, including all the models that we sell, feature some of the most advanced technology in their respective classes, making driving safer and more comfortable compared to a typical gas-powered vehicle.'
     }
   ];
 
   const differences = [
     {
       title: 'Extra energy efficiency',
-      content: 'NEVs are more energy efficient than fuel-powered vehicles. New energy vehicles get you further by using less energy.'
+      content: 'Electric vehicles get you further using the same amount of energy, or they use less energy to get you the same distance as a gas-powered vehicle. They are technologically more energy efficient than fuel-powered vehicles.'
     },
     {
       title: 'Quiet driving experience',
-      content: 'NEVs are quieter when on the road. They make less noise for a smooth drive compared to cars with internal combustion engines.'
+      content: 'Electric vehicles are much quieter on roads than gas vehicles, creating less noise for communities near busy roadways, along with a more pleasant driving experience for other road users.'
     },
     {
       title: 'Exhilarating, Responsive and Dynamic',
-      content: 'NEVs offer instant torque, making them fun to drive!'
+      content: 'Electric Vehicle motors generate instant torque, making them exponentially more responsive, and a lot more fun to drive!'
     },
     {
-      title: 'Lower running costs',
-      content: 'One of the main advantages of NEVs is being able to top-up at home. Not only do you not need to visit a petrol station, but you can save money too.'
+      title: 'Convenience and lower running costs',
+      content: 'One of the main advantages of an Electric Vehicle is the convenience of being able to charge overnight, once a week or so, at home while you sleep, and not having to visit a petrol station again. A second significant advantage is the savings compared with the cost of gas to travel the same distance in an equivalent size vehicle.'
     }
   ];
 
@@ -99,42 +92,93 @@ const Technology = () => {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#ffffff', fontFamily: 'Montserrat, Arial, sans-serif' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+
+        .hero-section {
+          height: 110vh;
+          background: url('/Technology/Banner.jpg') center/cover;
+          display: flex;
+          align-items: center;
+          padding-left: 8%;
+          color: white;
+          position: relative;
+        }
+
+        .hero-title {
+          font-size: 6rem;
+          font-weight: 300;
+          letter-spacing: 8px;
+          font-family: 'Cormorant Garamond', serif;
+          text-shadow: 2px 2px 30px rgba(0,0,0,0.7);
+          margin: 0;
+        }
+
+        /* Portrait Phones (< 600px) */
+        @media (max-width: 599px) {
+          .hero-section {
+            padding-left: 5%;
+            height: 80vh;
+          }
+
+          .hero-title {
+            font-size: 2.5rem !important;
+            letter-spacing: 3px !important;
+          }
+        }
+
+        /* Landscape Phones (600px - 767px) */
+        @media (min-width: 600px) and (max-width: 767px) {
+          .hero-section {
+            padding-left: 6%;
+            height: 85vh;
+          }
+
+          .hero-title {
+            font-size: 3rem !important;
+            letter-spacing: 4px !important;
+          }
+        }
+
+        /* Portrait Tablets (768px - 991px) */
+        @media (min-width: 768px) and (max-width: 991px) {
+          .hero-section {
+            padding-left: 7%;
+            height: 90vh;
+          }
+
+          .hero-title {
+            font-size: 4rem !important;
+            letter-spacing: 5px !important;
+          }
+        }
+
+        /* Landscape Tablets (992px - 1199px) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+          .hero-section {
+            padding-left: 7%;
+          }
+
+          .hero-title {
+            font-size: 5rem !important;
+            letter-spacing: 6px !important;
+          }
+        }
+      `}</style>
+
       {/* Hero Section */}
-      <section style={{ position: 'relative', height: '414px', overflow: 'hidden' }}>
-        <img
-          src="/Technology/Banner.png"
-          alt="BYD NEV Hero"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-        <div style={{ 
-          position: 'absolute', 
-          inset: 0, 
-          display: 'flex', 
-          alignItems: 'center', 
-          padding: '0 2rem',
-        }}>
-          <h1 style={{ 
-            color: 'white', 
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
-            fontWeight: '700',
-            lineHeight: '1.2'
-          }}>
-          </h1>
-        </div>
-      </section>
+      <div className="hero-section">
+        <h1 className="hero-title">What is NEV?</h1>
+      </div>
 
       {/* Introduction */}
-      {/* Increased maxWidth from 56rem to 80rem */}
       <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '3rem 1.5rem' }}>
         <div style={{ fontSize: '1rem', lineHeight: '1.75', color: '#1f2937' }}>
           <p style={{ marginBottom: '1rem' }}>
-            Over the last few years, electric cars have become more popular with more of them appearing on our roads. Typically, these are referred to as EVs. But there is another term that you may not be familiar with — NEV.
+            The overwhelming majority of global automakers agree that electric vehicles are the future of transportation. What they disagree about is how far off that future is, generally because the speed of take up is heavily influenced by geopolitics, so the pace of adoption and rates of penetration are uneven, but it is already more than 50% of new car purchases in a number of forward-thinking countries, so the future is here, and EM aims to hasten its progress in the TCI.
           </p>
           <p style={{ marginBottom: '1rem' }}>
-            Not to be confused with 'neighbourhood electric vehicle', NEV stands for 'New Energy Vehicle' and is a term used to describe all types of electric vehicles, from battery-powered fully electric vehicles to plug-in hybrid cars.
-          </p>
-          <p>
-            BYD is the No.1 NEV Maker, so we're well placed to explain everything you need to know about NEVs. Below, we'll take a closer look at different types of NEVs and the benefits of these vehicles.
+            The current electric vehicle technological landscape broadly includes pure electric vehicles, or battery electric vehicles as they are also called, and hybrid vehicles, which themselves come in a number of variants. EM overwhelmingly sells pure, or battery electric vehicles, plus less than a handful of exceptional hybrid vehicles, mainly because of their market niches and exceptional features. EM does not sell any purely internal combustion engine vehicles.
           </p>
         </div>
       </section>
@@ -148,19 +192,18 @@ const Technology = () => {
           textAlign: 'center', 
           marginBottom: '1rem' 
         }}>
-          Types of NEVs
+          Types of Electric Vehicles
         </h2>
         <p style={{ 
           fontSize: '1rem', 
           color: '#374151', 
           textAlign: 'center', 
           marginBottom: '2rem', 
-          // Increased maxWidth from 48rem to 64rem to look better in the wide layout
           maxWidth: '64rem', 
           marginLeft: 'auto', 
           marginRight: 'auto' 
         }}>
-          NEV is an all-encompassing term used to describe vehicles that are powered by alternatives to fossil fuels — like electricity. Some of the most common types of NEVs include:
+          Below is a brief overview of the technology of the vehicles that we sell.
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', marginBottom: '3rem' }}>
@@ -170,24 +213,25 @@ const Technology = () => {
               onClick={() => setActiveTab(index)}
               style={{
                 padding: '0.75rem 2rem',
-                fontWeight: '600',
-                transition: 'all 0.3s',
-                backgroundColor: activeTab === index ? '#111827' : '#ffffff',
-                color: activeTab === index ? '#ffffff' : '#111827',
-                border: '1px solid #111827',
+                border: activeTab === index ? '2px solid #111827' : '2px solid #d1d5db',
+                borderRadius: '9999px',
+                backgroundColor: activeTab === index ? '#111827' : 'transparent',
+                color: activeTab === index ? '#ffffff' : '#374151',
+                fontSize: '0.875rem',
+                fontWeight: '500',
                 cursor: 'pointer',
-                fontSize: '0.875rem'
+                transition: 'all 0.2s'
               }}
               onMouseEnter={(e) => {
                 if (activeTab !== index) {
-                  e.currentTarget.style.backgroundColor = '#111827';
-                  e.currentTarget.style.color = '#ffffff';
+                  e.currentTarget.style.borderColor = '#374151';
+                  e.currentTarget.style.color = '#111827';
                 }
               }}
               onMouseLeave={(e) => {
                 if (activeTab !== index) {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.color = '#111827';
+                  e.currentTarget.style.borderColor = '#d1d5db';
+                  e.currentTarget.style.color = '#374151';
                 }
               }}
             >
@@ -197,69 +241,48 @@ const Technology = () => {
         </div>
 
         <div style={{ 
-          display: 'grid', 
-          // Using isDesktop state for responsive styling
-          gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr',
+          display: 'flex',
+          flexDirection: isDesktop ? 'row' : 'column',
           gap: '2rem', 
           alignItems: 'center' 
         }}>
-          <div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
-              {nevTypes[activeTab].title}
-            </h3>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {nevTypes[activeTab].points.map((point, idx) => (
-                <li key={idx} style={{ display: 'flex', gap: '0.5rem', color: '#374151', fontSize: '0.875rem', lineHeight: '1.75', marginBottom: '1rem' }}>
-                  <span style={{ fontSize: '1.5rem', lineHeight: '1' }}>•</span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
+          <div style={{ flex: 1 }}>
             <img
               src={nevTypes[activeTab].image}
               alt={nevTypes[activeTab].title}
-              style={{ width: '100%', height: 'auto', borderRadius: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
+              style={{ width: '100%', height: 'auto', borderRadius: '0rem', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
             />
+          </div>
+          <div style={{ flex: 1, padding: isDesktop ? '0 2rem' : '0' }}>
+            <h3 style={{ fontSize: 'clamp(1.25rem, 3vw, 1.5rem)', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
+              {nevTypes[activeTab].title}
+            </h3>
+            {nevTypes[activeTab].points.map((point, i) => (
+              <p key={i} style={{ fontSize: '0.875rem', color: '#374151', lineHeight: '1.75', marginBottom: '1rem' }}>
+                {point}
+              </p>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* NEV Benefits */}
-      <section style={{ backgroundColor: '#f9fafb', padding: '4rem 0' }}>
-        <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem' }}>
-          <h2 style={{ 
-            fontSize: 'clamp(1.875rem, 4vw, 2.5rem)', 
-            fontWeight: '700', 
-            color: '#111827', 
-            textAlign: 'center', 
-            marginBottom: '1rem' 
-          }}>
-            NEV Benefits
-          </h2>
-          <p style={{ 
-            fontSize: '1rem', 
-            color: '#374151', 
-            textAlign: 'center', 
-            marginBottom: '3rem', 
-            // Increased maxWidth from 48rem to 64rem
-            maxWidth: '64rem', 
-            marginLeft: 'auto', 
-            marginRight: 'auto' 
-          }}>
-            There's a range of benefits that come with NEVs, resulting in these cars becoming more popular on our roads.
-          </p>
+      {/* Benefits */}
+      <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1.5rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.875rem, 4vw, 2.5rem)', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
+          Electric Vehicle Benefits
+        </h2>
+        <p style={{ fontSize: '1rem', color: '#374151', marginBottom: '3rem' }}>
+          There are a number of significant benefits that come with Electric Vehicles, which is driving the rapid global take-up and investment in these vehicles.
+        </p>
 
-          {/* Increased maxWidth from 56rem to 80rem */}
-          <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+          <div>
             {benefits.map((benefit, index) => (
               <div
                 key={index}
                 style={{
                   display: 'flex',
-                  // Using isDesktop state for responsive styling
-                  flexDirection: isDesktop ? (index % 2 === 1 ? 'row-reverse' : 'row') : 'column',
+                  flexDirection: isDesktop ? (index % 2 === 0 ? 'row' : 'row-reverse') : 'column',
                   gap: '2rem',
                   alignItems: 'center',
                   marginBottom: '3rem'
@@ -287,13 +310,12 @@ const Technology = () => {
       </section>
 
       {/* Differences - Accordion */}
-      {/* Increased maxWidth from 56rem to 80rem */}
       <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1.5rem' }}>
         <h2 style={{ fontSize: 'clamp(1.875rem, 4vw, 2.5rem)', fontWeight: '700', color: '#111827', marginBottom: '1rem' }}>
-          What's the difference between NEV and fuel-powered cars?
+          What's the difference between Electric Vehicle and fuel-powered car?
         </h2>
         <p style={{ fontSize: '1rem', color: '#374151', marginBottom: '2rem' }}>
-          The primary difference between New Energy Vehicles and fuel-powered cars with internal combustion engines is the way they are fuelled — NEVs on electricity and ICE cars on petrol or diesel.
+          The core difference between an electric vehicle and an internal combustion engine vehicle is that an electric vehicle is powered by electricity, which produce no emissions, and an Internal Combustion Engine is powered by gas or diesel, which produces greenhouse gasses and poisonous toxins.
         </p>
 
         <div style={{ borderTop: '1px solid #e5e7eb' }}>
@@ -347,7 +369,6 @@ const Technology = () => {
         <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{
             display: 'grid',
-            // Using isDesktop state for responsive styling
             gridTemplateColumns: isDesktop ? 'repeat(4, 1fr)' : '1fr',
             gap: '2rem',
             marginBottom: '2rem'
@@ -409,7 +430,6 @@ const Technology = () => {
           <div style={{ borderTop: '1px solid #374151', paddingTop: '2rem' }}>
             <div style={{
               display: 'flex',
-              // Using isDesktop state for responsive styling
               flexDirection: isDesktop ? 'row' : 'column',
               justifyContent: 'space-between',
               alignItems: 'center',

@@ -5,6 +5,9 @@ const Navigation = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [navHeight, setNavHeight] = useState(0);
   const [activeFilter, setActiveFilter] = useState('electric');
+  const [mobileModelsExpanded, setMobileModelsExpanded] = useState(false);
+  const [mobileElectricExpanded, setMobileElectricExpanded] = useState(false);
+  const [mobileHybridExpanded, setMobileHybridExpanded] = useState(false);
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -25,9 +28,27 @@ const Navigation = () => {
     };
   }, []);
 
+  // Close mobile menu when window is resized to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+        setMobileModelsExpanded(false);
+        setMobileElectricExpanded(false);
+        setMobileHybridExpanded(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
     setDropdownOpen(false);
+    setMobileModelsExpanded(false);
+    setMobileElectricExpanded(false);
+    setMobileHybridExpanded(false);
   };
 
   const toggleDropdown = (e) => {
@@ -37,10 +58,38 @@ const Navigation = () => {
     }
   };
 
+  const toggleMobileModels = (e) => {
+    e.preventDefault();
+    setMobileModelsExpanded(!mobileModelsExpanded);
+    if (!mobileModelsExpanded) {
+      setMobileElectricExpanded(false);
+      setMobileHybridExpanded(false);
+    }
+  };
+
+  const toggleMobileElectric = (e) => {
+    e.preventDefault();
+    setMobileElectricExpanded(!mobileElectricExpanded);
+    if (!mobileElectricExpanded) {
+      setMobileHybridExpanded(false);
+    }
+  };
+
+  const toggleMobileHybrid = (e) => {
+    e.preventDefault();
+    setMobileHybridExpanded(!mobileHybridExpanded);
+    if (!mobileHybridExpanded) {
+      setMobileElectricExpanded(false);
+    }
+  };
+
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
     setDropdownOpen(false);
     setActiveFilter('electric');
+    setMobileModelsExpanded(false);
+    setMobileElectricExpanded(false);
+    setMobileHybridExpanded(false);
   };
 
   const handleDropdownEnter = () => {
@@ -50,6 +99,71 @@ const Navigation = () => {
   return (
     <>
       <style>{`
+        /* Base Navigation Styles */
+        nav {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.95);
+          backdrop-filter: blur(10px);
+          z-index: 1000;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 3%;
+          max-width: 100%;
+          margin: 0 auto;
+        }
+
+        .logo-text {
+          font-size: 2rem;
+          font-weight: 900;
+          letter-spacing: 8px;
+          color: #fff;
+          text-decoration: none;
+          text-transform: uppercase;
+          transition: color 0.3s ease;
+          z-index: 1001;
+        }
+
+        .logo-text:hover {
+          color: #4a9eff;
+        }
+
+        .nav-menu {
+          display: flex;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          gap: 2.5rem;
+          align-items: center;
+        }
+
+        .nav-menu li {
+          position: relative;
+        }
+
+        .nav-menu a {
+          color: #fff;
+          text-decoration: none;
+          font-size: 1rem;
+          font-weight: 600;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          padding: 0.5rem 0;
+          transition: color 0.3s ease;
+          display: block;
+        }
+
+        .nav-menu a:hover {
+          color: #4a9eff;
+        }
+
         /* Mobile Menu Toggle Button */
         .mobile-menu-toggle {
           display: none;
@@ -220,251 +334,300 @@ const Navigation = () => {
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            position: relative;
+            border-radius: 0;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+          }
+
+          .mega-menu-item:hover .mega-menu-image {
+            transform: scale(1.05);
           }
 
           .mega-menu-image img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            padding: 0.5rem;
-          }
-
-          .mega-menu-content {
-            padding: 0;
-            text-align: center;
-            background: transparent;
           }
 
           .mega-menu-link {
             display: block;
-            color: #666;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 1000;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            margin-top: 0.7rem;
-            padding-bottom: 1rem;
             text-align: center;
+            color: #4a9eff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
           }
 
-          .mega-menu-link:hover {
-            color: #000;
+          .mega-menu-item:hover .mega-menu-link {
+            color: #1a73e8;
+          }
+
+          /* Hide mobile elements on desktop */
+          .mobile-submenu,
+          .mobile-arrow,
+          .mobile-category-header,
+          .mobile-models-link {
+            display: none !important;
+          }
+
+          .desktop-models-link {
+            display: block !important;
           }
         }
 
-        /* Tablet & Mobile Styles */
+        /* Mobile and Tablet Styles */
         @media (max-width: 1023px) {
           .mobile-menu-toggle {
             display: block;
-            position: absolute;
-            right: 5%;
-            top: 50%;
-            transform: translateY(-50%);
-          }
-
-          .nav-container {
-            position: relative;
-            min-height: 60px;
           }
 
           .nav-menu {
-            display: ${mobileMenuOpen ? 'flex' : 'none'};
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: #252728;
-            flex-direction: column;
-            padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            max-height: calc(100vh - 80px);
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 400px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.98);
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 5rem 0 2rem;
+            gap: 0 !important;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
+            overflow-x: hidden;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
           }
 
-          .nav-menu > li {
+          .nav-menu.open {
+            right: 0;
+          }
+
+          .nav-menu li {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             width: 100%;
+            flex-shrink: 0;
           }
 
           .nav-menu > li > a {
-            padding: 1rem 5%;
+            padding: 1.2rem 2rem;
+            font-size: 1.1rem;
             width: 100%;
-            text-align: center;
+            box-sizing: border-box;
           }
 
-          .dropdown-content {
-            position: static !important;
-            width: 100% !important;
-            max-height: ${dropdownOpen ? '3000px' : '0'};
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-            padding: ${dropdownOpen ? '1.5rem 3%' : '0'} !important;
-            background: #1a1a1a;
-            box-shadow: none;
-            border: none;
-            display: block !important;
+          /* Mobile Models Menu */
+          .desktop-models-link {
+            display: none !important;
           }
 
-          .mega-menu-section {
-            margin-bottom: 2rem;
-          }
-
-          .mega-menu-section:last-child {
-            margin-bottom: 0;
-          }
-
-          .mega-menu-section-title {
-            font-size: 1.3rem;
-            font-weight: 700;
+          .mobile-models-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+            font-size: 1.1rem;
+            cursor: pointer;
             color: #fff;
-            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
+            transition: color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
           }
 
-          .mega-menu-grid {
+          .mobile-models-link:hover {
+            color: #4a9eff;
+          }
+
+          .mobile-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            color: #fff;
+            flex-shrink: 0;
+          }
+
+          .mobile-arrow.open {
+            transform: rotate(180deg);
+          }
+
+          /* Mobile Submenu */
+          .mobile-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #f5f5f5;
+            width: 100%;
+          }
+
+          .mobile-submenu.expanded {
+            max-height: 3000px;
+          }
+
+          /* Mobile Category Headers (Electric/Hybrid) */
+          .mobile-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            background: #e8e8e8;
+            border-left: 4px solid #4a9eff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+          }
+
+          .mobile-category-header:hover {
+            background: #d8d8d8;
+          }
+
+          .mobile-category-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+          }
+
+          .mobile-category-header .mobile-arrow {
+            color: #1a1a1a;
+          }
+
+          /* Mobile Car Models Grid */
+          .mobile-models-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1.2rem;
-          }
-
-          .mega-menu-item {
-            background: rgba(42, 42, 42, 0.5);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-          }
-
-          .mega-menu-image {
+            gap: 0;
+            background: #f5f5f5;
             width: 100%;
-            height: 160px;
+          }
+
+          .mobile-model-item {
+            padding: 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: background 0.3s ease;
             background: #fff;
+            width: 100%;
+            box-sizing: border-box;
+          }
+
+          .mobile-model-item:hover {
+            background: #e8f4ff;
+          }
+
+          .mobile-model-item a {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            text-decoration: none;
+            padding: 0;
+            width: 100%;
+          }
+
+          .mobile-model-image {
+            width: 140px;
+            height: 90px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
           }
 
-          .mega-menu-image img {
+          .mobile-model-image img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            padding: 1rem;
           }
 
-          .mega-menu-content {
-            padding: 1.2rem;
-            text-align: center;
-          }
-
-          .mega-menu-title {
+          .mobile-model-name {
             font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            letter-spacing: 1px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 0.5px;
+            flex: 1;
           }
 
-          .mega-menu-link {
-            display: inline-block;
-            color: #4a9eff;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+          /* Desktop mega menu hidden on mobile */
+          .dropdown-content {
+            display: none !important;
           }
 
-          .dropdown > a::after {
-            content: ' ▼';
-            font-size: 0.7rem;
-            margin-left: 0.3rem;
-            transition: transform 0.3s ease;
-            display: inline-block;
-          }
-
-          .dropdown.active > a::after {
-            transform: rotate(180deg);
+          .mega-menu-sidebar,
+          .mega-menu-main {
+            display: none !important;
           }
         }
 
-        @media (max-width: 767px) {
-          .mobile-menu-toggle {
-            font-size: 2rem;
+        /* Tablet Landscape Adjustments */
+        @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+          .nav-menu {
+            width: 60%;
+            max-width: 500px;
           }
 
-          .mega-menu-image {
-            height: 140px;
+          .mobile-models-grid {
+            grid-template-columns: 1fr;
           }
 
-          .mega-menu-content {
-            padding: 1rem;
+          .mobile-model-item {
+            padding: 1.5rem 1.5rem;
           }
 
-          .mega-menu-title {
-            font-size: 1rem;
+          .mobile-model-image {
+            width: 140px;
+            height: 90px;
           }
 
-          .mega-menu-link {
-            font-size: 0.8rem;
-          }
-        }
-
-        @media (max-width: 479px) {
-          .mobile-menu-toggle {
-            font-size: 1.8rem;
-            right: 4%;
-          }
-
-          .mega-menu-image {
-            height: 130px;
-            font-size: 2.5rem;
-          }
-
-          .mega-menu-content {
-            padding: 0.8rem;
-          }
-
-          .mega-menu-title {
-            font-size: 0.95rem;
-          }
-
-          .mega-menu-link {
-            font-size: 0.75rem;
+          .mobile-model-name {
+            font-size: 1.1rem;
           }
         }
 
-        /* Logo Styles */
-        .logo-text {
-          font-size: 1.5rem;
-          font-weight: 300;
-          color: #fff;
-          text-decoration: none;
-          letter-spacing: 8px;
-          font-family: 'Cormorant Garamond', serif;
-          transition: all 0.3s ease;
-          text-transform: uppercase;
-        }
-
-        .logo-text:hover {
-t          color: #4a9eff;
-          text-shadow: 0 0 20px rgba(74, 158, 255, 0.5);
-        }
-
-        @media (max-width: 1023px) {
-          .logo-text {
-            font-size: 1.8rem;
-            letter-spacing: 6px;
-          }
-        }
-
+        /* Small Mobile Adjustments */
         @media (max-width: 479px) {
           .logo-text {
             font-size: 1.4rem;
             letter-spacing: 4px;
+          }
+
+          .nav-menu {
+            width: 90%;
+          }
+
+          .mobile-model-image {
+            width: 120px;
+            height: 80px;
+          }
+
+          .mobile-model-name {
+            font-size: 1rem;
+          }
+
+          .mobile-model-item {
+            padding: 1.25rem 1rem;
+          }
+
+          .mobile-model-item a {
+            gap: 1rem;
+          }
+        }
+
+        /* Medium devices */
+        @media (max-width: 1023px) {
+          .logo-text {
+            font-size: 1.8rem;
+            letter-spacing: 6px;
           }
         }
       `}</style>
@@ -484,24 +647,40 @@ t          color: #4a9eff;
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
 
-          <ul className="nav-menu">
+          <ul className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>
+            {/* Models Dropdown/Menu */}
             <li className={`dropdown ${dropdownOpen ? 'active' : ''}`} onMouseEnter={handleDropdownEnter}>
+              {/* Desktop Version */}
               <a 
                 href="/models" 
                 onClick={toggleDropdown}
+                className="desktop-models-link"
               >
                 Models
               </a>
+              
+              {/* Mobile Version */}
+              <div 
+                className="mobile-models-link"
+                onClick={toggleMobileModels}
+              >
+                <span>Models</span>
+                <span className={`mobile-arrow ${mobileModelsExpanded ? 'open' : ''}`}>▼</span>
+              </div>
+
+              {/* Desktop Mega Menu */}
               <div className="dropdown-content">
                 <div className="mega-menu-sidebar">
                   <div 
                     className={`mega-menu-section ${activeFilter === 'electric' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('electric')}
                     onMouseEnter={() => setActiveFilter('electric')}
                   >
                     <h2 className="mega-menu-section-title">Electric Cars</h2>
                   </div>
                   <div 
                     className={`mega-menu-section ${activeFilter === 'hybrid' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('hybrid')}
                     onMouseEnter={() => setActiveFilter('hybrid')}
                   >
                     <h2 className="mega-menu-section-title">Hybrid Cars</h2>
@@ -542,15 +721,7 @@ t          color: #4a9eff;
                         </div>
                       </a>
 
-                      <a href="/models/icar-03" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
-                        <div className="mega-menu-item">
-                          <h3 className="mega-menu-title">iCAR 03</h3>
-                          <div className="mega-menu-image">
-                            <img src="/models/ICAR-03/ICAR-03.png" alt="iCAR 03" />
-                          </div>
-                          <span className="mega-menu-link">Learn More</span>
-                        </div>
-                      </a>
+
 
                       <a href="/models/seal-u" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
                         <div className="mega-menu-item">
@@ -561,9 +732,7 @@ t          color: #4a9eff;
                           <span className="mega-menu-link">Learn More</span>
                         </div>
                       </a>
-                    </div>
 
-                    <div className="mega-menu-grid">
                       <a href="/models/sealion-07" onClick={closeMobileMenu} style={{textDecoration: 'none'}}>
                         <div className="mega-menu-item">
                           <h3 className="mega-menu-title">BYD SEALION 07</h3>
@@ -642,27 +811,141 @@ t          color: #4a9eff;
                   </div>
                 </div>
               </div>
+
+              {/* Mobile Submenu */}
+              <div className={`mobile-submenu ${mobileModelsExpanded ? 'expanded' : ''}`}>
+                {/* Electric Cars Section */}
+                <div>
+                  <div 
+                    className="mobile-category-header"
+                    onClick={toggleMobileElectric}
+                  >
+                    <h3>Electric Cars</h3>
+                    <span className={`mobile-arrow ${mobileElectricExpanded ? 'open' : ''}`}>▼</span>
+                  </div>
+                  <div className={`mobile-submenu ${mobileElectricExpanded ? 'expanded' : ''}`}>
+                    <div className="mobile-models-grid">
+                      <div className="mobile-model-item">
+                        <a href="/models/dolphin-mini" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-DOLPHIN-MINI/BYD-DOLPHIN-MINI.png" alt="BYD Dolphin Mini" />
+                          </div>
+                          <span className="mobile-model-name">BYD DOLPHIN MINI</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/atto-2" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-ATTO-2/BYD_ATTO_2.png" alt="BYD Atto 2" />
+                          </div>
+                          <span className="mobile-model-name">BYD ATTO 2</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/atto-3" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-ATTO3/BYD-ATTO3.png" alt="BYD Atto 3" />
+                          </div>
+                          <span className="mobile-model-name">BYD ATTO 3</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/icar-03" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/ICAR-03/ICAR-03.png" alt="iCAR 03" />
+                          </div>
+                          <span className="mobile-model-name">iCAR 03</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/seal-u" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-SEAL-U/BYD-SEAL-U.png" alt="BYD Seal U" />
+                          </div>
+                          <span className="mobile-model-name">BYD SEAL U</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/sealion-07" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-SEALION-07/BYD-SEALION-07.png" alt="BYD Sealion 07" />
+                          </div>
+                          <span className="mobile-model-name">BYD SEALION 07</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/tang" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-TANG/BYD-TANG.png" alt="BYD Tang" />
+                          </div>
+                          <span className="mobile-model-name">BYD TANG</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/radar-king-kong" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/RADAR-KING-KONG/RADAR-KING-KONG.png" alt="Radar King Kong" />
+                          </div>
+                          <span className="mobile-model-name">RADAR KING KONG</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hybrid Cars Section */}
+                <div>
+                  <div 
+                    className="mobile-category-header"
+                    onClick={toggleMobileHybrid}
+                  >
+                    <h3>Hybrid Cars</h3>
+                    <span className={`mobile-arrow ${mobileHybridExpanded ? 'open' : ''}`}>▼</span>
+                  </div>
+                  <div className={`mobile-submenu ${mobileHybridExpanded ? 'expanded' : ''}`}>
+                    <div className="mobile-models-grid">
+                      <div className="mobile-model-item">
+                        <a href="/models/song-pro" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-SONG-PRO/BYD-SONG-PRO.png" alt="BYD Song Pro" />
+                          </div>
+                          <span className="mobile-model-name">BYD SONG PRO</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/leopard-ti7" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-LEOPARD-TI7/BYD-LEOPARD-TI7.png" alt="BYD Leopard Ti7" />
+                          </div>
+                          <span className="mobile-model-name">BYD LEOPARD TI7</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/yu8" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-YU8/BYD-YU8.png" alt="BYD YU8" />
+                          </div>
+                          <span className="mobile-model-name">BYD YU8</span>
+                        </a>
+                      </div>
+                      <div className="mobile-model-item">
+                        <a href="/models/shark" onClick={closeMobileMenu}>
+                          <div className="mobile-model-image">
+                            <img src="/models/BYD-SHARK/BYD-SHARK.png" alt="BYD Shark" />
+                          </div>
+                          <span className="mobile-model-name">BYD SHARK</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
             
-            <li>
-              <a href="/about" onClick={closeMobileMenu}>About</a>
-            </li>
-
-            <li>
-              <a href="/technology" onClick={closeMobileMenu}>Technology</a>
-            </li>
-
-            <li>
-              <a href="/purchasing" onClick={closeMobileMenu}>Purchasing</a>
-            </li>
-
-            <li>
-              <a href="/ownership" onClick={closeMobileMenu}>Ownership</a>
-            </li>
-
-            <li>
-              <a href="/test-drive" onClick={closeMobileMenu}>Test Drive</a>
-            </li>
+<li><a href="/technology" onClick={closeMobileMenu}>Technology</a></li>
+<li><a href="/purchasing" onClick={closeMobileMenu}>Purchasing</a></li>
+<li><a href="/ownership" onClick={closeMobileMenu}>Ownership</a></li>
+<li><a href="/about" onClick={closeMobileMenu}>About</a></li>
           </ul>
         </div>
       </nav>
